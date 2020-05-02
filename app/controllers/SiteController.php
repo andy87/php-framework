@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use _core\BaseController;
+use app\_\base\BaseController;
 use app\models\User;
 
 /**

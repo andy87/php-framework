@@ -1,5 +1,6 @@
 <?php
 
+define('DOG', "@");
 define('PHP', ".php");
 define('SLASH', '/');
 define('SLASHER', '\\');

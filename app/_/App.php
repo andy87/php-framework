@@ -3,6 +3,7 @@
 namespace app\_;
 
 use app\_\base\BaseComponent;
+use app\_\base\BaseController;
 use app\_\components\Request;
 use app\_\components\Response;
 use app\_\components\Controller;
@@ -105,12 +106,12 @@ class App extends BaseComponent
     {
         $resp = App::slashReplace( $path );
 
-        if ( strpos( $path, '@' ) === 0 )
+        if ( strpos( $path, DOG ) === 0 )
         {
             $path   = explode(SLASH, $path );
 
             $alias  = array_shift($path );
-            $alias  = str_replace('@','', $alias );
+            $alias  = str_replace(DOG,'', $alias );
 
             $resp   = App::$alias[ $alias ] . SLASH . implode(SLASH, $path );
         }
@@ -155,10 +156,14 @@ class App extends BaseComponent
 
         } catch ( \Exception $e ) {
 
+            //TODO: https://habr.com/ru/post/440744/
+
             $controller = new BaseController([]);
 
-            $resp = $controller->actionError( $e );
+            $resp = 'error'; $controller->actionError( $e );
         }
+
+        $this->test( $resp );
 
         self::$response->sendHeaders();
 
