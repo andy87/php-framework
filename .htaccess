@@ -1,0 +1,27 @@
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+<IfModule mod_rewrite.c>
+
+    Options +FollowSymlinks
+
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_URI} ^/(css|js|img|fonts|docs)
+
+    RewriteRule ^css/(.*)$ app/satic/css/$1 [L]
+    RewriteRule ^js/(.*)$ app/satic/js/$1 [L]
+    RewriteRule ^img/(.*)$ app/satic/img/$1 [L]
+    RewriteRule ^fonts/(.*)$ app/satic/fonts/$1 [L]
+    RewriteRule ^docs/(.*)$ app/satic/docs/$1 [L]
+
+    RewriteCond %{REQUEST_URI} !^/app/satic/(css|js|img|fonts)/
+    RewriteCond %{REQUEST_URI} !index.php
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !favicon.ico
+
+    RewriteRule ^(.*)$ app/$1
+
+</IfModule>
