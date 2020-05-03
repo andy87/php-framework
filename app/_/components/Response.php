@@ -10,6 +10,7 @@ use app\_\base\BaseComponent;
  */
 class Response extends BaseComponent
 {
+    /** Возможные форматы ответа */
     const FORMAT_HTML  = 'text/html';
     const FORMAT_JSON  = 'application/json';
     const FORMAT_RAW   = 'text/plain';
@@ -18,32 +19,33 @@ class Response extends BaseComponent
     const FORMAT_JPG   = 'image/jpeg';
     const FORMAT_GIF   = 'image/gif';
 
-    /** @var string  */
+    /** @var string формат ответа */
     public $format = '';
 
-    /** @var string  */
+    /** @var string кодировка ответа */
     public $charset = 'utf-8';
 
-    /** @var bool  */
+    /** @var bool признак типа ответа - файл */
     public $isFile      = false;
 
-    /** @var bool  */
+    /** @var bool признак типа ответа - тектовой документ */
     public $isDocument  = false;
 
 
-    /** @var array */
+    /** @var array заголовки ответа */
     private $headers = [];
 
-
+    /** @var string Возвращаемый при запросе контент */
+    private $content = '';
 
     /**
-     *
+     *      Функция посылает заголовки из массива
      */
     public function sendHeaders()
     {
         foreach ( $this->headers as $header )
         {
-            header( $header );
+            $this->header( $header );
         }
 
         $contentType    = "Content-type: {$this->format}";

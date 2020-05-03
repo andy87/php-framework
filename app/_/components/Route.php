@@ -11,20 +11,24 @@ use app\_\base\BaseComponent;
  */
 class Route extends BaseComponent
 {
-    /** @var string  */
+    /** @var string строка URI запроса */
     public $request = '';
 
-    /** @var array  */
+    /** @var array пути сзявывания контроллеров с URI */
     public $rules = [];
 
-    /** @var string  */
-    public $rout = '';
+    /** @var array данные подходящего route */
+    public $rout = [
+        'key'       => '',
+        'data'      => '',
+    ];
 
-    /** @var string */
+    /** @var string контроллер полученый из route  */
     public $controller  = '';
 
-    /** @var string */
+    /** @var string экшон полученый из route */
     public $action      = '';
+
 
     /**
      * Rout constructor.

@@ -11,10 +11,10 @@ use app\_\base\BaseComponent;
  */
 class Web extends BaseComponent
 {
-    /** @var null|string  */
+    /** @var null|string ID фактически вызываемого Controller|Action */
     public $id = null;
 
-    /** @var string */
+    /** @var string ID вызываемого по умолчанию Controller|Action */
     public $default = '';
 
     /**

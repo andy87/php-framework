@@ -19,28 +19,26 @@ use app\_\components\Route;
  */
 class App extends BaseComponent
 {
-    /** @var array */
-    public static $alias = DIRECTORY_LIST;
-
-    /** @var array */
+    /** @var array некие параметры */
     public static $params = [];
 
-    /** @var Request */
+    /** @var array пути в основные дирректории проекта */
+    public static $alias = DIRECTORY_LIST;
+
+    /** @var Request данные запроса*/
     public static $request;
 
-    /** @var Response */
-    public static $response;
-
-    /** @var Controller */
-    public static $controller;
-
-    /** @var View */
-    public static $view;
-
-    /** @var Route */
+    /** @var Route данные путей */
     public static $route;
 
+    /** @var Controller данные контроллера */
+    public static $controller;
 
+    /** @var View данные отображения */
+    public static $view;
+
+    /** @var Response данные ответа */
+    public static $response;
 
 
     /**
@@ -137,6 +135,8 @@ class App extends BaseComponent
         $action     =  ( $isClassExist AND App::$controller->action->isExist() ) ? '' : ucfirst(ACTION_ERROR );
         $action     = App::$controller->action->getName( $action );
 
+        //TODO: эй ты! где фиксация ошибки 404 ?
+
         try
         {
             $controller->beforeAction();
@@ -152,6 +152,8 @@ class App extends BaseComponent
                 $resp   = $controller->{$action}();
             }
 
+            self::$response->setContent( $resp );
+
             $controller->afterAction();
 
         } catch ( \Exception $e ) {
@@ -159,24 +161,50 @@ class App extends BaseComponent
             //TODO: https://habr.com/ru/post/440744/
 
             $controller = new BaseController([]);
+            $resp = $controller->actionError( $e );
 
-            $resp = 'error'; $controller->actionError( $e );
+            self::$response->setContent( $resp );
         }
 
-        $this->test( $resp );
+        $this->debug();
 
         self::$response->sendHeaders();
 
-        return $resp;
+        $response = self::$response->getContent();
+
+        return $response;
+    }
+
+    /**
+     *
+     */
+    private function debug()
+    {
+        $key = 'debug';
+
+        if ( self::$request->get->_isset($key ) )
+        {
+            $filter = self::$request->get->get($key, false );
+
+            if ( $filter )
+            {
+                $data = self::$$filter;
+
+            } else {
+
+                $data = [
+                    '$params'   => self::$params,
+                    '$alias'    => self::$alias,
+                    '$request'  => self::$request,
+                    '$route'    => self::$route,
+                    '$controller'   => self::$controller,
+                    '$view'     => self::$view,
+                    '$response'     => self::$response,
+                ];
+            }
+
+            self::printPre( $data );
+        }
     }
 
 }
-
-
-// IT Директор
-// Senior
-
-// TeamLead
-// Middle
-
-// Jun
