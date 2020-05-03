@@ -66,6 +66,7 @@ class App extends BaseComponent
         /** @var View controller */
         self::$view         = new View( $params );
 
+        self::setCharset( App::getParams('charset', DEFAULT_CHARSET ) );
 
         $this->initParams( $params );
     }
@@ -76,6 +77,17 @@ class App extends BaseComponent
     private function initParams( $params )
     {
         $this->setAlias( $params['alias'] );
+    }
+
+    /**
+     *      Задаём кодировку
+     *
+     * @param string $charset
+     */
+    public static function setCharset( $charset )
+    {
+        self::$view->charset = $charset;
+        self::$response->setCharset( $charset );
     }
 
     /**
@@ -117,28 +129,72 @@ class App extends BaseComponent
         return $resp;
     }
 
+    /**
+     *      Проверка натип вызываемого метода при необходимости
+     *
+     * @param array $rules
+     * @return object
+     */
+    public function accessRules( $rules = [] )
+    {
+        //TODO: доделать
+        $resp = (object) [
+            'error' => (bool) ( ( $rules ) ? false : 0 )
+        ];
+
+        if ( is_array($resp) ) $resp = (object) $resp;
+
+        return $resp;
+    }
 
 
     /**
-     * @return mixed
+     * @param string $key
+     * @param mixed|null $default
+     * @return mixed|null
      */
-    public function display()
+    public static function getParams( $key, $default = null )
+    {
+        return ( isset(App::$params[ $key ]) ) ? App::$params[ $key ] : $default;
+    }
+
+
+    /**
+     *
+     */
+    public function init()
     {
         $isClassExist = App::$controller->isExist();
 
-        $classController = ( $isClassExist ) ? '' : ucfirst(DEFAULT_CONTROLLER);
-        $classController = App::$controller->getClass( $classController );
+        if ( !$isClassExist )
+        {
+            $this->exception('Controller not found.', 404);
+        }
+
+        $isActionExist = App::$controller->action->isExist();
+
+        if ( !$isActionExist )
+        {
+            $this->exception('Action not found', 404);
+        }
+
+        $classController = App::$controller->getClass();
 
         /** @var BaseController $controller */
         $controller = new $classController( App::$params );
 
-        $action     =  ( $isClassExist AND App::$controller->action->isExist() ) ? '' : ucfirst(ACTION_ERROR );
-        $action     = App::$controller->action->getName( $action );
-
-        //TODO: эй ты! где фиксация ошибки 404 ?
+        $action     = App::$controller->action->getName();
 
         try
         {
+            if ( count( $rules = $controller->rules() ) )
+            {
+                if ( ( $access = $this->accessRules( $rules ) )->error )
+                {
+                    $this->exception( $access->error, 403 );
+                }
+            }
+
             $controller->beforeAction();
 
             if ( self::$request->hasArguments() )
@@ -158,10 +214,10 @@ class App extends BaseComponent
 
         } catch ( \Exception $e ) {
 
-            //TODO: https://habr.com/ru/post/440744/
+            //TODO: обработчик ошибок https://habr.com/ru/post/440744/
 
             $controller = new BaseController([]);
-            $resp = $controller->actionError( $e );
+            $resp       = $controller->actionError( $e );
 
             self::$response->setContent( $resp );
         }
@@ -169,11 +225,9 @@ class App extends BaseComponent
         $this->debug();
 
         self::$response->sendHeaders();
-
-        $response = self::$response->getContent();
-
-        return $response;
     }
+
+
 
     /**
      *

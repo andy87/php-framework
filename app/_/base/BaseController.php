@@ -34,19 +34,46 @@ class BaseController extends Web
      */
     public function rules()
     {
+        //TODO: правила доступа к экшонам по методу запроса
         return [];
     }
 
     /**
      * @param $templateName string
-     * @param $data array
+     * @param $params array
      * @return string
      */
-    public function render( $templateName, $data )
+    public function render( $templateName, $params )
     {
-        $templatePath = App::getAlias( $templateName );
+        if ( strpos( $templateName, '@') == false )
+        {
+            $templateName = '@views' . SLASH . App::$route->controller . SLASH. $templateName;
+        }
 
-        return '';
+        $templateName = App::getAlias( $templateName );
+
+        $resp = $this->renderFile( $templateName, $params );
+
+        if ( $layout = App::$view->layout )
+        {
+            $pathTemplateLayout = App::$view->layoutDir . $layout;
+
+            $resp = $this->renderFile( $pathTemplateLayout, [
+                'content' => $resp
+            ]);
+        }
+
+        return $resp;
+    }
+
+    /**
+     * @param $templateName string
+     * @param $params array
+     * @return string
+     */
+    public function renderFile( $templateName, $params )
+    {
+        return App::$view->render( $templateName, $params );
     }
 
     /**

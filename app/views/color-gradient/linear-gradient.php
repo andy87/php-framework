@@ -1,8 +1,11 @@
 <?php
+/** @var $this View */
 /** @var $from string */
 /** @var $to string */
 
-\_core\App::$view->registerCssFile('linear-gradiend.css');
+use \app\_\components\View;
+
+$this->registerCssFile('linear-gradiend.css');
 
 ?>
 

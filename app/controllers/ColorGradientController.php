@@ -14,13 +14,22 @@ class ColorGradientController extends BaseController
     {
         App::$view->registerJsFile('script.js');
 
+        // TODO: взаимодействие с БД
+        // DB::table('users')->sql( $sql )->exec();
+        // $user = User::getAll();
+        // $user = User::find()->where(['id' => 1])->all();
+        // $user = User::find()->select('*')->where(['id' => 1])->all();
+        // $user = User::find()->select('name, id')->where(['name', 'LIKE', 'and_y87'])->one();
+
+        // $user_id = $user->id;
+
+
         $data = [
             'from'          => "#fff",
             'to'            => "#000",
             'controller_id' => $this->id
         ];
 
-        //$this->printPre($data);
 
         return $this->render('linear-gradient', $data );
     }

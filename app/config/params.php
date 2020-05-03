@@ -7,12 +7,17 @@ $params = [
 
     'title'         => 'My Applications',
 
+    'charset'       => DEFAULT_CHARSET,
+
     'alias'         => [
         'config'            => __DIR__
     ],
 
     'request'       => [
         'methods'           => METHOD_LIST,
+
+        //TODO: ты хотел сделать `runtime`
+        'runtime'           => true
     ],
 
     'response'      => [

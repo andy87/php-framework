@@ -23,7 +23,7 @@ class Response extends BaseComponent
     public $format = '';
 
     /** @var string кодировка ответа */
-    public $charset = 'utf-8';
+    private $charset = DEFAULT_CHARSET;
 
     /** @var bool признак типа ответа - файл */
     public $isFile      = false;
@@ -37,6 +37,8 @@ class Response extends BaseComponent
 
     /** @var string Возвращаемый при запросе контент */
     private $content = '';
+
+
 
     /**
      *      Функция посылает заголовки из массива
@@ -65,6 +67,16 @@ class Response extends BaseComponent
         }
 
         $this->header( $contentType );
+    }
+
+    /**
+     *      Задаётся кодировка для ответа
+     *
+     * @param string $charset
+     */
+    public function setCharset( $charset )
+    {
+        $this->charset = $charset;
     }
 
     /**

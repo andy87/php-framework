@@ -64,4 +64,22 @@ class BaseComponent
         return $className;
     }
 
+    /**
+     * @param string $error
+     * @param int $code
+     */
+    public function exception( $error = 'Error', $code = 0 )
+    {
+        App::$view->layout = false;
+        App::setCharset( DEFAULT_CHARSET);
+
+        $templateError = '@root/' . TEMPLATE_ERROR;
+        $params = [
+            'error' => $error
+        ];
+        
+        echo App::$view->render( $templateError, $params );
+
+        exit();
+    }
 }

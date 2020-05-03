@@ -7,6 +7,6 @@ $root = str_replace('\app', '', __DIR__);
 require "_/setups/autoload.php";
 require "config/params.php";
 
-$app = new App( $params );
+( $app = new App( $params ) )->init();
 
-echo $app->display();
+echo App::$response->getContent();
