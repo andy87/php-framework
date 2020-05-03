@@ -149,11 +149,13 @@ class Request extends BaseComponent
     }
 
     /**
-     * @return mixed
+     *      Получение URI запроса
+     *
+     * @return string
      */
     private function getUri()
     {
-        $resp = $this->server->get('REQUEST_URI', null);
+        $resp = $this->server->get('REQUEST_URI', SLASH );
 
         if ( $resp )
         {
@@ -172,32 +174,15 @@ class Request extends BaseComponent
     }
 
     /**
-     *
+     *      Проставление статуса методов запроса
      */
     private function setupMethodStatus()
     {
-        foreach ( $this->useMethodList as $method )
-        {
-            $method = 'is' . ucfirst(strtolower($method));
+        $method = 'is' . ucfirst( strtolower( $this->getMethod() ) );
 
-            $this->{$method} = $this->{$method}();
-        }
-    }
+        $this->{$method} = true;
 
-    /**
-     * @return bool
-     */
-    private function isPost()
-    {
-        return ( count($_POST) ) ? true : false;
-    }
-
-    /**
-     * @return bool
-     */
-    private function isGet()
-    {
-        return ( count($_GET) ) ? true : false;
+        $this->isAjax = $this->isAjax();
     }
 
     /**
@@ -219,78 +204,18 @@ class Request extends BaseComponent
     }
 
     /**
-     * @return bool
-     */
-    private function isHead()
-    {
-        return $this->isMethod( self::METHOD_HEAD );
-    }
-
-    /**
-     * @return bool
-     */
-    private function isPut()
-    {
-        return $this->isMethod( self::METHOD_PUT );
-    }
-
-    /**
-     * @return bool
-     */
-    private function isUpdate()
-    {
-        return $this->isMethod( self::METHOD_UPDATE );
-    }
-
-    /**
-     * @return bool
-     */
-    private function isDelete()
-    {
-        return $this->isMethod( self::METHOD_DELETE );
-    }
-
-    /**
-     * @return bool
-     */
-    private function isConnect()
-    {
-        return $this->isMethod( self::METHOD_CONNECT );
-    }
-
-    /**
-     * @return bool
-     */
-    private function isOptions()
-    {
-        return $this->isMethod( self::METHOD_OPTIONS );
-    }
-
-    /**
-     * @return bool
-     */
-    private function isTrace()
-    {
-        return $this->isMethod( self::METHOD_TRACE );
-    }
-
-    /**
-     * @return bool
-     */
-    private function isPatch()
-    {
-        return $this->isMethod( self::METHOD_PATCH );
-    }
-
-    /**
+     *      Возвращает true если запрос содержал аргументы
+     *
      * @return bool
      */
     public function hasArguments()
     {
-        return count( $this->getArguments() );
+        return isset( $this->arguments );
     }
 
     /**
+     *      Возвращает список аргументов переданных в запросе
+     *
      * @return array
      */
     public function getArguments()

@@ -62,19 +62,25 @@ class Response extends BaseComponent
                 break;
         }
 
-        header( $contentType );
+        $this->header( $contentType );
     }
 
     /**
-     * @param $header
-     */
-    public function addHeader( $header )
-    {
-        $this->headers[] = $header;
-    }
-
-    /**
+     *      Добавление заголовка в массив,
+     *      который будет обработан и отправлен
+     *      перед выводом результата Controller->action()
      *
+     * @param string $header
+     * @param bool $replace
+     * @param null $code
+     */
+    public function addHeader( $header, $replace = true, $code = null  )
+    {
+        $this->headers[] = [ $header, $replace, $code ];
+    }
+
+    /**
+     *      Моментальная отправка заголовка `no-cache`
      */
     public function noCache()
     {
@@ -82,11 +88,53 @@ class Response extends BaseComponent
     }
 
     /**
+     *      Моментальная отправка заголовка `Location`
+     *
      * @param string $uri
      * @param int $code
      */
     public function redirect( $uri = '/', $code = 301 )
     {
-        header("Location: {$uri}",TRUE, $code );
+        $this->header("Location: {$uri}",TRUE, $code );
+    }
+
+    /**
+     *      Моментальная отправка кастомного заголовка
+     *
+     * @param $string
+     * @param bool $replace
+     * @param null $code
+     */
+    public function header( $string, $replace = true, $code = null )
+    {
+        header( $string,$replace, $code );
+    }
+
+
+    /**
+     *      Назначение контента - который будет отправлен как ответ на запрос
+     *
+     * @param string $content
+     * @param bool $append
+     *
+     * @return string
+     */
+    public function setContent( $content, $append = false )
+    {
+        $this->content = ( $append )
+            ? $this->content . $content
+            : $content;
+
+        return $this->content;
+    }
+
+    /**
+     *      Возвращяет контент - который будет отправлен как ответ на запрос
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 }

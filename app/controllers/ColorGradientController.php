@@ -20,7 +20,7 @@ class ColorGradientController extends BaseController
             'controller_id' => $this->id
         ];
 
-        $this->printPre($data);
+        //$this->printPre($data);
 
         return $this->render('linear-gradient', $data );
     }

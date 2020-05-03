@@ -2,6 +2,7 @@
 
 namespace app\_\base;
 
+use app\_\App;
 use app\_\base\traits\Func;
 
 /**
@@ -29,6 +30,16 @@ class BaseComponent
                     $this->{$key} = $value;
                 }
             }
+        }
+    }
+
+    function __call( $name, $arguments )
+    {
+        self::printPre([$name, $arguments]);
+
+        if ( App::$request->runtime )
+        {
+            self::printPre([$name, $arguments]);
         }
     }
 

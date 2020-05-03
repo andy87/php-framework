@@ -1,5 +1,8 @@
-<?php /** @var $content string */
-use _core\components\App;
+<?php
+/** @var $content string */
+
+use \app\_\App;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -38,7 +38,7 @@ class Route extends BaseComponent
 
         $this->setRequest();
 
-        $this->checkMatch();
+        $this->checkRules();
     }
 
     /**
@@ -65,25 +65,41 @@ class Route extends BaseComponent
     /**
      *
      */
-    private function checkMatch()
+    private function checkRules()
     {
         foreach ( $this->rules as $uri => $params )
         {
-            if ( $this->request === $uri )
+            if ( $this->checkMatch( $this->request, $uri ) )
             {
-                $this->rout = $this->slashReplace( $params );
+                $this->rout = [
+                    'key'       => $uri,
+                    'data'      => $this->slashReplace( $params )
+                ];
                 break;
             }
         }
 
         if ( empty($this->rout) )
         {
-            $this->rout = DEFAULT_CONTROLLER . SLASH . ACTION_ERROR;
+            $this->rout = [
+                'key'       => null,
+                'data'      => DEFAULT_CONTROLLER . SLASH . ACTION_ERROR
+            ];
         }
 
-        $params = explode(SLASH, $this->rout );
+        $params = explode(SLASH, $this->rout['data'] );
 
         $this->controller   = $params[0];
         $this->action       = $params[1];
+    }
+
+    /**
+     * @param string $request
+     * @param string $rule
+     * @return bool
+     */
+    private function checkMatch( $request, $rule )
+    {
+        return ( $request === $rule );
     }
 }

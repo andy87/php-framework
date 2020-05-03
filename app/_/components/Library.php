@@ -40,8 +40,15 @@ class Library extends BaseComponent
      */
     public function get( $key, $default = null )
     {
-        return ( isset($this->library[ $key ]) )
-            ? $this->library[ $key ]
-            : $default;
+        return ( $this->_isset( $key ) ) ? $this->library[ $key ] : $default;
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function _isset( $key )
+    {
+        return isset( $this->library[ $key ] );
     }
 }
