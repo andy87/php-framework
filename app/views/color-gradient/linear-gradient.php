@@ -6,7 +6,9 @@
 
 use \app\_\components\View;
 
-$this->registerCssFile('linear-gradiend.css');
+$this->registerCssFile('/css/linear-gradiend.css');
+$this->registerMeta("auth='1231231231231'");
+$this->jQueryInit();
 
 ?>
 

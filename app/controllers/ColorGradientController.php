@@ -12,7 +12,9 @@ class ColorGradientController extends BaseController
      */
     public function actionLinearGradient()
     {
-        App::$view->registerJsFile('script.js');
+        App::$view->registerJsFile('/js/script.js');
+        App::$view->registerMeta(['name' => 'firstMeta', 'content'=> 'yes']);
+
 
         // TODO: взаимодействие с БД
         // DB::table('users')->sql( $sql )->exec();

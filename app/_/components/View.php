@@ -70,7 +70,15 @@ class View extends BaseComponent
      */
     public function registerJsFile( $path, $option = [], $id = '' )
     {
+        if ( is_string($option) )
+        {
+            $id = $option;
+            $option = [];
+        }
+
         $option = array_merge( $this->defaultJsOptions, $option );
+
+        $id = ( !empty($id) ) ? $id : $path;
 
         $this->js[ $option['position'] ][ $id ] = [ $path, $option['depends'] ];
     }
@@ -166,19 +174,33 @@ class View extends BaseComponent
 
     private function renderMeta()
     {
-        //TODO: сделать renderMeta
-        return '';
+        foreach ( $this->meta as $attributes )
+        {
+            echo Html::meta( $attributes );
+        }
     }
 
     private function renderCss()
     {
-        //TODO: сделать renderCss
-        return '';
+        foreach ( $this->css as $fileCss )
+        {
+            echo Html::link( $fileCss );
+        }
     }
 
-    private function renderJs( $position )
+    private function renderJs( $position = 0 )
     {
-        //TODO: сделать renderJs
-        return '';
+       foreach ( $this->js[ $position ] as $jsData )
+        {
+            $fileJS     = $jsData[0];// name
+            $depends    = $jsData[1];// depends
+
+            echo Html::script( $fileJS );
+        }
+    }
+
+    public function jQueryInit()
+    {
+        $this->registerJsFile( SRC_JQUERY_MIN, 'jQuery' );
     }
 }

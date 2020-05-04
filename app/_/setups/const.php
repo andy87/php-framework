@@ -5,6 +5,10 @@ define('PHP', ".php");
 define('SLASH', '/');
 define('SLASHER', '\\');
 
+
+define('SRC_JQUERY', "//code.jquery.com/jquery-3.5.0.js");
+define('SRC_JQUERY_MIN', "//code.jquery.com/jquery-3.5.0.min.js");
+
 define('DEFAULT_CONTROLLER', "site");
 define('DEFAULT_ACTION', "index");
 define('DEFAULT_RESPONSE', "text/html");
