@@ -99,12 +99,14 @@ class View extends BaseComponent
      */
     public function render( $pathTemplate = '', $params = [] )
     {
-        $resp = 'null';
+        $resp = '';
 
-        if ( strpos($pathTemplate, DOG) !== false )
+        if ( strpos( $pathTemplate, DOG) === false )
         {
-            $pathTemplate = App::getAlias( $pathTemplate );
+            $pathTemplate = '@views' . SLASH . App::$route->controller . SLASH. $pathTemplate;
         }
+
+        $pathTemplate = App::getAlias( $pathTemplate );
 
         if ( strpos($pathTemplate, TEMPLATE_FORMAT) == false )
         {
@@ -112,17 +114,22 @@ class View extends BaseComponent
         }
 
 
-        if ( ! file_exists( $pathTemplate ) ) $this->exception('Template not found');
+        if ( ! file_exists( $pathTemplate ) )
+        {
+            $error = [
+                'error'     => 'Template not found',
+                'message'   => $pathTemplate
+            ];
+            $this->exception( $error );
+        }
 
         try {
 
             extract($params);
 
-            $content = file_get_contents( $pathTemplate );
-
             ob_start();
 
-            exec( $content );
+            require_once $pathTemplate;
 
             $resp = ob_get_contents();
 

@@ -45,13 +45,6 @@ class BaseController extends Web
      */
     public function render( $templateName, $params )
     {
-        if ( strpos( $templateName, '@') == false )
-        {
-            $templateName = '@views' . SLASH . App::$route->controller . SLASH. $templateName;
-        }
-
-        $templateName = App::getAlias( $templateName );
-
         $resp = $this->renderFile( $templateName, $params );
 
         if ( $layout = App::$view->layout )

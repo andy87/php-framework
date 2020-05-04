@@ -65,7 +65,7 @@ class BaseComponent
     }
 
     /**
-     * @param string $error
+     * @param string|array $error
      * @param int $code
      */
     public function exception( $error = 'Error', $code = 0 )
@@ -74,10 +74,8 @@ class BaseComponent
         App::setCharset( DEFAULT_CHARSET);
 
         $templateError = '@root/' . TEMPLATE_ERROR;
-        $params = [
-            'error' => $error
-        ];
-        
+        $params = ( is_array($error) ) ? $error : [ 'error' => $error ];
+
         echo App::$view->render( $templateError, $params );
 
         exit();

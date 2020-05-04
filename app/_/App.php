@@ -40,6 +40,9 @@ class App extends BaseComponent
     /** @var Response данные ответа */
     public static $response;
 
+    /** @var array объекты и свойства приложения */
+    public static $paramsList = ['params','alias','request','route','controller','view','response'];
+
 
     /**
      * App constructor.
@@ -168,14 +171,20 @@ class App extends BaseComponent
 
         if ( !$isClassExist )
         {
-            $this->exception('Controller not found.', 404);
+            $this->exception( [
+                'message'     => 'Controller not found.',
+                'error'   => "Controller ID: " . App::$controller->id
+            ], 404);
         }
 
         $isActionExist = App::$controller->action->isExist();
 
         if ( !$isActionExist )
         {
-            $this->exception('Action not found', 404);
+            $this->exception( [
+                'message'     => 'Action not found.',
+                'error'   => "Action ID: " . App::$controller->action->id
+            ], 404);
         }
 
         $classController = App::$controller->getClass();
@@ -246,19 +255,29 @@ class App extends BaseComponent
 
             } else {
 
-                $data = [
-                    '$params'   => self::$params,
-                    '$alias'    => self::$alias,
-                    '$request'  => self::$request,
-                    '$route'    => self::$route,
-                    '$controller'   => self::$controller,
-                    '$view'     => self::$view,
-                    '$response'     => self::$response,
-                ];
+                $data = self::params();
             }
 
-            self::printPre( $data );
+            var_dump($data);
+            exit();
         }
     }
 
+    /**
+     * @param string $name
+     * @return array
+     */
+    public static function params( $name = '' )
+    {
+        $paramsList = ( !empty($name) ) ? [$name] : self::$paramsList;
+
+        $resp = [];
+
+        foreach ( $paramsList as $param )
+        {
+            $resp[ $param ] = self::$$param;
+        }
+
+        return $resp;
+    }
 }

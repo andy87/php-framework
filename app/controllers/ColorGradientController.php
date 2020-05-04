@@ -27,7 +27,8 @@ class ColorGradientController extends BaseController
         $data = [
             'from'          => "#fff",
             'to'            => "#000",
-            'controller_id' => $this->id
+            'controller_id' => $this->id,
+            'block'         => $this->renderFile('block', ['text' => "test"])
         ];
 
 

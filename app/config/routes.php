@@ -5,6 +5,6 @@ $routes = [
     'sign-up'           => 'site/sign-up',
     'login'             => 'site/login',
     'contact'           => 'site/contact',
-    'gradient-color'    => 'color-gradient/linear-gradient',
+    'gradient-color'    => 'color-grad1ent/linear-gradient',
     '/'                  => 'site/index',
 ];

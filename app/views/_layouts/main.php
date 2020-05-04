@@ -10,13 +10,16 @@ use \app\_\App;
 <html lang="en">
     <head>
         <meta charset="<?= $this->charset ?>">
+        <meta name="template" content="<?= __FILE__ ?>">
         <title> <?= App::$view->title ?> </title>
         <? $this->head(); ?>
     </head>
     <body>
         <? $this->body(); ?>
 
+        <!-- $content: start -->
         <?= $content ?>
+        <!-- $content: end -->
 
         <? $this->footer(); ?>
     </body>
