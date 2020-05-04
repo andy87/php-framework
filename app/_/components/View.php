@@ -19,6 +19,9 @@ class View extends BaseComponent
     /** @var string кодировка докуменда */
     public $charset = DEFAULT_CHARSET;
 
+    /** @@var string язык докуменда  */
+    public $lang = DEFAULT_LANG;
+
     /** @var string заголовок приложения */
     public $title = 'My Application';
 

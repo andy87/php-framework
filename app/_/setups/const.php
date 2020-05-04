@@ -1,6 +1,6 @@
 <?php
 
-define('DOG', "@");
+define('DOG', '@');
 define('PHP', ".php");
 define('SLASH', '/');
 define('SLASHER', '\\');
@@ -8,7 +8,8 @@ define('SLASHER', '\\');
 define('DEFAULT_CONTROLLER', "site");
 define('DEFAULT_ACTION', "index");
 define('DEFAULT_RESPONSE', "text/html");
-define('DEFAULT_CHARSET', 'utf-8');
+define('DEFAULT_CHARSET', "utf-8");
+define('DEFAULT_LANG', "ru");
 
 define('CONTROLLER_SUFFIX', "Controller");
 define('CONTROLLER_NAMESPACE', "app\\controllers\\");
@@ -24,4 +25,4 @@ define('AJAX', "XMLHttpRequest");
 
 define('METHOD_LIST', ['POST','GET','PUT','UPDATE','DELETE','HEAD','CONNECT','OPTIONS','TRACE','PATCH' ]);
 
-define('DIRECTORY_LIST', ['config','controllers','models','views','static']);
+define('DIRECTORY_LIST', ['config','controllers','models','static','views']);

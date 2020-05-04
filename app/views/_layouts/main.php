@@ -7,7 +7,7 @@ use \app\_\App;
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= $this->lang ?>">
     <head>
         <meta charset="<?= $this->charset ?>">
         <meta name="template" content="<?= __FILE__ ?>">
