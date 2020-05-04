@@ -30,14 +30,8 @@ class View extends BaseComponent
 
     /** @var array массив подключаемых JS файлов */
     private $js  = [
-        // head
-        0 => [],
-
-        // body
-        1 => [],
-
-        // footer
-        2 => [],
+        'include'   => [],
+        'asset'     => []
     ];
 
     /** @var array данные для формирования Меты */
@@ -78,9 +72,13 @@ class View extends BaseComponent
 
         $option = array_merge( $this->defaultJsOptions, $option );
 
-        $id = ( !empty($id) ) ? $id : $path;
+        if( empty($id) )
+        {
+            $fileName   = pathinfo($path);
+            $id         = $fileName['basename'];
+        };
 
-        $this->js[ $option['position'] ][ $id ] = [ $path, $option['depends'] ];
+        $this->js['asset'][ $id ] = [ $path, $option ];
     }
 
     /**
@@ -190,14 +188,37 @@ class View extends BaseComponent
 
     private function renderJs( $position = 0 )
     {
-       foreach ( $this->js[ $position ] as $jsData )
+       foreach ( $this->js['asset'] as $id => $dataJS )
         {
-            $fileJS     = $jsData[0];// name
-            $depends    = $jsData[1];// depends
+            $pos        = $dataJS[1]['position'];
+            $fileJS     = $dataJS[0]; // path
 
-            echo Html::script( $fileJS );
+            if ( $position !== $pos || in_array($fileJS, $this->js['include']) ) continue;
+
+            $depends    = $dataJS[1]['depends'];
+
+            echo $this->appendJS( $id, $fileJS, $pos, $depends );
         }
     }
+
+    private function appendJS( $id = '', $path = '', $position = 0, $depends = '' )
+    {
+        if ( !empty($depends) )
+        {
+            if ( !in_array( $depends, $this->js['include']) )
+            {
+                $data       = $this->js['asset'][ $depends ];
+                $pos        = $position;
+                $fileJS     = $data[0]; // path
+                $depends    = $data[1]['depends'];
+                $this->appendJS( $id, $fileJS, $pos, $depends );
+            }
+        }
+
+        $this->js['include'][] = $path;
+        echo Html::script( $path );
+    }
+
 
     public function jQueryInit()
     {
