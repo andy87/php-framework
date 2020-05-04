@@ -11,7 +11,7 @@ use app\_\base\BaseComponent;
  */
 class View extends BaseComponent
 {
-    /**TODO: `как их описать правильно?` */
+    // метки позиционирования подключаемых JS файлов
     const POS_HEAD      = 0;
     const POS_BODY      = 1;
     const POS_FOOTER    = 2;

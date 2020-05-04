@@ -133,25 +133,6 @@ class App extends BaseComponent
     }
 
     /**
-     *      Проверка натип вызываемого метода при необходимости
-     *
-     * @param array $rules
-     * @return object
-     */
-    public function accessRules( $rules = [] )
-    {
-        //TODO: доделать
-        $resp = (object) [
-            'error' => (bool) ( ( $rules ) ? false : 0 )
-        ];
-
-        if ( is_array($resp) ) $resp = (object) $resp;
-
-        return $resp;
-    }
-
-
-    /**
      * @param string $key
      * @param mixed|null $default
      * @return mixed|null
@@ -198,9 +179,11 @@ class App extends BaseComponent
         {
             if ( count( $rules = $controller->rules() ) )
             {
-                if ( ( $access = $this->accessRules( $rules ) )->error )
+                self::$controller->rules = $rules;
+
+                if ( ( $error = self::$controller->accessRules() ) !== true )
                 {
-                    $this->exception( $access->error, 403 );
+                    $this->exception( $error, 403 );
                 }
             }
 
@@ -215,6 +198,15 @@ class App extends BaseComponent
             } else {
 
                 $resp   = $controller->{$action}();
+            }
+
+            if ( $layout = App::$view->layout )
+            {
+                $pathTemplateLayout = App::$view->layoutDir . $layout;
+
+                $resp = App::$view->render( $pathTemplateLayout, [
+                    'content' => $resp
+                ]);
             }
 
             self::$response->setContent( $resp );

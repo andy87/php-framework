@@ -65,9 +65,6 @@ class Html extends BaseComponent
         return $html;
     }
 
-
-
-
     public static function link( $href = '', $type = 'text/css', $rel = 'stylesheet' )
     {
         return "<link type='{$type}' rel='{$rel}' href='{$href}'>";
@@ -76,6 +73,15 @@ class Html extends BaseComponent
     public static function script( $src, $type = 'text/JavaScript' )
     {
         return "<script type='text/javascript' src='{$src}'></script>";
+    }
+
+    public static function img( $src, $class = '', $alt = '', $title = '' )
+    {
+        if ( empty($alt) ) $alt = 'картинка';
+        if ( empty($title) ) $title = $alt;
+        if ( !empty($class) ) $class = " class='{$class}'";
+
+        return "<img{$class} src='{$src}' alt='{$alt}' title='{$title}'>";
     }
 
     /**

@@ -45,27 +45,6 @@ class BaseController extends Web
      */
     public function render( $templateName, $params )
     {
-        $resp = $this->renderFile( $templateName, $params );
-
-        if ( $layout = App::$view->layout )
-        {
-            $pathTemplateLayout = App::$view->layoutDir . $layout;
-
-            $resp = $this->renderFile( $pathTemplateLayout, [
-                'content' => $resp
-            ]);
-        }
-
-        return $resp;
-    }
-
-    /**
-     * @param $templateName string
-     * @param $params array
-     * @return string
-     */
-    public function renderFile( $templateName, $params )
-    {
         return App::$view->render( $templateName, $params );
     }
 

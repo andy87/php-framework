@@ -139,7 +139,6 @@ class Request extends BaseComponent
 
         /** @var Session session */
         $this->session = new Session( $_SESSION );
-
     }
 
     /**
