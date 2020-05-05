@@ -7,6 +7,7 @@ $routes = [
     'contact'           => 'site/contact',
     'gradient-color'        => 'color-gradient/linear-gradient',
     'gradient-color/json'   => 'color-gradient/return-json',
+    'gradient-color/json2'   => 'color-gradient/return-json2',
     'gradient-color/2'      => 'color-gradient/radial-gradient',
     //TODO: сделать возможность аргументов в URI
     'gradient-color/<action>' => 'color-gradient/<action>',

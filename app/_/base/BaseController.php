@@ -77,6 +77,19 @@ class BaseController extends Web
     }
 
     /**
+     *      Рендер JSON
+     *
+     * @param array $data
+     * @return array
+     */
+    public function renderJson( $data = [] )
+    {
+        App::$response->format = Response::FORMAT_JSON;
+
+        return $data;
+    }
+
+    /**
      * @param array $params
      * @return string
      */

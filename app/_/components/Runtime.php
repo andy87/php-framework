@@ -17,20 +17,11 @@ class Runtime extends Core
     /** @var string Список вызванных функций */
     static $path = '/app/_/runtime/logs/app.log';
 
-    /** @var bool  */
+    /** @var bool признак существования файла app.log */
     static $fileExists = false;
 
-    /** @var array записи */
+    /** @var array список меток  */
     static $log = [];
-
-    /**
-     * Runtime constructor.
-     * @param $params
-     */
-    function __construct( $params )
-    {
-        parent::__construct( $params );
-    }
 
     /**
      * @param $class
@@ -39,6 +30,8 @@ class Runtime extends Core
      */
     public static function log( $class, $method, $line )
     {
+        if ( !self::$status ) return;
+
         $method = array_pop( explode('::', $method ) );
         $class  = array_pop( explode('\\', $class ) );
 
@@ -54,16 +47,14 @@ class Runtime extends Core
         {
             self::$path = $_SERVER['DOCUMENT_ROOT'] . self::$path;
 
-            fopen( self::$path, "a+" );
+            self::getFileHandler();
 
             self::$fileExists = file_exists( self::$path );
         }
 
         if ( self::$fileExists )
         {
-            $fileLog = fopen( self::$path, "a+");
-
-            if ( $fileLog )
+            if ( $fileLog = self::getFileHandler() )
             {
                 $firstLogRow = RN .RN . self::time() . ' ' . App::$request->method . ' | ' . App::$request->uri . RN;
 
@@ -74,6 +65,14 @@ class Runtime extends Core
                 fclose($fileLog);
             }
         }
+    }
+
+    /**
+     * @return false|resource
+     */
+    private static function getFileHandler()
+    {
+        return fopen( self::$path, "a+");
     }
 
     /**

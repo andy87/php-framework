@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\_\App;
 use app\_\base\BaseController;
+use app\_\components\main\Response;
 
 class ColorGradientController extends BaseController
 {
@@ -61,12 +62,27 @@ class ColorGradientController extends BaseController
      */
     public function actionReturnJson()
     {
+        App::$response->format = Response::FORMAT_JSON;
+
         $data = [
             'name'  => "Admin",
             'class' => __CLASS__
         ];
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function actionReturnJson2()
+    {
+        $data = [
+            'name'  => "Admin",
+            'class' => __CLASS__
+        ];
+
+        return $this->renderJson($data);
     }
 
     public function addMetas( $content )

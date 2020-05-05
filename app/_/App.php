@@ -222,9 +222,9 @@ class App extends Core
                 $resp   = $controller->{$action}();
             }
 
-            if ( $layout = self::$view->layout )
+            if ( $this->isResponseWrap() )
             {
-                $pathTemplateLayout = self::$view->layoutDir . $layout;
+                $pathTemplateLayout = self::$view->layoutDir . self::$view->layout;
 
                 $resp = self::$view->render( $pathTemplateLayout, [
                     'content' => $resp
@@ -252,6 +252,11 @@ class App extends Core
         self::$response->sendHeaders();
     }
 
+    private function isResponseWrap()
+    {
+        return ( self::$view->layout && self::$response->format == Response::FORMAT_HTML );
+    }
+
     /**
      *
      */
@@ -266,6 +271,10 @@ class App extends Core
         if ( self::$response->isFile )
         {
             self::$response->redirect( $resp, 301 );
+        }
+        if ( self::$response->format == Response::FORMAT_JSON || is_array($resp) )
+        {
+            $resp = json_encode( $resp );
         }
 
         echo $resp;
