@@ -28,16 +28,16 @@ class View extends Core
     public $title = 'My Application';
 
     /** @var array массив подключаемых CSS файлов */
-    private $css = [];
+    public $css = [];
 
     /** @var array массив подключаемых JS файлов */
-    private $js  = [
+    public $js  = [
         'include'   => [],
         'asset'     => [],
     ];
 
     /** @var array данные для формирования Меты */
-    private $meta = [];
+    public $meta = [];
 
     /** @var array стандартные опции подключаемых JS файлов */
     private $defaultJsOptions = [

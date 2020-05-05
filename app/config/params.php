@@ -36,6 +36,10 @@ $params = [
         'error'             => ACTION_ERROR,
     ],
 
+    'view'          => [
+        'css'               => [ '/css/style.css' ]
+    ],
+
     'setups'        => $setup,
 
     'routes'        => $routes,
