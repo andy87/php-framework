@@ -19,24 +19,14 @@ class Controller extends Web
     public $rules   = [];
 
 
-
-    function __construct($params)
-    {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
-
-        parent::__construct($params);
-
-        $this->setTarget();
-
-        $this->exists = $this->isExist();
-    }
-
     /**
      * Controller constructor.
      */
     public function setup()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        $this->setTarget();
 
         $this->exists = $this->isExist();
 
@@ -66,8 +56,10 @@ class Controller extends Web
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
         $className  = ( empty($name) ) ? $this->id : $name;
-        $className .= ( $full ) ?  CONTROLLER_NAMESPACE : '';
-        $className .= $className . CONTROLLER_SUFFIX;
+
+        if ( $full ) $className = CONTROLLER_NAMESPACE . $className;
+
+        $className = $className . CONTROLLER_SUFFIX;
 
         return $className;
     }
@@ -81,7 +73,8 @@ class Controller extends Web
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        $classFilePath = App::$alias['root'] . SLASH . $this->getClass() . PHP;
+        $classFilePath = App::$alias['@root'] . SLASH . $this->getClass() . PHP;
+
         $classFilePath = self::slashReplace($classFilePath);
 
         return file_exists( $classFilePath );

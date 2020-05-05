@@ -36,6 +36,9 @@ class Runtime extends Core
      */
     public static function log( $class, $method, $line )
     {
+        $method = array_pop( explode('::', $method ) );
+        $class  = array_pop( explode('\\', $class ) );
+
         self::$log[] = implode('; ', [ date("d.m.Y H:i:s"), $line, "$class::$method()" ]) . RN;
     }
 

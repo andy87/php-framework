@@ -65,14 +65,12 @@ class App extends Core
         self::$response     = new Response( $params );
 
         /** @var Controller controller */
-        self::$controller   = new Controller( $params );
-        self::$controller->setup();
+        ( self::$controller = new Controller( $params ) ) ->setup();
 
         /** @var View controller */
         self::$view         = new View( $params );
 
         self::setCharset( self::getParams('charset', DEFAULT_CHARSET ) );
-
     }
 
     /**
@@ -181,23 +179,19 @@ class App extends Core
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        $isClassExist = self::$controller->isExist();
-
-        if ( !$isClassExist )
+        if ( !self::$controller->exists )
         {
             $this->exception( [
-                'message'     => 'Controller not found.',
-                'error'   => "Controller ID: " . self::$controller->id
+                'message'       => 'Controller not found.',
+                'error'         => "Controller ID: " . self::$controller->id
             ], 404);
         }
 
-        $isActionExist = self::$controller->action->isExist();
-
-        if ( !$isActionExist )
+        if ( !self::$controller->action->exists )
         {
             $this->exception( [
-                'message'     => 'Action not found.',
-                'error'   => "Action ID: " . self::$controller->action->id
+                'message'       => 'Action not found.',
+                'error'         => "Action ID: " . self::$controller->action->id
             ], 404);
         }
 
@@ -279,14 +273,9 @@ class App extends Core
 
         $resp = self::$response->getContent();
 
-        switch ( self::$response->format )
+        if ( self::$response->isFile )
         {
-            case Response::FORMAT_PNG:
-            case Response::FORMAT_GIF:
-            case Response::FORMAT_JPG:
-            case Response::FORMAT_PDF:
-                self::$response->redirect( $resp, 301 );
-                break;
+            self::$response->redirect( $resp, 301 );
         }
 
         echo $resp;

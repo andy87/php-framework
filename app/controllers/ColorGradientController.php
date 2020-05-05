@@ -7,6 +7,9 @@ use app\_\base\BaseController;
 
 class ColorGradientController extends BaseController
 {
+    /**
+     * @return array
+     */
     public function rules()
     {
         return [
@@ -34,6 +37,9 @@ class ColorGradientController extends BaseController
         return $this->render('linear-gradient', $data );
     }
 
+    /**
+     * @return string
+     */
     public function actionRadialGradient()
     {
         $this->addMetas( __METHOD__ );
@@ -50,6 +56,9 @@ class ColorGradientController extends BaseController
         return $this->render('radial-gradient', $data );
     }
 
+    /**
+     * @return array
+     */
     public function actionReturnJson()
     {
         $data = [

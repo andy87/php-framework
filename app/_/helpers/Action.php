@@ -21,13 +21,9 @@ class Action extends Web
 
         parent::__construct($params);
 
-        $this->id = ( $this->isExist() )
-            ? App::$route->action
-            : ACTION_ERROR;
-
         $this->setTarget();
 
-
+        $this->exists = $this->isExist();
     }
 
     /**
