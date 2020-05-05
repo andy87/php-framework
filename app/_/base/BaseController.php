@@ -66,7 +66,6 @@ class BaseController extends Web
      */
     public function rules()
     {
-        //TODO: правила доступа к экшонам по методу запроса
         return [];
     }
 

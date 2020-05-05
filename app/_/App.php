@@ -45,7 +45,8 @@ class App extends Core
     public static $app;
 
     /**
-     * App constructor.
+     *      constructor.
+     *
      * @param $params array
      */
     function __construct( $params )
@@ -178,7 +179,7 @@ class App extends Core
     }
 
     /**
-     *
+     *  Иницыализация
      */
     public function init()
     {
@@ -258,13 +259,18 @@ class App extends Core
         self::$response->createCache( $resp );
     }
 
+    /**
+     *      Проверка на необходимость рендеринга обёртки
+     *
+     * @return bool
+     */
     private function isResponseWrap()
     {
         return ( self::$view->layout && self::$response->format == Response::FORMAT_HTML );
     }
 
     /**
-     *
+     *  Вывод контента
      */
     public static function display()
     {
@@ -290,6 +296,8 @@ class App extends Core
     }
 
     /**
+     *      Получение параметров App()
+     *
      * @param string $name
      * @return array
      */
@@ -310,7 +318,7 @@ class App extends Core
     }
 
     /**
-     *
+     *      Дебаг
      */
     private function debug()
     {
