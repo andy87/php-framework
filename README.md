@@ -77,7 +77,7 @@
 Назначаются все свойства класса [App](/app/_/guide/ru/App.md)   
 -- создаёт экземпляр класса [Route](/app/_/guide/ru/Route.md)  
 ---- Ищется подходящее правило в [Route](/app/_/guide/ru/Route.md)::[$rules](/app/_/guide/ru/Route.md#param__rules)  
----- Задаются ID из найденного rules 
+---- Задаются ID из найденного rules  
 ------ [Route](/app/_/guide/ru/Route.md)::[$controller](/app/_/guide/ru/Route.md#param__controller)  
 ------ [Route](/app/_/guide/ru/Route.md)::[$actino](/app/_/guide/ru/Route.md#param__actino)    создаёт экземпляр вызываемого [Controller](/app/_/guide/ru/Controller.md)  
 -- создаёт экземпляр класса [Controller](/app/_/guide/ru/Controller.md)  
