@@ -51,14 +51,6 @@ class View extends Core
     /** @var string имя обёртки исполоьзуемой при выводе контента */
     public $layout      = 'main';
 
-
-    function __construct($params = [])
-    {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
-
-        parent::__construct($params);
-    }
-
     /**
      *      Регистрируем JS файл для включения в контент
      *
@@ -100,6 +92,8 @@ class View extends Core
     }
 
     /**
+     *      Добавление мет
+     *
      * @param $meta string|array
      */
     public function registerMeta( $meta )
@@ -142,6 +136,9 @@ class View extends Core
         return $this->renderFile( $pathTemplate, $params );
     }
 
+    /**
+     *      Вывод в head
+     */
     public function head()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
@@ -149,43 +146,65 @@ class View extends Core
         echo $this->renderMeta();
         echo $this->renderCss();
         echo $this->renderJs( View::POS_HEAD );
+
+        echo App::$app->head();
     }
 
+    /**
+     *      Вывод в тело
+     */
     public function body()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
         echo $this->renderJs( View::POS_BODY );
+        echo App::$app->body();
     }
 
+    /**
+     *      Вывод в футер
+     */
     public function footer()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
         echo $this->renderJs( View::POS_FOOTER );
+
+        echo App::$app->footer();
     }
 
 
+    /**
+     *      Вывод всех <meta>
+     */
     private function renderMeta()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
         foreach ( $this->meta as $attributes )
         {
-            echo Html::meta( $attributes );
+            echo Html::meta( $attributes ) . RN;
         }
     }
 
+    /**
+     *      Вывод всех CSS
+     */
     private function renderCss()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
         foreach ( $this->css as $fileCss )
         {
-            echo Html::link( $fileCss );
+            echo Html::link( $fileCss ) . RN;
         }
     }
 
+    /**
+     *      Вывод всех JS
+     *
+     * @param int $position
+     */
     private function renderJs( $position = 0 )
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
@@ -203,6 +222,14 @@ class View extends Core
         }
     }
 
+    /**
+     *      Вывод тега <script>
+     *
+     * @param string $id
+     * @param string $path
+     * @param int $position
+     * @param string $depends
+     */
     private function appendJS( $id = '', $path = '', $position = 0, $depends = '' )
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
@@ -220,10 +247,13 @@ class View extends Core
         }
 
         $this->js['include'][] = $path;
-        echo Html::script( $path );
+        echo Html::script( $path ) . RN;
     }
 
 
+    /**
+     *          Подключение JS файла из CDN
+     */
     public function jQueryInit()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );

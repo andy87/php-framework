@@ -2,6 +2,7 @@
 
 namespace app\_\base\prototype;
 
+use app\_\App;
 use app\_\components\Runtime;
 
 /**
@@ -74,6 +75,18 @@ trait Func
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
         return ucfirst( strtolower( $str ) );
+    }
+
+
+    /**
+     *      Генерация хеша
+     *
+     * @param string $key
+     * @return string
+     */
+    public function generateHash( $key )
+    {
+        return md5( CACHE_SALT . $key . App::$request->method );
     }
 
     /**

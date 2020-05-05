@@ -41,6 +41,9 @@ class App extends Core
     /** @var Response данные ответа */
     public static $response;
 
+    /** @var BaseController пользовательский контроллер */
+    public static $app;
+
     /**
      * App constructor.
      * @param $params array
@@ -71,7 +74,11 @@ class App extends Core
         self::$view         = new View( $params );
 
         self::setCharset( self::getParams('charset', DEFAULT_CHARSET ) );
+
+        self::$response->cache();
     }
+
+
 
     /**
      *      Технический метод.
@@ -102,8 +109,11 @@ class App extends Core
 
         self::$alias[ "system" ] = '=========';
 
-        self::$alias['@app'] = self::getAlias('@root' . SLASH . 'app' );
+        self::$alias['@app']        = self::getAlias('@root/app' );
+        self::$alias['@_']        = self::getAlias('@app/_' );
 
+        self::$alias['@runtime']    = self::getAlias('@_/runtime' );
+        self::$alias['@cache']      = self::getAlias('@runtime/cache' );
 
         foreach ( DIRECTORY_APP as $dir )
         {
@@ -172,84 +182,80 @@ class App extends Core
      */
     public function init()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log(static::class, __METHOD__, __LINE__);
 
-        if ( !self::$controller->exists )
-        {
-            $this->exception( [
-                'error'         => 'Controller not found.',
-                'message'       => "Controller ID: " . self::$controller->target
+        if (!self::$controller->exists) {
+            $this->exception([
+                'error' => 'Controller not found.',
+                'message' => "Controller ID: " . self::$controller->target
             ], 404);
         }
 
-        if ( !self::$controller->action->exists )
-        {
-            $this->exception( [
-                'error'         => 'Action not found.',
-                'message'       => "Action ID: " . self::$controller->action->target
+        if (!self::$controller->action->exists) {
+            $this->exception([
+                'error' => 'Action not found.',
+                'message' => "Action ID: " . self::$controller->action->target
             ], 404);
         }
 
         $classController = CONTROLLER_NAMESPACE . self::$controller->target;
 
         /** @var BaseController $controller */
-        $controller = new $classController( self::$params );
+        $controller = new $classController(self::$params);
+        self::$app = $controller;
 
-        $action     = self::$controller->action->target;
+        $action = self::$controller->action->target;
 
-        try
-        {
-            if ( count( $rules = $controller->rules() ) )
-            {
+        try {
+            if (count($rules = $controller->rules())) {
                 self::$controller->rules = $rules;
 
-                if ( ( $error = self::$controller->accessRules() ) !== true )
-                {
-                    $this->exception( $error, 403 );
+                if (($error = self::$controller->accessRules()) !== true) {
+                    $this->exception($error, 403);
                 }
             }
 
             $controller->beforeAction();
 
-            if ( self::$request->hasArguments() )
-            {
-                $arguments  = self::$request->getArguments();
+            if (self::$request->hasArguments()) {
+                $arguments = self::$request->getArguments();
 
-                $resp   = $controller->{$action}( $arguments );
+                $resp = $controller->{$action}($arguments);
 
             } else {
 
-                $resp   = $controller->{$action}();
+                $resp = $controller->{$action}();
             }
 
-            if ( $this->isResponseWrap() )
-            {
+            if ($this->isResponseWrap()) {
                 $pathTemplateLayout = self::$view->layoutDir . self::$view->layout;
 
-                $resp = self::$view->render( $pathTemplateLayout, [
+                $resp = self::$view->render($pathTemplateLayout, [
                     'content' => $resp
                 ]);
             }
 
-            self::$response->setContent( $resp );
+            self::$response->setContent($resp);
 
             $controller->afterAction();
 
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
 
             //TODO: обработчик ошибок https://habr.com/ru/post/440744/
             $controller = new BaseController([]);
-            $resp       = $controller->actionError([
-                'error'         => $e->getCode(),
-                'message'       => $e->getMessage(),
+            $resp = $controller->actionError([
+                'error' => $e->getCode(),
+                'message' => $e->getMessage(),
             ]);
 
-            self::$response->setContent( $resp );
+            self::$response->setContent($resp);
         }
 
         $this->debug();
 
         self::$response->sendHeaders();
+
+        self::$response->createCache( $resp );
     }
 
     private function isResponseWrap()
@@ -272,6 +278,7 @@ class App extends Core
         {
             self::$response->redirect( $resp, 301 );
         }
+
         if ( self::$response->format == Response::FORMAT_JSON || is_array($resp) )
         {
             $resp = json_encode( $resp );

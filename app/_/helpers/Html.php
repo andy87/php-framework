@@ -27,15 +27,15 @@ class Html extends Component
 
         if ( !empty($attributes) )
         {
-            foreach ( $attributes as $name => $value )
+            foreach ( $attributes as $key => $value )
             {
                 if ( $value === null )
                 {
-                    $html .= " {$name}";
+                    $html .= " {$key}";
 
                 } else {
 
-                    $html .= " {$name}='{$value}'";
+                    $html .= " {$key}='{$value}'";
                 }
             }
         }

@@ -30,6 +30,37 @@ class BaseController extends Web
      */
     public function afterAction(){}
 
+
+    /**
+     *      Кастомный вывод
+     *
+     * @return string
+     */
+    public function head()
+    {
+        return '';
+    }
+
+    /**
+     *      Кастомный вывод
+     *
+     * @return string
+     */
+    public function body()
+    {
+        return '';
+    }
+
+    /**
+     *      Кастомный вывод
+     *
+     * @return string
+     */
+    public function footer()
+    {
+        return '';
+    }
+
     /**
      * @return array
      */

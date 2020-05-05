@@ -17,9 +17,7 @@ use \app\_\App;
     <body>
         <? $this->body(); ?>
 
-        <!-- $content: start -->
         <?= $content ?>
-        <!-- $content: end -->
 
         <? $this->footer(); ?>
     </body>

@@ -2,6 +2,7 @@
 
 namespace app\_\components\main;
 
+use app\_\App;
 use app\_\base\Core;
 use app\_\components\Runtime;
 
@@ -36,6 +37,8 @@ class Response extends Core
     /** @var bool признак типа ответа - тектовой документ */
     public $isDocument  = false;
 
+    /** @var bool статус кеширования */
+    public $cache = false;
 
     /** @var array заголовки ответа */
     private $headers = [];
@@ -75,6 +78,53 @@ class Response extends Core
 
         $this->header( $contentType );
     }
+
+
+    /**
+     *      Простое кеширование ( просто что бы было )
+     */
+    public function cache()
+    {
+        if ( !$this->cache ) return;
+
+        $cacheFile = $this->cacheFilePath();
+
+        if ( file_exists( $cacheFile ) )
+        {
+            $this->setContent( file_get_contents( $cacheFile ) );
+
+            App::display();
+        }
+    }
+
+    /**
+     *      Получить путь к кеш файлу текущего запроса
+     */
+    public function cacheFilePath()
+    {
+        $cacheKey = $this->generateHash( App::$request->uri );
+
+        return App::getAlias('@runtime/cache/' . $cacheKey . PHP  );
+    }
+
+    /**
+     * @param string $resp
+     */
+    public function createCache( $resp )
+    {
+        if ( $this->cache )
+        {
+            if ( ! file_exists( $cacheFilePath = $this->cacheFilePath() ) )
+            {
+                $cacheFile = fopen( $cacheFilePath, "w");
+
+                fputs($cacheFile,  $resp );
+
+                fclose($cacheFile);
+            }
+        }
+    }
+
 
     /**
      *      Задаётся кодировка для ответа

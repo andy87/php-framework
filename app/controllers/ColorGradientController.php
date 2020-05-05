@@ -19,6 +19,11 @@ class ColorGradientController extends BaseController
         ];
     }
 
+    public function body()
+    {
+        return '<!-- custom head -->';
+    }
+
     /**
      * @return string
      */

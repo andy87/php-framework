@@ -17,13 +17,12 @@ $params = [
 
     'request'       => [
         'methods'           => METHOD_LIST,
-
-        //TODO: ты хотел сделать `runtime`
-        'runtime'           => true
+        'runtime'           => false
     ],
 
     'response'      => [
-        'format'           => DEFAULT_RESPONSE,
+        'format'            => DEFAULT_RESPONSE,
+        'cache'             => false,
     ],
 
     'controller'    => [

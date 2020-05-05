@@ -29,6 +29,8 @@ define('TEMPLATE_FORMAT', PHP );
 
 define('AJAX', "XMLHttpRequest");
 
+define('CACHE_SALT', "qwerty");
+
 define('METHOD_LIST', ['POST','GET','PUT','UPDATE','DELETE','HEAD','CONNECT','OPTIONS','TRACE','PATCH' ]);
 
 define('DIRECTORY_APP', ['config','controllers','models','static','views']);
