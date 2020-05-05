@@ -79,7 +79,8 @@
 ---- Ищется подходящее правило в [Route](/app/_/guide/ru/Route.md)::[$rules](/app/_/guide/ru/Route.md#param__rules)  
 ---- Задаются ID из найденного rules  
 ------ [Route](/app/_/guide/ru/Route.md)::[$controller](/app/_/guide/ru/Route.md#param__controller)  
------- [Route](/app/_/guide/ru/Route.md)::[$action](/app/_/guide/ru/Route.md#param__action)    создаёт экземпляр вызываемого [Controller](/app/_/guide/ru/Controller.md)  
+------ [Route](/app/_/guide/ru/Route.md)::[$action](/app/_/guide/ru/Route.md#param__action)  
+создаёт экземпляр вызываемого [Controller](/app/_/guide/ru/Controller.md)   
 -- создаёт экземпляр класса [Controller](/app/_/guide/ru/Controller.md)  
 ---- устанавливается свойство [$id](/app/_/guide/ru/Controller.md#params__id)  
 ---- устанавливается свойство [$target](/app/_/guide/ru/Controller.md#params__target)  
