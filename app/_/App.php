@@ -2,13 +2,14 @@
 
 namespace app\_;
 
-use app\_\base\BaseComponent;
-use app\_\base\BaseController;
+use app\_\components\Core;
 use app\_\components\Request;
 use app\_\components\Response;
 use app\_\components\Controller;
+use app\_\components\Runtime;
 use app\_\components\View;
 use app\_\components\Route;
+use app\_\base\BaseController;
 
 /**
  * Class App
@@ -17,13 +18,13 @@ use app\_\components\Route;
  *
  * @package _core\components
  */
-class App extends BaseComponent
+class App extends Core
 {
-    /** @var array некие параметры */
+    /** @var array параметры астроек полученые из \app\config\params.php */
     public static $params = [];
 
     /** @var array пути в основные дирректории проекта */
-    public static $alias = DIRECTORY_LIST;
+    public static $alias = DIRECTORY_APP;
 
     /** @var Request данные запроса*/
     public static $request;
@@ -40,16 +41,14 @@ class App extends BaseComponent
     /** @var Response данные ответа */
     public static $response;
 
-    /** @var array объекты и свойства приложения */
-    public static $paramsList = ['params','alias','request','route','controller','view','response'];
-
-
     /**
      * App constructor.
      * @param $params array
      */
     function __construct( $params )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         parent::__construct( $params );
 
         self::$params = $params;
@@ -69,68 +68,97 @@ class App extends BaseComponent
         /** @var View controller */
         self::$view         = new View( $params );
 
-        self::setCharset( App::getParams('charset', DEFAULT_CHARSET ) );
+        self::setCharset( self::getParams('charset', DEFAULT_CHARSET ) );
 
         $this->initParams( $params );
+
+        self::printPre( self::$controller );
     }
 
     /**
+     *      Технический метод.
+     *          Поочерёдно устанавливает свойства необходимые для работы приложения
+     *
      * @param $params
      */
     private function initParams( $params )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->setAlias( $params['alias'] );
     }
 
     /**
-     *      Задаём кодировку
+     *      Метод задаёт кодировку сразу представлению и ответу
      *
      * @param string $charset
      */
     public static function setCharset( $charset )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         self::$view->charset = $charset;
         self::$response->setCharset( $charset );
     }
 
     /**
+     *      Технический метод.
+     *          Метод создаёт в array $alias мэппинг в основные дирректории проекта
+     *
      * @param $aliases array
      */
-    public function setAlias( $aliases )
+    private function setAlias( $aliases )
     {
-        $app = str_replace('/config', '', App::slashReplace( $aliases['config'] ) );
+        Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        App::$alias = [
-            'root'      => str_replace('/app', '', $app),
-            'app'       => $app
-        ];
+        self::$alias = $aliases;
 
-        foreach ( DIRECTORY_LIST as $dir )
+        self::$alias[ "system" ] = '=========';
+
+        self::$alias['@app'] = SLASH . 'app';
+
+        foreach ( DIRECTORY_APP as $dir )
         {
-            App::$alias[ $dir ] = App::slashReplace("$app/{$dir}");
+            self::$alias[ "@{$dir}" ] = self::slashReplace(self::$alias['@app'] . SLASH . self::slashReplace( $dir ) );
+        }
+
+        self::$alias[ "static" ] = '=========';
+
+        foreach ( DIRECTORY_STATIC as $static )
+        {
+            self::$alias[ "@{$static}" ] = SLASH . $static;
         }
     }
 
+
+
     /**
-     * @param $path
+     *      Связывает путь к файлу с alias диррекориями
+     *
+     * @param string $path      '@root/README.md'|'@css/...'|'@controlles/...'
+     * @param bool $full        // TRUE - для получения полного пути
      * @return string
      */
-    public static function getAlias( $path )
+    public static function getAlias( $path, $full = true )
     {
-        $resp = App::slashReplace( $path );
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        $resp = self::slashReplace( $path );
 
         if ( strpos( $path, DOG ) === 0 )
         {
-            $path   = explode(SLASH, $path );
+            $data   = explode(SLASH, $path );
 
-            $alias  = array_shift($path );
-            $alias  = str_replace(DOG,'', $alias );
-
-            $resp   = App::$alias[ $alias ] . SLASH . implode(SLASH, $path );
+            $alias  = array_shift($data );
+            $resp   = str_replace($alias, self::$alias[ $alias ], $path );
         }
+
+        if ( $full ) $resp = self::$alias['@root'] . SLASH . $resp;
 
         return $resp;
     }
+
+
 
     /**
      * @param string $key
@@ -139,8 +167,11 @@ class App extends BaseComponent
      */
     public static function getParams( $key, $default = null )
     {
-        return ( isset(App::$params[ $key ]) ) ? App::$params[ $key ] : $default;
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        return ( isset(self::$params[ $key ]) ) ? self::$params[ $key ] : $default;
     }
+
 
 
     /**
@@ -148,32 +179,34 @@ class App extends BaseComponent
      */
     public function init()
     {
-        $isClassExist = App::$controller->isExist();
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        $isClassExist = self::$controller->isExist();
 
         if ( !$isClassExist )
         {
             $this->exception( [
                 'message'     => 'Controller not found.',
-                'error'   => "Controller ID: " . App::$controller->id
+                'error'   => "Controller ID: " . self::$controller->id
             ], 404);
         }
 
-        $isActionExist = App::$controller->action->isExist();
+        $isActionExist = self::$controller->action->isExist();
 
         if ( !$isActionExist )
         {
             $this->exception( [
                 'message'     => 'Action not found.',
-                'error'   => "Action ID: " . App::$controller->action->id
+                'error'   => "Action ID: " . self::$controller->action->id
             ], 404);
         }
 
-        $classController = App::$controller->getClass();
+        $classController = self::$controller->getClass();
 
         /** @var BaseController $controller */
-        $controller = new $classController( App::$params );
+        $controller = new $classController( self::$params );
 
-        $action     = App::$controller->action->getName();
+        $action     = self::$controller->action->getName();
 
         try
         {
@@ -200,11 +233,11 @@ class App extends BaseComponent
                 $resp   = $controller->{$action}();
             }
 
-            if ( $layout = App::$view->layout )
+            if ( $layout = self::$view->layout )
             {
-                $pathTemplateLayout = App::$view->layoutDir . $layout;
+                $pathTemplateLayout = self::$view->layoutDir . $layout;
 
-                $resp = App::$view->render( $pathTemplateLayout, [
+                $resp = self::$view->render( $pathTemplateLayout, [
                     'content' => $resp
                 ]);
             }
@@ -216,9 +249,11 @@ class App extends BaseComponent
         } catch ( \Exception $e ) {
 
             //TODO: обработчик ошибок https://habr.com/ru/post/440744/
-
             $controller = new BaseController([]);
-            $resp       = $controller->actionError( $e );
+            $resp       = $controller->actionError([
+                'error'         => $e->getCode(),
+                'message'       => $e->getMessage(),
+            ]);
 
             self::$response->setContent( $resp );
         }
@@ -233,8 +268,63 @@ class App extends BaseComponent
     /**
      *
      */
+    public static function display()
+    {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        if ( isset(self::$params['request']['runtime']) AND self::$params['request']['runtime'] == true )
+        {
+            Runtime::load();
+        }
+
+        $resp = self::$response->getContent();
+
+        switch ( self::$response->format )
+        {
+            case Response::FORMAT_PNG:
+            case Response::FORMAT_GIF:
+            case Response::FORMAT_JPG:
+            case Response::FORMAT_PDF:
+                self::$response->redirect( $resp, 301 );
+                break;
+        }
+
+        echo $resp;
+
+        exit();
+    }
+
+
+
+    /**
+     * @param string $name
+     * @return array
+     */
+    public static function params( $name = '' )
+    {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        $paramsList = ( !empty($name) ) ? [$name] : get_class_vars( self::class );
+
+        $resp = [];
+
+        foreach ( $paramsList as $param )
+        {
+            $resp[ $param ] = self::$$param;
+        }
+
+        return $resp;
+    }
+
+
+
+    /**
+     *
+     */
     private function debug()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $key = 'debug';
 
         if ( self::$request->get->_isset($key ) )
@@ -251,25 +341,10 @@ class App extends BaseComponent
             }
 
             var_dump($data);
-            exit();
+
+            self::display();
         }
     }
 
-    /**
-     * @param string $name
-     * @return array
-     */
-    public static function params( $name = '' )
-    {
-        $paramsList = ( !empty($name) ) ? [$name] : self::$paramsList;
 
-        $resp = [];
-
-        foreach ( $paramsList as $param )
-        {
-            $resp[ $param ] = self::$$param;
-        }
-
-        return $resp;
-    }
 }
