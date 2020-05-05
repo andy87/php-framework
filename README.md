@@ -35,63 +35,61 @@
 #### Иерархия ядра  
 ```
   _
-  ├── 📁 base            # Базовые класы для наследований
-  │   └── 📁 prototype   #     диррекория содержащая traits 
-  ├── 📁 components      # дирриктория с компонентами фреймворка
-  ├── 📁 guide           # дирриктория с гайдами
-  │   ├── 📁 en          #     гайд на Английсков
-  │   └── 📁 ru          #     гайд на Русском
-  ├── 📁 helpers         # спомогательные компоненты
-  ├── 📁 runtime         # файлы генерируемые фрейморком
-  │   ├── 📁 cache       #     кеш
-  │   └── 📁 logs        #     логи
-  └── 📁 setups          # настройки фреймворка
-  └── 📁 templates       # шаблоны ядра
+  ├── 📁 base                    # Базовые класы для наследований
+  │   └── 📁 prototype           #     диррекория содержащая traits 
+  ├── 📁 components              # дирриктория с компонентами фреймворка
+  ├── 📁 guide                   # дирриктория с гайдами
+  │   ├── 📁 en                  #     гайд на Английсков
+  │   └── 📁 ru                  #     гайд на Русском
+  ├── 📁 helpers                 # спомогательные компоненты
+  ├── 📁 runtime                 # файлы генерируемые фрейморком
+  │   ├── 📁 cache               #     кеш
+  │   └── 📁 logs                #     логи
+  └── 📁 setups                  # настройки фреймворка
+  └── 📁 templates               # шаблоны ядра
 ```
 
 
 ## Структура приложения
 
 [App](/app/_/guide/ru/App.md)  
--- [$params](/app/_/guide/ru/App.md#params_params)  
--- [$aliases](/app/_/guide/ru/App.md#params_aliases)  
--- [$request](/app/_/guide/ru/Request.md)  
------- [$server](/app/_/guide/ru/Library.md)  
------- [$get](/app/_/guide/ru/Library.md)  
------- [$post](/app/_/guide/ru/Library.md)  
------- [$files](/app/_/guide/ru/Library.md)  
------- [$session](/app/_/guide/ru/Session.md)  
------- [$cookie](/app/_/guide/ru/Cookie.md)  
--- [$route](/app/_/guide/ru/Route.md)  
--- [$controller](/app/_/guide/ru/Controller.md)  
------- [$action](/app/_/guide/ru/Action.md)  
--- [$response](/app/_/guide/ru/Response.md)  
--- [$view](/app/_/guide/ru/View.md)  
+-- [$params](/app/_/guide/ru/App.md#params__params)  
+-- [$aliases](/app/_/guide/ru/App.md#params__aliases)  
+-- [Request()](/app/_/guide/ru/App.md#params__request)  
+------ [Server()](/app/_/guide/ru/Request.md#params__server)  
+------ [Get()](/app/_/guide/ru/Request.md#params__get)  
+------ [Post()](/app/_/guide/ru/Request.md#params__post)  
+------ [Files()](/app/_/guide/ru/Request.md#params__files)  
+------ [Session()](/app/_/guide/ru/Request.md#params__session)  
+------ [Cookie()](/app/_/guide/ru/Request.md#params__cookie)  
+-- [Route()](/app/_/guide/ru/App.md#params__route)  
+-- [Controller()](/app/_/guide/ru/App.md#params__controller)  
+------ [Action()](/app/_/guide/ru/Controller.md#params__action)  
+-- [Response()](/app/_/guide/ru/App.md#params__response)  
+-- [View()](/app/_/guide/ru/App.md#params__view)  
  
 ## Логика приложения
 
-
-
 Запрос попадает в точку входа `index.php`  
-Создаётся создаётся экземпляр класса [App](/app/_/guide/ru/App.md)  
-Назначаются все свойства класса [App](/app/_/guide/ru/App.md)   
--- создаёт экземпляр класса [Route](/app/_/guide/ru/Route.md)  
+Создаётся экземпляр класса [App()](/app/_/guide/ru/App.md), устанавливаются все его свойства  
+-- создаёт экземпляр класса [Route()](/app/_/guide/ru/Route.md)  
 ---- Ищется подходящее правило в [Route](/app/_/guide/ru/Route.md)::[$rules](/app/_/guide/ru/Route.md#param__rules)  
----- Задаются ID из найденного rules  
+---- Из найденного rules Задаются ID для:    
 ------ [Route](/app/_/guide/ru/Route.md)::[$controller](/app/_/guide/ru/Route.md#param__controller)  
 ------ [Route](/app/_/guide/ru/Route.md)::[$action](/app/_/guide/ru/Route.md#param__action)  
-создаёт экземпляр вызываемого [Controller](/app/_/guide/ru/Controller.md)   
--- создаёт экземпляр класса [Controller](/app/_/guide/ru/Controller.md)  
+-- создаёт экземпляр класса [Controller()](/app/_/guide/ru/Controller.md)  
 ---- устанавливается свойство [$id](/app/_/guide/ru/Controller.md#params__id)  
 ---- устанавливается свойство [$target](/app/_/guide/ru/Controller.md#params__target)  
----- создаёт экземпляр класса [Action](/app/_/guide/ru/Action.md)  
+---- создаёт экземпляр класса [Action()](/app/_/guide/ru/Action.md)  
 ------ устанавливается свойство [$id](/app/_/guide/ru/Action.md#params__id)  
 ------ устанавливается свойство [$target](/app/_/guide/ru/Action.md#params__target)  
+Создаётся экземпляр пользовательского контроллера по имени [Controller](/app/_/guide/ru/Controller.md)::[$target](/app/_/guide/ru/Controller.md#params__target).   
+далее у пользовательского контроллера последовательно вызывается методы:  
 у контроллера [Controller](/app/_/guide/ru/Controller.md)::[$target](/app/_/guide/ru/Controller.md#params__target) последовательно вызывается методы:  
 - [init()](/app/_/guide/ru/Controller.md#method__init)   
 - [rules()](/app/_/guide/ru/Controller.md#method__rules)   
 - [beforeAction()](/app/_/guide/ru/Controller.md#method__beforeAction)  
-- [App](/app/_/guide/ru/App.md)::[$controller](/app/_/guide/ru/Controller.md)->[action](/app/_/guide/ru/Controller.md#params__action)->[target](/app/_/guide/ru/Action.md#params__target)()  
+- `$controller->{Action()->target}()`  
 - [afterAction()](/app/_/guide/ru/Controller.md#method__beforeAction)  
 - [App](/app/_/guide/ru/App.md)::[display()](/app/_/guide/ru/App.md#method_display)   - отдаёт ответ (text/json/link)
 
@@ -102,9 +100,3 @@
  * совершает редирект
 
 *to be continued...* :)
-
-
-
-
-
-
