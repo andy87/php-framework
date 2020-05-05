@@ -1,8 +1,10 @@
 <?php
 
-namespace app\_\components;
+namespace app\_\components\main;
 
 use app\_\App;
+use app\_\base\Core;
+use app\_\components\Runtime;
 
 /**
  * Class View

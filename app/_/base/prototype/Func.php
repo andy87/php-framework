@@ -104,7 +104,7 @@ trait Func
 
             ob_start();
 
-            require_once $path;
+            require $path;
 
             $resp = ob_get_contents();
 
@@ -120,7 +120,6 @@ trait Func
 
     /**
      * @param $e \Exception
-     * @return array
      */
     public function exceptionCatch( $e )
     {

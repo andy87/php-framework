@@ -1,9 +1,10 @@
 <?php
 
-namespace app\_\components;
+namespace app\_\base;
 
 use app\_\App;
 use app\_\base\prototype\Func;
+use app\_\components\Runtime;
 
 /**
  * Class BaseComponent
@@ -14,7 +15,7 @@ class Core
     use Func;
 
     /**
-     * BaseComponent constructor.
+     *  constructor.
      * @param array $params
      */
     function __construct( $params = [] )

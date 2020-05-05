@@ -3,6 +3,7 @@
 namespace app\_\components;
 
 use app\_\App;
+use app\_\base\Core;
 
 /**
  * Class Web
@@ -18,6 +19,9 @@ class Web extends Core
 
     /** @var string ID вызываемого по умолчанию Controller|Action */
     public $default = '';
+
+    /** @var bool Статус существования */
+    public $exists  = false;
 
     /**
      * Web constructor.

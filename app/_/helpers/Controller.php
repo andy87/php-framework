@@ -1,8 +1,10 @@
 <?php
 
-namespace app\_\components;
+namespace app\_\helpers;
 
 use app\_\App;
+use app\_\components\Web;
+use app\_\components\Runtime;
 
 /**
  * Class Controller
@@ -14,25 +16,41 @@ class Controller extends Web
     public $action;
 
     /** @var array правила доступа к экшонам в зависимости от метода */
-    public $rules = [];
+    public $rules   = [];
 
 
+
+    function __construct($params)
+    {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        parent::__construct($params);
+
+        $this->setTarget();
+
+        $this->exists = $this->isExist();
+    }
 
     /**
      * Controller constructor.
      */
-    public function init()
+    public function setup()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        $this->setTarget();
+        $this->exists = $this->isExist();
 
         /** @var Action action */
-        $this->action       = new Action( App::$params );
+        $this->action = new Action( App::$params );
     }
 
+    /**
+     *
+     */
     private function setTarget()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->target = $this->id . CONTROLLER_SUFFIX;
     }
 
@@ -59,7 +77,7 @@ class Controller extends Web
      *
      * @return bool
      */
-    public function isExist()
+    private function isExist()
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 

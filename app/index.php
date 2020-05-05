@@ -9,5 +9,4 @@ require "config/params.php";
 
 ( $app = new App( $params ) )->init();
 
-
 App::display();

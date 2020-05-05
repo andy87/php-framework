@@ -4,7 +4,7 @@
 /** @var $to string */
 /** @var $block string */
 
-use \app\_\components\View;
+use app\_\components\main\View;
 
 $this->registerCssFile('/css/linear-gradiend.css');
 $this->registerMeta("auth='1231231231231'");

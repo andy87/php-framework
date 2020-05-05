@@ -50,6 +50,16 @@ class ColorGradientController extends BaseController
         return $this->render('radial-gradient', $data );
     }
 
+    public function actionReturnJson()
+    {
+        $data = [
+            'name'  => "Admin",
+            'class' => __CLASS__
+        ];
+
+        return $data;
+    }
+
     public function addMetas( $content )
     {
         App::$view->registerMeta(['name' => 'action', 'content'=> $content]);

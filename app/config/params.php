@@ -9,7 +9,7 @@ $params = [
 
     'charset'       => DEFAULT_CHARSET,
 
-    'debug'         => 4, // 0/1/2/3/4
+    'debug'         => 3, // 0/1/2/3
 
     'alias'         => [
         '@root'          => $_SERVER['DOCUMENT_ROOT']

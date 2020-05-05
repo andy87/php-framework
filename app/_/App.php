@@ -2,14 +2,14 @@
 
 namespace app\_;
 
-use app\_\components\Core;
-use app\_\components\Request;
-use app\_\components\Response;
-use app\_\components\Controller;
+use app\_\base\Core;
 use app\_\components\Runtime;
-use app\_\components\View;
-use app\_\components\Route;
+use app\_\components\main\Request;
+use app\_\components\main\Route;
+use app\_\components\main\Response;
+use app\_\components\main\View;
 use app\_\base\BaseController;
+use app\_\helpers\Controller;
 
 /**
  * Class App
@@ -51,6 +51,8 @@ class App extends Core
 
         parent::__construct( $params );
 
+        $this->initParams( $params );
+
         self::$params = $params;
 
         /** @var Request request */
@@ -64,15 +66,13 @@ class App extends Core
 
         /** @var Controller controller */
         self::$controller   = new Controller( $params );
+        self::$controller->setup();
 
         /** @var View controller */
         self::$view         = new View( $params );
 
         self::setCharset( self::getParams('charset', DEFAULT_CHARSET ) );
 
-        $this->initParams( $params );
-
-        self::printPre( self::$controller );
     }
 
     /**
@@ -88,18 +88,6 @@ class App extends Core
         $this->setAlias( $params['alias'] );
     }
 
-    /**
-     *      Метод задаёт кодировку сразу представлению и ответу
-     *
-     * @param string $charset
-     */
-    public static function setCharset( $charset )
-    {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
-
-        self::$view->charset = $charset;
-        self::$response->setCharset( $charset );
-    }
 
     /**
      *      Технический метод.
@@ -139,7 +127,7 @@ class App extends Core
      * @param bool $full        // TRUE - для получения полного пути
      * @return string
      */
-    public static function getAlias( $path, $full = true )
+    public static function getAlias( $path, $full = false )
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
@@ -150,6 +138,7 @@ class App extends Core
             $data   = explode(SLASH, $path );
 
             $alias  = array_shift($data );
+
             $resp   = str_replace($alias, self::$alias[ $alias ], $path );
         }
 
@@ -158,6 +147,19 @@ class App extends Core
         return $resp;
     }
 
+
+    /**
+     *      Метод задаёт кодировку сразу представлению и ответу
+     *
+     * @param string $charset
+     */
+    public static function setCharset( $charset )
+    {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        self::$view->charset = $charset;
+        self::$response->setCharset( $charset );
+    }
 
 
     /**
@@ -171,8 +173,6 @@ class App extends Core
 
         return ( isset(self::$params[ $key ]) ) ? self::$params[ $key ] : $default;
     }
-
-
 
     /**
      *
@@ -304,7 +304,7 @@ class App extends Core
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        $paramsList = ( !empty($name) ) ? [$name] : get_class_vars( self::class );
+        $paramsList = ( !empty($name) ) ? [$name] : array_keys(get_class_vars( App::class ));
 
         $resp = [];
 

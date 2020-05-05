@@ -1,8 +1,11 @@
 <?php
 
-namespace app\_\components;
+namespace app\_\components\main;
 
 
+use app\_\base\Core;
+use app\_\components\Library;
+use app\_\components\Runtime;
 use app\_\helpers\Cookie;
 use app\_\helpers\Server;
 use app\_\helpers\Session;
@@ -121,8 +124,6 @@ class Request extends Core
 
         $this->method   = $this->getMethod();
 
-        $this->isAjax   = $this->isAjax();
-
         $this->setupMethodStatus();
 
         $this->arguments    = $_REQUEST;
@@ -181,7 +182,7 @@ class Request extends Core
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        $method = 'is' . ucfirst( strtolower( $this->getMethod() ) );
+        $method = 'is' . ucfirst( strtolower( $this->method ) );
 
         $this->{$method} = true;
 

@@ -1,6 +1,9 @@
 <?php
 
-namespace app\_\components;
+namespace app\_\components\main;
+
+use app\_\base\Core;
+use app\_\components\Runtime;
 
 /**
  * Class Response

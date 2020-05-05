@@ -2,9 +2,9 @@
 
 namespace app\_\helpers;
 
-use app\_\base\Core;
+use app\_\components\Component;
 
-class Html extends Core
+class Html extends Component
 {
     /** @var array список одиночных тегов */
     static $singleTags = ['br','hr','meta','img', 'input'];

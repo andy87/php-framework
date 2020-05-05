@@ -78,19 +78,7 @@ $params = App::params();
             </pre>
         <? endif; ?>
 
-        <? if ( $debug > 3 ) : ?>
-            <hr>
-            <pre>
-                <? print_r( get_included_files() ); ?>
-            </pre>
-        <? endif; ?>
-
     <? endif; ?>
-
-
-
-
-
 
 </div>
 

@@ -3,7 +3,7 @@
 namespace app\_\base;
 
 use app\_\App;
-use app\_\components\Response;
+use app\_\components\main\Response;
 use app\_\components\Web;
 
 /**

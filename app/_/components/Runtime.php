@@ -3,6 +3,7 @@
 namespace app\_\components;
 
 use app\_\App;
+use app\_\base\Core;
 
 /**
  * Class Runtime
@@ -15,6 +16,9 @@ class Runtime extends Core
 
     /** @var bool  */
     static $fileExists = false;
+
+    /** @var array записи */
+    static $log = [];
 
     /**
      * Runtime constructor.
@@ -32,6 +36,14 @@ class Runtime extends Core
      */
     public static function log( $class, $method, $line )
     {
+        self::$log[] = implode('; ', [ date("d.m.Y H:i:s"), $line, "$class::$method()" ]) . RN;
+    }
+
+    /**
+     *
+     */
+    public static function  load()
+    {
         if ( !self::$fileExists )
         {
             self::$path = $_SERVER['DOCUMENT_ROOT'] . self::$path;
@@ -43,23 +55,22 @@ class Runtime extends Core
 
         if ( self::$fileExists )
         {
-            $log = fopen( self::$path, "a+");
+            $fileLog = fopen( self::$path, "a+");
 
-            if ( $log )
+
+            if ( $fileLog )
             {
-                $method = array_pop( explode('::', $method ) );
-                $class  = array_pop( explode('\\', $class ) );
-                $row    = implode('; ', [ date("d.m.Y H:i:s"), $line, $class, $method ]) . "\r\n";
+                $firstLogRow = RN .RN . date("d.m.Y H:i:s") . ' ' . App::$request->method . ' | ' . App::$request->uri . RN;
 
-                fwrite($log, $row );
+                fwrite( $fileLog, $firstLogRow );
 
-                fclose($log);
+                foreach ( self::$log as $log )
+                {
+                    fwrite( $fileLog, $log );
+                }
+
+                fclose($fileLog);
             }
         }
-    }
-
-    public static function  load(){
-
-        //TODO: выгрузка в app/_/runtime/log.log
     }
 }

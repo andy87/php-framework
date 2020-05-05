@@ -3,9 +3,14 @@
 namespace app\_\helpers;
 
 use app\_\App;
-use app\_\components\Core;
+use app\_\components\Component;
 
-class Url extends Core
+/**
+ *      Проверяет существование файла
+ *
+ * @package app\_\helpers
+ */
+class Url extends Component
 {
     /** @var array отовый шаблон ошибки */
     public static $error = [

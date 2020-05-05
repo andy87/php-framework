@@ -2,7 +2,7 @@
 /** @var $this View */
 /** @var $content string */
 
-use app\_\components\View;
+use app\_\components\main\View;
 use \app\_\App;
 
 ?>

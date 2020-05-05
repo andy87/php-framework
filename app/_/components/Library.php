@@ -2,6 +2,8 @@
 
 namespace app\_\components;
 
+use app\_\base\Core;
+
 /**
  * Class Library
  * @package app\_\components
