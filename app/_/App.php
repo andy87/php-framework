@@ -81,11 +81,12 @@ class App extends Core
      */
     private function initParams( $params )
     {
+        Runtime::$status = (isset(self::$params['request']['runtime']) AND self::$params['request']['runtime'] == true);
+
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
         $this->setAlias( $params['alias'] );
     }
-
 
     /**
      *      Технический метод.
@@ -101,31 +102,29 @@ class App extends Core
 
         self::$alias[ "system" ] = '=========';
 
-        self::$alias['@app'] = SLASH . 'app';
+        self::$alias['@app'] = self::getAlias('@root' . SLASH . 'app' );
+
 
         foreach ( DIRECTORY_APP as $dir )
         {
-            self::$alias[ "@{$dir}" ] = self::slashReplace(self::$alias['@app'] . SLASH . self::slashReplace( $dir ) );
+            self::$alias[ "@{$dir}" ] = self::slashReplace(self::$alias['@app'] . SLASH . $dir );
         }
 
         self::$alias[ "static" ] = '=========';
 
         foreach ( DIRECTORY_STATIC as $static )
         {
-            self::$alias[ "@{$static}" ] = SLASH . $static;
+            self::$alias[ "@{$static}" ] = self::slashReplace(self::$alias['@app'] . SLASH . $static );
         }
     }
-
-
 
     /**
      *      Связывает путь к файлу с alias диррекориями
      *
      * @param string $path      '@root/README.md'|'@css/...'|'@controlles/...'
-     * @param bool $full        // TRUE - для получения полного пути
      * @return string
      */
-    public static function getAlias( $path, $full = false )
+    public static function getAlias( $path )
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
@@ -140,11 +139,8 @@ class App extends Core
             $resp   = str_replace($alias, self::$alias[ $alias ], $path );
         }
 
-        if ( $full ) $resp = self::$alias['@root'] . SLASH . $resp;
-
         return $resp;
     }
-
 
     /**
      *      Метод задаёт кодировку сразу представлению и ответу
@@ -158,7 +154,6 @@ class App extends Core
         self::$view->charset = $charset;
         self::$response->setCharset( $charset );
     }
-
 
     /**
      * @param string $key
@@ -257,8 +252,6 @@ class App extends Core
         self::$response->sendHeaders();
     }
 
-
-
     /**
      *
      */
@@ -283,8 +276,6 @@ class App extends Core
         exit();
     }
 
-
-
     /**
      * @param string $name
      * @return array
@@ -304,8 +295,6 @@ class App extends Core
 
         return $resp;
     }
-
-
 
     /**
      *
@@ -334,6 +323,4 @@ class App extends Core
             self::display();
         }
     }
-
-
 }

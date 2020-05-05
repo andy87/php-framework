@@ -11,6 +11,9 @@ use app\_\base\Core;
  */
 class Runtime extends Core
 {
+    /** @var bool Статус активности модуля */
+    static $status = false;
+    
     /** @var string Список вызванных функций */
     static $path = '/app/_/runtime/logs/app.log';
 
