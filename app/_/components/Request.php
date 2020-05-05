@@ -2,16 +2,16 @@
 
 namespace app\_\components;
 
-use app\_\base\BaseComponent;
-use app\_\components\library\Cookie;
-use app\_\components\library\Server;
-use app\_\components\library\Session;
+
+use app\_\helpers\Cookie;
+use app\_\helpers\Server;
+use app\_\helpers\Session;
 
 /**
  * Class Request
  * @package app\_\components
  */
-class Request extends BaseComponent
+class Request extends Core
 {
     /** Возможные методы отбаботки запроса */
     const METHOD_GET        = 'GET';
@@ -72,6 +72,8 @@ class Request extends BaseComponent
 
 
     // свойства для работы с объектами
+    /** @var Server данные SERVER*/
+    public $server;
 
     /** @var Library _GET данные */
     public $get;
@@ -88,8 +90,6 @@ class Request extends BaseComponent
     /** @var Session данные SESSION */
     public $session;
 
-    /** @var Server данные SERVER*/
-    public $server;
 
     /** @var array аргументы запроса для передачи в Controller->action() */
     private $arguments = null;
@@ -106,6 +106,8 @@ class Request extends BaseComponent
      */
     function __construct( $params )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         parent::__construct( $params );
 
         $requestParams          = $params[ $this->getClassName(true) ];
@@ -148,6 +150,8 @@ class Request extends BaseComponent
      */
     private function getUri()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $resp = $this->server->get('REQUEST_URI', SLASH );
 
         if ( $resp )
@@ -165,6 +169,8 @@ class Request extends BaseComponent
      */
     private function getMethod()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         return $this->server->get('REQUEST_METHOD', null);
     }
 
@@ -173,6 +179,8 @@ class Request extends BaseComponent
      */
     private function setupMethodStatus()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $method = 'is' . ucfirst( strtolower( $this->getMethod() ) );
 
         $this->{$method} = true;
@@ -185,6 +193,8 @@ class Request extends BaseComponent
      */
     private function isAjax()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         return ( strtolower( $this->server->get('HTTP_X_REQUESTED_WITH') ) == strtolower( AJAX ) );
     }
 
@@ -197,6 +207,8 @@ class Request extends BaseComponent
      */
     public function isMethod( $method = null )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         return ( $method AND strtolower( $this->getMethod() ) === strtolower($method) );
     }
 
@@ -207,6 +219,8 @@ class Request extends BaseComponent
      */
     public function hasArguments()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         return isset( $this->arguments );
     }
 
@@ -217,6 +231,8 @@ class Request extends BaseComponent
      */
     public function getArguments()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         return $this->arguments;
     }
 }

@@ -2,13 +2,11 @@
 
 namespace app\_\components;
 
-use app\_\base\BaseComponent;
-
 /**
  * Class Query
  * @package app\_\components
  */
-class Query extends BaseComponent
+class Query extends Core
 {
     public $tableName = '';
 }

@@ -3,6 +3,7 @@
 namespace app\_\base;
 
 use app\_\App;
+use app\_\components\Response;
 use app\_\components\Web;
 
 /**
@@ -39,31 +40,53 @@ class BaseController extends Web
     }
 
     /**
-     * @param $templateName string
+     * @param $path string
      * @param $params array
      * @return string
      */
-    public function render( $templateName, $params )
+    public function render( $path, $params )
     {
-        return App::$view->render( $templateName, $params );
+        $resp = null;
+
+        if ( strpos( $path, DOG) === false )
+        {
+            $path = '@views' . SLASH . App::$route->controller . SLASH. $path;
+        }
+
+        switch ( App::$response->format )
+        {
+            case Response::FORMAT_RAW:
+                $resp = file_get_contents( $path );
+                break;
+
+            case Response::FORMAT_HTML:
+                $resp = App::$view->render( $path, $params );
+                break;
+        }
+
+        if ( $resp == null )
+        {
+            $error = [
+                'message'   => "Bad format for rendering",
+                'error'     => "Format :  " . App::$response->format ,
+            ];
+            $this->exception($error);
+        }
+
+        return $resp;
     }
 
     /**
-     * @param $e \Exception
+     * @param array $params
      * @return string
      */
-    public function actionError( $e )
+    public function actionError( $params )
     {
         App::$view->registerCssFile('/css/error.css');
 
-        $data = [
-            'error'     => $e,
-            'message'   => $e->getMessage()
-        ];
-
         $template = '@root/' . TEMPLATE_ERROR;
 
-        return $this->render( $template, $data );
+        return $this->render( $template, $params );
     }
 
     /**

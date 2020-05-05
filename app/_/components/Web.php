@@ -3,16 +3,18 @@
 namespace app\_\components;
 
 use app\_\App;
-use app\_\base\BaseComponent;
 
 /**
  * Class Web
  * @package app\_\components
  */
-class Web extends BaseComponent
+class Web extends Core
 {
     /** @var null|string ID фактически вызываемого Controller|Action */
-    public $id = null;
+    public $id = '';
+
+    /** @var string Имя вызываемого объекта */
+    public $target = '';
 
     /** @var string ID вызываемого по умолчанию Controller|Action */
     public $default = '';
@@ -26,6 +28,8 @@ class Web extends BaseComponent
         parent::__construct( $params );
 
         $this->setId( $this->getClassName(true) );
+
+        $this->init();
     }
 
     /**

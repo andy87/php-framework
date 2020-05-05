@@ -1,10 +1,10 @@
 <?php
 
-namespace app\_\components;
+namespace app\_\helpers;
 
-use app\_\base\BaseComponent;
+use app\_\base\Core;
 
-class Html extends BaseComponent
+class Html extends Core
 {
     /** @var array список одиночных тегов */
     static $singleTags = ['br','hr','meta','img', 'input'];

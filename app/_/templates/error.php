@@ -1,6 +1,7 @@
 <?php
 /** @var $error Exception */
 /** @var $message string */
+/** @var $debug integer */
 
 use app\_\App;
 
@@ -40,24 +41,56 @@ $params = App::params();
 
     <h1><?= $title ?></h1>
 
-    <? if ( isset($message) ) : ?>
-        <hr>
-
-        <p><?= $message ?></p>
-    <? endif; ?>
-
     <? if ( isset($error) ) : ?>
         <hr>
 
+        <p><?= $error ?></p>
+    <? endif; ?>
+
+    <? if ( isset($message) ) : ?>
+        <hr>
+
         <p>
-            <? print_r(trim($error)); ?>
+            <? print_r(trim($message)); ?>
         </p>
     <? endif; ?>
 
-    <hr>
+    <? if ( $debug ) : ?>
 
-    <pre>
-        <? print_r( $params ); ?>
-    </pre>
+        <? if ( $debug > 0 ) : ?>
+            <hr>
+            <pre>
+                <? print_r( get_included_files() ); ?>
+            </pre>
+        <? endif; ?>
+
+        <? if ( $debug > 1 ) : ?>
+            <hr>
+            <pre>
+                <? print_r( $params ); ?>
+            </pre>
+        <? endif; ?>
+
+        <? if ( $debug > 2 ) : ?>
+            <hr>
+            <pre>
+                <? print_r( debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) ); ?>
+            </pre>
+        <? endif; ?>
+
+        <? if ( $debug > 3 ) : ?>
+            <hr>
+            <pre>
+                <? print_r( get_included_files() ); ?>
+            </pre>
+        <? endif; ?>
+
+    <? endif; ?>
+
+
+
+
+
+
 </div>
 

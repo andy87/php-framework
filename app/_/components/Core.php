@@ -1,15 +1,15 @@
 <?php
 
-namespace app\_\base;
+namespace app\_\components;
 
 use app\_\App;
-use app\_\base\traits\Func;
+use app\_\base\prototype\Func;
 
 /**
  * Class BaseComponent
  * @package app\_\components
  */
-class BaseComponent
+class Core
 {
     use Func;
 
@@ -19,6 +19,7 @@ class BaseComponent
      */
     function __construct( $params = [] )
     {
+
         $className = $this->getClassName(true);
 
         if ( !empty( $params[ $className ]) AND is_array( $params[ $className ] ) )
@@ -33,14 +34,16 @@ class BaseComponent
         }
     }
 
-    function __call( $name, $arguments )
+    function __call($name, $arguments)
     {
-        self::printPre([$name, $arguments]);
+        Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        if ( App::$request->runtime )
-        {
-            self::printPre([$name, $arguments]);
-        }
+        $error = [
+            'message'   => 'Function not found',
+            'error'     => "Function `{$name}`not found",
+        ];
+
+        $this->exception( $error );
     }
 
     /**
@@ -48,6 +51,8 @@ class BaseComponent
      */
     public function init()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         // ...
     }
 
@@ -57,6 +62,8 @@ class BaseComponent
      */
     public function getClassName( $strToLower = false )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $className = array_pop(explode('\\', static::class) );
 
         if ( $strToLower ) $className = strtolower($className);
@@ -65,19 +72,29 @@ class BaseComponent
     }
 
     /**
-     * @param string|array $error
+     * @param string|array $error //TODO: привести $error к единому формату
      * @param int $code
      */
-    public function exception( $error = 'Error', $code = 0 )
+    public static function exception( $error = 'Error', $code = 418 )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         App::$view->layout = false;
         App::setCharset( DEFAULT_CHARSET);
 
-        $templateError = '@root/' . TEMPLATE_ERROR;
-        $params = ( is_array($error) ) ? $error : [ 'error' => $error ];
+        if ( App::$response->code != 418 )
+        {
+            App::$response->code = $code;
 
-        echo App::$view->render( $templateError, $params );
+            $params = ( is_array($error) ) ? $error : [ 'error' => $error ];
 
-        exit();
+            $params['debug'] = App::getParams('debug');
+
+            $resp = App::$view->render( TEMPLATE_ERROR, $params );
+
+            App::$response->setContent( $resp );
+
+            App::display();
+        }
     }
 }

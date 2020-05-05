@@ -3,13 +3,12 @@
 namespace app\_\components;
 
 use app\_\App;
-use app\_\base\BaseComponent;
 
 /**
  * Class Route
  * @package app\_\components
  */
-class Route extends BaseComponent
+class Route extends Core
 {
     /** @var string строка URI запроса */
     public $request = '';
@@ -36,6 +35,8 @@ class Route extends BaseComponent
      */
     function __construct( $params )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         parent::__construct( $params );
 
         $this->setRules( $params[ 'routes' ] );
@@ -50,6 +51,8 @@ class Route extends BaseComponent
      */
     public function setRules( $rules )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         if ( count($rules) )
         {
             $this->rules = $rules;
@@ -61,6 +64,8 @@ class Route extends BaseComponent
      */
     private function setRequest()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->request = ( App::$request->uri !== SLASH )
             ? substr( App::$request->uri, 1 )
             : SLASH;
@@ -71,6 +76,8 @@ class Route extends BaseComponent
      */
     private function checkRules()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         foreach ( $this->rules as $uri => $params )
         {
             if ( $this->checkMatch( $this->request, $uri ) )
@@ -104,6 +111,8 @@ class Route extends BaseComponent
      */
     private function checkMatch( $request, $rule )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         return ( $request === $rule );
     }
 }

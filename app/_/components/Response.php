@@ -2,13 +2,11 @@
 
 namespace app\_\components;
 
-use app\_\base\BaseComponent;
-
 /**
  * Class Response
  * @package app\_\components
  */
-class Response extends BaseComponent
+class Response extends Core
 {
     /** Возможные форматы ответа */
     const FORMAT_HTML  = 'text/html';
@@ -21,6 +19,10 @@ class Response extends BaseComponent
 
     /** @var string формат ответа */
     public $format = '';
+
+    /** @var string код ответа */
+    public $code = DEFAULT_CODE;
+
 
     /** @var string кодировка ответа */
     private $charset = DEFAULT_CHARSET;
@@ -45,6 +47,8 @@ class Response extends BaseComponent
      */
     public function sendHeaders()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         foreach ( $this->headers as $header )
         {
             $this->header( $header );
@@ -76,6 +80,8 @@ class Response extends BaseComponent
      */
     public function setCharset( $charset )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->charset = $charset;
     }
 
@@ -90,6 +96,8 @@ class Response extends BaseComponent
      */
     public function addHeader( $header, $replace = true, $code = null  )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->headers[] = [ $header, $replace, $code ];
     }
 
@@ -98,6 +106,8 @@ class Response extends BaseComponent
      */
     public function noCache()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->addHeader("Pragma: no-cache");
     }
 
@@ -109,6 +119,8 @@ class Response extends BaseComponent
      */
     public function redirect( $uri = '/', $code = 301 )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->header("Location: {$uri}",TRUE, $code );
     }
 
@@ -135,6 +147,8 @@ class Response extends BaseComponent
      */
     public function setContent( $content, $append = false )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->content = ( $append )
             ? $this->content . $content
             : $content;
@@ -149,6 +163,8 @@ class Response extends BaseComponent
      */
     public function getContent()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         return $this->content;
     }
 }

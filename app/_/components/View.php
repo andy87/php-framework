@@ -3,13 +3,12 @@
 namespace app\_\components;
 
 use app\_\App;
-use app\_\base\BaseComponent;
 
 /**
  * Class View
  * @package app\_\components
  */
-class View extends BaseComponent
+class View extends Core
 {
     // метки позиционирования подключаемых JS файлов
     const POS_HEAD      = 0;
@@ -31,7 +30,7 @@ class View extends BaseComponent
     /** @var array массив подключаемых JS файлов */
     private $js  = [
         'include'   => [],
-        'asset'     => []
+        'asset'     => [],
     ];
 
     /** @var array данные для формирования Меты */
@@ -40,18 +39,20 @@ class View extends BaseComponent
     /** @var array стандартные опции подключаемых JS файлов */
     private $defaultJsOptions = [
         'position'  => self::POS_FOOTER,
-        'depends'   => null
+        'depends'   => null,
     ];
 
     /** @var string дирректория в которой хранятся обёртки */
     public $layoutDir   = '@views/_layouts/';
 
-    /** @var string имя обёртки исполоьзуемой при render() */
+    /** @var string имя обёртки исполоьзуемой при выводе контента */
     public $layout      = 'main';
 
 
     function __construct($params = [])
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         parent::__construct($params);
     }
 
@@ -64,6 +65,8 @@ class View extends BaseComponent
      */
     public function registerJsFile( $path, $option = [], $id = '' )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         if ( is_string($option) )
         {
             $id = $option;
@@ -88,6 +91,8 @@ class View extends BaseComponent
      */
     public function registerCssFile( $path )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->css[] = $path;
     }
 
@@ -96,6 +101,8 @@ class View extends BaseComponent
      */
     public function registerMeta( $meta )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->meta[] = $meta;
     }
 
@@ -108,20 +115,17 @@ class View extends BaseComponent
      */
     public function render( $pathTemplate = '', $params = [] )
     {
-        $resp = '';
+        Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        if ( strpos( $pathTemplate, DOG) === false )
+        if ( strpos( $pathTemplate, DOG) !== false )
         {
-            $pathTemplate = '@views' . SLASH . App::$route->controller . SLASH. $pathTemplate;
+            $pathTemplate = App::getAlias( $pathTemplate );
         }
 
-        $pathTemplate = App::getAlias( $pathTemplate );
-
-        if ( strpos($pathTemplate, TEMPLATE_FORMAT) == false )
+        if ( strpos($pathTemplate, TEMPLATE_FORMAT) === false )
         {
             $pathTemplate .= TEMPLATE_FORMAT;
         }
-
 
         if ( ! file_exists( $pathTemplate ) )
         {
@@ -132,28 +136,13 @@ class View extends BaseComponent
             $this->exception( $error );
         }
 
-        try {
-
-            extract($params);
-
-            ob_start();
-
-            require_once $pathTemplate;
-
-            $resp = ob_get_contents();
-
-            ob_end_clean();
-
-        } catch ( \Exception $e ) {
-
-            $this->exception( $e->getMessage() );
-        }
-
-        return $resp;
+        return $this->renderFile( $pathTemplate, $params );
     }
 
     public function head()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         echo $this->renderMeta();
         echo $this->renderCss();
         echo $this->renderJs( View::POS_HEAD );
@@ -161,17 +150,23 @@ class View extends BaseComponent
 
     public function body()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         echo $this->renderJs( View::POS_BODY );
     }
 
     public function footer()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         echo $this->renderJs( View::POS_FOOTER );
     }
 
 
     private function renderMeta()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         foreach ( $this->meta as $attributes )
         {
             echo Html::meta( $attributes );
@@ -180,6 +175,8 @@ class View extends BaseComponent
 
     private function renderCss()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         foreach ( $this->css as $fileCss )
         {
             echo Html::link( $fileCss );
@@ -188,7 +185,9 @@ class View extends BaseComponent
 
     private function renderJs( $position = 0 )
     {
-       foreach ( $this->js['asset'] as $id => $dataJS )
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        foreach ( $this->js['asset'] as $id => $dataJS )
         {
             $pos        = $dataJS[1]['position'];
             $fileJS     = $dataJS[0]; // path
@@ -203,6 +202,8 @@ class View extends BaseComponent
 
     private function appendJS( $id = '', $path = '', $position = 0, $depends = '' )
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         if ( !empty($depends) )
         {
             if ( !in_array( $depends, $this->js['include']) )
@@ -222,6 +223,8 @@ class View extends BaseComponent
 
     public function jQueryInit()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $this->registerJsFile( SRC_JQUERY_MIN, 'jQuery' );
     }
 }

@@ -20,30 +20,36 @@ class Controller extends Web
 
     /**
      * Controller constructor.
-     *
-     * @param $params array
      */
-    function __construct( $params )
+    public function init()
     {
-        parent::__construct( $params );
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
+        $this->setTarget();
 
         /** @var Action action */
-        $this->action       = new Action( $params );
+        $this->action       = new Action( App::$params );
+    }
+
+    private function setTarget()
+    {
+        $this->target = $this->id . CONTROLLER_SUFFIX;
     }
 
     /**
      *      Получить правильное имя контроллера
      *
      * @param string $name
+     * @param bool $full        // включая namespace
      * @return string
      */
-    public function getClass( $name = '' )
+    public function getClass( $name = '', $full = true )
     {
-        $className = ( empty($name) )
-            ? $this->id
-            : $name;
+        Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        $className = CONTROLLER_NAMESPACE . $className . CONTROLLER_SUFFIX;
+        $className  = ( empty($name) ) ? $this->id : $name;
+        $className .= ( $full ) ?  CONTROLLER_NAMESPACE : '';
+        $className .= $className . CONTROLLER_SUFFIX;
 
         return $className;
     }
@@ -55,6 +61,8 @@ class Controller extends Web
      */
     public function isExist()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $classFilePath = App::$alias['root'] . SLASH . $this->getClass() . PHP;
         $classFilePath = self::slashReplace($classFilePath);
 
@@ -68,6 +76,8 @@ class Controller extends Web
      */
     public function accessRules()
     {
+        Runtime::log(static::class, __METHOD__, __LINE__ );
+
         $result = true;
 
         $method = App::$request->method;

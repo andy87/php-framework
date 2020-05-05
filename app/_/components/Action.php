@@ -13,15 +13,17 @@ class Action extends Web
     /** @var string  */
     public $error   = '';
 
-    public function init()
+    /**
+     * Action constructor.
+     * @param array $params
+     */
+    public function init( $params = [])
     {
-        parent::init();
-
-        $this->test( App::$route->action );
-
         $this->id = ( $this->isExist() )
             ? App::$route->action
             : ACTION_ERROR;
+
+        $this->setTarget();
     }
 
     /**
@@ -36,6 +38,12 @@ class Action extends Web
         $action     = ( !empty($actionName) ) ? $actionName : $this->getName();
 
         return method_exists( $controller, $action );
+    }
+
+
+    private function setTarget()
+    {
+        $this->target = ACTION_PREFIX . $this->id;
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace app\_\components\library;
+namespace app\_\helpers;
 
 use app\_\components\Library;
 
 /**
- * Class Cookie
+ * Class Session
  * @package app\_\components\library
  */
-class Cookie extends Library
+class Session extends Library
 {
     //...
 }
