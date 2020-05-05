@@ -177,25 +177,25 @@ class App extends Core
         if ( !self::$controller->exists )
         {
             $this->exception( [
-                'message'       => 'Controller not found.',
-                'error'         => "Controller ID: " . self::$controller->id
+                'error'         => 'Controller not found.',
+                'message'       => "Controller ID: " . self::$controller->target
             ], 404);
         }
 
         if ( !self::$controller->action->exists )
         {
             $this->exception( [
-                'message'       => 'Action not found.',
-                'error'         => "Action ID: " . self::$controller->action->id
+                'error'         => 'Action not found.',
+                'message'       => "Action ID: " . self::$controller->action->target
             ], 404);
         }
 
-        $classController = self::$controller->getClass();
+        $classController = CONTROLLER_NAMESPACE . self::$controller->target;
 
         /** @var BaseController $controller */
         $controller = new $classController( self::$params );
 
-        $action     = self::$controller->action->getName();
+        $action     = self::$controller->action->target;
 
         try
         {
@@ -259,10 +259,7 @@ class App extends Core
     {
         Runtime::log(static::class, __METHOD__, __LINE__ );
 
-        if ( isset(self::$params['request']['runtime']) AND self::$params['request']['runtime'] == true )
-        {
-            Runtime::load();
-        }
+        if ( Runtime::$status ) Runtime::push();
 
         $resp = self::$response->getContent();
 

@@ -42,13 +42,13 @@ class Runtime extends Core
         $method = array_pop( explode('::', $method ) );
         $class  = array_pop( explode('\\', $class ) );
 
-        self::$log[] = implode('; ', [ date("d.m.Y H:i:s"), $line, "$class::$method()" ]) . RN;
+        self::$log[] = implode('; ', [ self::time(), $line, "$class::$method()" ]) . RN;
     }
 
     /**
-     *
+     *      Заполнение файла app.log данными
      */
-    public static function  load()
+    public static function  push()
     {
         if ( !self::$fileExists )
         {
@@ -56,27 +56,34 @@ class Runtime extends Core
 
             fopen( self::$path, "a+" );
 
-            self::$fileExists = file_exists(self::$path);
+            self::$fileExists = file_exists( self::$path );
         }
 
         if ( self::$fileExists )
         {
             $fileLog = fopen( self::$path, "a+");
 
-
             if ( $fileLog )
             {
-                $firstLogRow = RN .RN . date("d.m.Y H:i:s") . ' ' . App::$request->method . ' | ' . App::$request->uri . RN;
+                $firstLogRow = RN .RN . self::time() . ' ' . App::$request->method . ' | ' . App::$request->uri . RN;
 
                 fwrite( $fileLog, $firstLogRow );
 
-                foreach ( self::$log as $log )
-                {
-                    fwrite( $fileLog, $log );
-                }
+                foreach ( self::$log as $log ) fwrite( $fileLog, $log );
 
                 fclose($fileLog);
             }
         }
+    }
+
+    /**
+     *      Временная метка в логах
+     *
+     * @param string $format
+     * @return false|string
+     */
+    private static function time( $format = "d.m.Y H:i:s" )
+    {
+        return date( $format );
     }
 }
