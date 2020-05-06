@@ -1,6 +1,6 @@
 <?php
 
-namespace app\_\helpers;
+namespace app\_\components\main;
 
 use app\_\App;
 use app\_\components\Web;

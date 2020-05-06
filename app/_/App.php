@@ -8,8 +8,8 @@ use app\_\components\main\Request;
 use app\_\components\main\Route;
 use app\_\components\main\Response;
 use app\_\components\main\View;
+use app\_\components\main\Controller;
 use app\_\base\BaseController;
-use app\_\helpers\Controller;
 
 /**
  * Class App
