@@ -2,7 +2,7 @@
 
 spl_autoload_register( function( $class )
 {
-    $classPath = "{$GLOBALS['root']}\\app\\$class" . PHP;
+    $classPath = "{$_SERVER['DOCUMENT_ROOT']}\\app\\$class" . PHP;
 
     if ( file_exists( $classPath ) )
     {
