@@ -161,7 +161,7 @@ server {
 - Namespace'ы начинаются с `_` (нижнего подчёркивания)  
 - Всё "мясо" фреймворка лежит в дирректории `app`  
 - правила роутинга настрайваются в `app/config/routes.php`
-- контроллеры/экшоны в `routes.php` указываются в `lowercase`, при имени `CamelCase` через тире  
+- контроллеры/экшоны в `routes.php` указываются в `lowercase`, при имени контроллера/экшона `CamelCase` имя пишется через тире  
 **Пример:** роут `uri => main-server/restart-now` вызовит контроллер `MainServerController` экшон `actionRestartNow` 
 - Настройки подключения для домена настрайваются в `app/config/setups/ {HOST_NAME} .php`    
 - Models настледуется от `BaseModels`  
@@ -204,7 +204,7 @@ server {
 
 ### Логика приложения
 
-Запрос попадает в точку входа `index.php`  
+Запрос попадает в точку входа `main.php`  
 Создаёть экземпляр класса [App()](/app/_/guide/ru/App.md)  
 Устанавливаются все свойства [App()](/app/_/guide/ru/App.md)  
 В экземпляре класса [Route()](/app/_/guide/ru/Route.md)   
@@ -221,8 +221,7 @@ server {
 - устанавливается свойство [$target](/app/_/guide/ru/Action.md#params_target)  
 
 Создаётся экземпляр пользовательского контроллера по имени [Controller](/app/_/guide/ru/Controller.md)::[$target](/app/_/guide/ru/Controller.md#params_target). 
-далее у пользовательского контроллера последовательно вызывается методы:  
-у контроллера [Controller](/app/_/guide/ru/Controller.md)::[$target](/app/_/guide/ru/Controller.md#params_target) последовательно вызывается методы:  
+далее у пользовательского контроллера последовательно вызывается методы:   
 - [init()](/app/_/guide/ru/Controller.md#method_init)   
 - [rules()](/app/_/guide/ru/Controller.md#method_rules)   
 - [beforeAction()](/app/_/guide/ru/Controller.md#method_beforeAction)  
@@ -232,7 +231,7 @@ server {
  исходя из формата ответа ( 
 [App](/app/_/guide/ru/App.md)::[$response](/app/_/guide/ru/Response.md)->[format](/app/_/guide/ru/Response.md#params_format))  
  
- Совершает действие:
+ Совершается действие:
  * в браузер отдаётся текст
  * совершает редирект
 
