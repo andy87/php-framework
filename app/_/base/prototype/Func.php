@@ -112,9 +112,9 @@ trait Func
     {
         $resp = '';
 
-        try {
+        extract( $params );
 
-            extract( $params );
+        try {
 
             ob_start();
 

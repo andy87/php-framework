@@ -44,6 +44,7 @@ class Route extends Core
         $this->setRequest();
 
         $this->checkRules();
+
     }
 
 

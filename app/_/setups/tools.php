@@ -1,5 +1,8 @@
 <?php
 
+/**
+ *      Ввтозагрузка классов
+ */
 spl_autoload_register( function( $class )
 {
     $classPath = DOCUMENT_ROOT . "\\app\\$class" . PHP;
@@ -15,7 +18,7 @@ spl_autoload_register( function( $class )
 });
 
 /**
- *
+ *      Занрузка конфига "приватных реквизитов"
  */
 function setups()
 {
@@ -23,6 +26,8 @@ function setups()
 }
 
 /**
+ *      получение данных из параметров
+ *
  * @param $key
  * @param array $arr
  * @return array

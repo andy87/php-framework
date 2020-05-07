@@ -36,8 +36,8 @@ class ColorGradientController extends BaseController
             'to'            => "#000",
             'controller_id' => $this->id,
             'block'         => $this->render( 'block', [
-                'text' => "test"
-            ] )
+                'text'          => "test"
+            ])
         ];
 
         return $this->render( 'linear-gradient', $data );

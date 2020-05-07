@@ -117,6 +117,10 @@ class View extends Core
         if ( strpos( $pathTemplate, DOG ) !== false )
         {
             $pathTemplate = App::getAlias( $pathTemplate );
+
+        } else {
+
+            $pathTemplate = App::getAlias('@views/' . App::$controller->id . SLASH . $pathTemplate );
         }
 
         if ( strpos( $pathTemplate, TEMPLATE_FORMAT ) === false )

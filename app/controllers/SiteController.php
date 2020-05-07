@@ -19,15 +19,37 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-
         $data = [
-            'user'      => "user",
-            'username'  => "username",
+            'class'      => __CLASS__,
+            'method'  => __METHOD__,
         ];
 
         return $this->render( 'index', $data );
     }
+    /**
+     * @return string
+     */
+    public function actionLogin()
+    {
+        $data = [
+            'class'      => __CLASS__,
+            'method'  => __METHOD__,
+        ];
 
+        return $this->render( 'login', $data );
+    }
+    /**
+     * @return string
+     */
+    public function actionContact()
+    {
+        $data = [
+            'class'      => __CLASS__,
+            'method'  => __METHOD__,
+        ];
+
+        return $this->render( 'contact', $data );
+    }
     /**
      * @return string
      */
