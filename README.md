@@ -160,17 +160,18 @@ server {
 - Namespace'ы начинаются с `_` (нижнего подчёркивания)  
 - Всё "мясо" фреймворка лежит в дирректории `app`  
 - правила роутинга настрайваются в `app/config/routes.php`
+- контроллеры/экшоны в `routes.php` указываются в `lowercase`, при имени `CamelCase` через тире  
+**Пример:** роут `uri => main-server/restart-now` вызовит контроллер `MainServerController` экшон `actionRestartNow` 
 - Настройки подключения для домена настрайваются в `app/config/setups/ {HOST_NAME} .php`    
 - Models настледуется от `BaseModels`  
 - Controller настледуется от `BaseController`  
 - Имена Controller'ов имеют суфикс `Controller`  
-**Пример:** контроллер `Main` имеет имя файла сласса `MainController`  
+**Пример:** контроллер `Main` имеет имя файла класса `MainController`  
 - Имена Action'ов имеют префикс `action`  
 **Пример:** экшон `Login` имеет имя метода `actionLogin`  
-- при имени `CamelCase` контроллеров/экшонов в `routes.php` они указываются в `lowercase` через тире  
-**Пример:** роут `uri => main-server/restart-now` вызовит контроллер `MainServerController` экшон `actionRestartNow`  
-
-
+- экшон должен вернуть  
+-- для вывода **HTML** - результат **render()**  
+-- для вывода **JSON** - возвращать **renderJson()** либо **return array**  
 
 
 #### Логика приложения
