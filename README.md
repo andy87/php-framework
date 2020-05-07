@@ -174,19 +174,23 @@ server {
 
 
 ### Генерация файлов
-Из консоли используя `cd` направляемся в дирректорию `app` в ней используем для генерации фалйов, следующие команды: 
+Из консоли используя `cd` направляемся в дирректорию `app` в ней используем для генерации файлов, следующие команды: 
 
-##### Генерация контроллера  
-`_ create/controller Profile` 
- 
-##### Генерация представления/шаблона  
-`_ create/view landing main` 
+- **Генерация контроллера**  
+`_ create/controller MyProfile`  
+Будет сгенерирован файл: */app/controllers/MyProfileController.php* ([шаблон](/app/_/templates/generator/controller.tpl))  
 
-##### Генерация модели  
-`_ create/model Access`  
- 
-##### Генерация модуля  
+- **Генерация представления/шаблона**  
+`_ create/view landingPage mainPAge`  
+Будет сгенерирован файл: */app/views/landing-page/main-page.php* ([шаблон](/app/_/templates/generator/view.tpl))  
+
+- **Генерация модели**  
+`_ create/model BestCar table_car`  
+Будут сгенерированы 2 файла: */app/models/source/BestCar.php* ([шаблон](/app/_/templates/generator/model-source.tpl)), */app/models/BestCar.php* ([шаблон](/app/_/templates/generator/model.tpl))  
+
+- **Генерация модуля**  
 `_ create/module Test`  
+Будет сгенерирован файл: */app/modules/Test.php* ([шаблон](/app/_/templates/generator/module.tpl))  
 
 ### Логика приложения
 
