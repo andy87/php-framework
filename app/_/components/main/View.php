@@ -143,9 +143,9 @@ class View extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        echo $this->renderMeta();
-        echo $this->renderCss();
-        echo $this->renderJs( View::POS_HEAD );
+        echo $this->displayMeta();
+        echo $this->displayCss();
+        echo $this->displayJs( View::POS_HEAD );
 
         echo App::$app->head();
     }
@@ -157,7 +157,7 @@ class View extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        echo $this->renderJs( View::POS_BODY );
+        echo $this->displayJs( View::POS_BODY );
         echo App::$app->body();
     }
 
@@ -168,7 +168,7 @@ class View extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        echo $this->renderJs( View::POS_FOOTER );
+        echo $this->displayJs( View::POS_FOOTER );
 
         echo App::$app->footer();
     }
@@ -177,7 +177,7 @@ class View extends Core
     /**
      *      Вывод всех <meta>
      */
-    private function renderMeta()
+    private function displayMeta()
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
@@ -190,7 +190,7 @@ class View extends Core
     /**
      *      Вывод всех CSS
      */
-    private function renderCss()
+    private function displayCss()
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
@@ -205,7 +205,7 @@ class View extends Core
      *
      * @param int $position
      */
-    private function renderJs( $position = 0 )
+    private function displayJs( $position = 0 )
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 

@@ -2,12 +2,13 @@
 
 use _\App;
 
-session_start();
-error_reporting( E_ALL );
+define('ERROR_LEVEL' , E_ALL & ~E_NOTICE );
+
+error_reporting( ERROR_LEVEL );
 
 $root = str_replace( '\app', '', __DIR__ );
 
-require "_/setups/autoload.php";
+require "_/setups/init.php";
 require "config/params.php";
 
 ( $app = new App( $params ) )->init();

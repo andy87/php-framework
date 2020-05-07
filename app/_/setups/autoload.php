@@ -1,7 +1,5 @@
 <?php
 
-require "const.php";
-
 spl_autoload_register( function( $class )
 {
     $classPath = "{$GLOBALS['root']}\\app\\$class" . PHP;
