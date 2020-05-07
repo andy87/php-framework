@@ -7,6 +7,10 @@ spl_autoload_register( function( $class )
     if ( file_exists( $classPath ) )
     {
         require_once $classPath;
+
+    } else {
+
+        Exit("Страшный эррор! File not found: {$classPath}");
     }
 });
 

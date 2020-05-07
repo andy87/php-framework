@@ -1,7 +1,5 @@
 <?php
 
-echo file_get_contents("php://input");
-
 use _\App;
 
 define('ERROR_LEVEL' , E_ALL & ~E_NOTICE );
