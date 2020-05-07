@@ -192,6 +192,14 @@ server {
 `_ create/module Test`  
 Будет сгенерирован файл: */app/modules/Test.php* ([шаблон](/app/_/templates/generator/module.tpl))  
 
+- **Генерация модуля**  
+`_ create/migrate Skill`  
+можно добавить дполнительные параматры `Имя таблицы`, `Комментарий к таблице`  
+**Пример:** `_ create/migrate Skill table_name "Комментарий к таблице"`  
+Будет сгенерирован файл: */app/migrations/m000000_000000_Test.php* ([шаблон](/app/_/templates/generator/migration.tpl))  
+
+
+
 ### Логика приложения
 
 Запрос попадает в точку входа `index.php`  

@@ -37,7 +37,9 @@ trait Func
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return str_replace( SLASHER, SLASH, $str );
+        $form   = [ SLASHER, '\\', '//' ];
+
+        return str_replace( $form, SLASH, $str );
     }
 
     /**

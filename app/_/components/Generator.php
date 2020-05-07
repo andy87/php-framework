@@ -15,12 +15,14 @@ class Generator extends Core
     const TPL_MODEL         = DIR_TEMPLATES . 'generator/model.tpl';
     const TPL_MODEL_SOURCE  = DIR_TEMPLATES . 'generator/model-source.tpl';
     const TPL_MODULE        = DIR_TEMPLATES . 'generator/module.tpl';
+    const TPL_MIGRATION     = DIR_TEMPLATES . 'generator/migration.tpl';
     const TPL_VIEW          = DIR_TEMPLATES . 'generator/view.tpl';
 
     const DIR_CONTROLLER    = DIR_APP . '/controllers/';
     const DIR_MODEL         = DIR_APP . '/models/';
     const DIR_MODEL_SOURCE  = DIR_APP . '/models/source/';
     const DIR_MODULE        = DIR_APP . '/modules/';
+    const DIR_MIGRATION     = DIR_APP . '/migrations/';
     const DIR_VIEW          = DIR_APP . '/views/';
 
     /**
@@ -123,6 +125,35 @@ class Generator extends Core
         // Генерация model
         $path       = self::DIR_MODEL . $modelName . PHP;
         $content    = File::generateContent( self::TPL_MODEL, $params );
+        return ( File::generateFile( $path, $content ) ) ? $path : null;
+    }
+
+
+    /**
+     *      Генерация `Migration` по шаблону `app/_/templates/generator/migration`
+     *
+     *          php _ create/migration name
+     *
+     * @param string $migrationName
+     * @param string $tableName
+     * @param string $tableComment
+     * @return bool
+     */
+    public function generateMigration( $migrationName, $tableName = '', $tableComment = '' )
+    {
+        $migrationName = self::normalizeName($migrationName);
+
+        $params     = [
+            'migrationName'     => $migrationName,
+            'migrationClass'    => 'm_' . date("ymd_His") . '_' . $migrationName,
+            'tableName'         => $tableName,
+            'tableComment'      => $tableComment,
+        ];
+
+        $path       = self::slashReplace( self::DIR_MIGRATION . $params['migrationClass'] . PHP );
+
+        $content    = File::generateContent( self::TPL_MIGRATION, $params );
+
         return ( File::generateFile( $path, $content ) ) ? $path : null;
     }
 }
