@@ -196,7 +196,7 @@ server {
 `_ create/migrate Skill`  
 можно добавить дполнительные параматры `Имя таблицы`, `Комментарий к таблице`  
 **Пример:** `_ create/migrate Skill table_name "Комментарий к таблице"`  
-Будет сгенерирован файл: */app/migrations/m000000_000000_Test.php* ([шаблон](/app/_/templates/generator/migration.tpl))  
+Будет сгенерирован файл: */app/migrations/m000000_000000_Skill.php* ([шаблон](/app/_/templates/generator/migration.tpl))  
 
 
 
