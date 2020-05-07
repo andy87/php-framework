@@ -1,3 +1,5 @@
+AddDefaultCharset utf-8
+
 <IfModule mod_autoindex.c>
    Options -Indexes
 </IfModule>
@@ -7,14 +9,15 @@
    Options +FollowSymlinks
    RewriteEngine On
 
-   RewriteCond %{REQUEST_URI}      ^/(js|css|img|docs|fonts)
+   RewriteCond %{REQUEST_URI}      ^/(js|css|img|docs|fonts|static)
    RewriteRule ^js/(.*)$            app/static/js/$1       [L]
    RewriteRule ^css/(.*)$           app/static/css/$1      [L]
    RewriteRule ^img/(.*)$           app/static/img/$1      [L]
    RewriteRule ^docs/(.*)$          app/static/docs/$1     [L]
    RewriteRule ^fonts/(.*)$         app/static/fonts/$1    [L]
+   RewriteRule ^static/(.*)$        app/static/$1    [L]
 
-   RewriteCond %{REQUEST_URI}       !^/app/static/(js|css|img|docs|fonts)/
+   RewriteCond %{REQUEST_URI}       !^/app/static/
    RewriteCond %{REQUEST_FILENAME}  !favicon.ico
 
    RewriteCond %{REQUEST_FILENAME}  !-f [OR]
@@ -23,3 +26,10 @@
    RewriteRule ^(.*)$               app/$1
 
 </IfModule>
+
+ErrorDocument 403 /app/_/templates/errors/403.php
+ErrorDocument 404 /app/_/templates/errors/404.php
+ErrorDocument 500 /app/_/templates/errors/500.php
+ErrorDocument 502 /app/_/templates/errors/502.php
+ErrorDocument 504 /app/_/templates/errors/504.php
+ErrorDocument 508 /app/_/templates/errors/508.php
