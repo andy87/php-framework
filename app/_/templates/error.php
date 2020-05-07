@@ -51,14 +51,24 @@ $params = App::params();
         <hr>
 
         <p>
-            <? print_r( trim( $message ) ); ?>
+            <? print_r( $message ); ?>
         </p>
+    <? endif; ?>
+
+    <? if ( isset( $context ) ) : ?>
+        <hr>
+
+        <h5>Context</h5>
+        <pre>
+            <? print_r( $context ); ?>
+        </pre>
     <? endif; ?>
 
     <? if ( $debug ) : ?>
 
         <? if ( $debug > 0 ) : ?>
             <hr>
+            <h5>included_files</h5>
             <pre>
                 <? print_r( get_included_files() ); ?>
             </pre>
@@ -66,6 +76,7 @@ $params = App::params();
 
         <? if ( $debug > 1 ) : ?>
             <hr>
+            <h5>$params</h5>
             <pre>
                 <? print_r( $params ); ?>
             </pre>
@@ -73,6 +84,7 @@ $params = App::params();
 
         <? if ( $debug > 2 ) : ?>
             <hr>
+            <h5>debug_backtrace</h5>
             <pre>
                 <? print_r( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ) ); ?>
             </pre>
