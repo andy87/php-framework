@@ -1,15 +1,15 @@
 <?php
 
-namespace app\_;
+namespace _;
 
-use app\_\base\Core;
-use app\_\components\Runtime;
-use app\_\components\main\Request;
-use app\_\components\main\Route;
-use app\_\components\main\Response;
-use app\_\components\main\View;
-use app\_\components\main\Controller;
-use app\_\base\BaseController;
+use _\base\Core;
+use _\components\Runtime;
+use _\components\main\Request;
+use _\components\main\Route;
+use _\components\main\Response;
+use _\components\main\View;
+use _\components\main\Controller;
+use _\base\BaseController;
 
 /**
  * Class App
@@ -51,7 +51,7 @@ class App extends Core
      */
     function __construct( $params )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         parent::__construct( $params );
 
@@ -74,7 +74,7 @@ class App extends Core
         /** @var View controller */
         self::$view         = new View( $params );
 
-        self::setCharset( self::getParams('charset', DEFAULT_CHARSET ) );
+        self::setCharset( self::getParams( 'charset', DEFAULT_CHARSET ) );
 
         self::$response->cache();
     }
@@ -89,9 +89,9 @@ class App extends Core
      */
     private function initParams( $params )
     {
-        Runtime::$status = (isset(self::$params['request']['runtime']) AND self::$params['request']['runtime'] == true);
+        Runtime::$status = ( isset( self::$params['request']['runtime'] ) AND self::$params['request']['runtime'] == true );
 
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->setAlias( $params['alias'] );
     }
@@ -104,28 +104,28 @@ class App extends Core
      */
     private function setAlias( $aliases )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         self::$alias = $aliases;
 
         self::$alias[ "system" ] = '=========';
 
-        self::$alias['@app']        = self::getAlias('@root/app' );
-        self::$alias['@_']        = self::getAlias('@app/_' );
+        self::$alias['@app']        = self::getAlias( '@root/app' );
+        self::$alias['@_']          = self::getAlias( '@app/_' );
 
-        self::$alias['@runtime']    = self::getAlias('@_/runtime' );
-        self::$alias['@cache']      = self::getAlias('@runtime/cache' );
+        self::$alias['@runtime']    = self::getAlias( '@_/runtime' );
+        self::$alias['@cache']      = self::getAlias( '@runtime/cache' );
 
         foreach ( DIRECTORY_APP as $dir )
         {
-            self::$alias[ "@{$dir}" ] = self::slashReplace(self::$alias['@app'] . SLASH . $dir );
+            self::$alias[ "@{$dir}" ] = self::slashReplace( self::$alias['@app'] . SLASH . $dir );
         }
 
         self::$alias[ "static" ] = '=========';
 
         foreach ( DIRECTORY_STATIC as $static )
         {
-            self::$alias[ "@{$static}" ] = self::slashReplace(self::$alias['@app'] . SLASH . $static );
+            self::$alias[ "@{$static}" ] = self::slashReplace( self::$alias['@app'] . SLASH . $static );
         }
     }
 
@@ -137,17 +137,17 @@ class App extends Core
      */
     public static function getAlias( $path )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $resp = self::slashReplace( $path );
 
         if ( strpos( $path, DOG ) === 0 )
         {
-            $data   = explode(SLASH, $path );
+            $data   = explode( SLASH, $path );
 
-            $alias  = array_shift($data );
+            $alias  = array_shift( $data );
 
-            $resp   = str_replace($alias, self::$alias[ $alias ], $path );
+            $resp   = str_replace( $alias, self::$alias[ $alias ], $path );
         }
 
         return $resp;
@@ -160,7 +160,7 @@ class App extends Core
      */
     public static function setCharset( $charset )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         self::$view->charset = $charset;
         self::$response->setCharset( $charset );
@@ -173,9 +173,9 @@ class App extends Core
      */
     public static function getParams( $key, $default = null )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return ( isset(self::$params[ $key ]) ) ? self::$params[ $key ] : $default;
+        return ( isset( self::$params[ $key ] ) ) ? self::$params[ $key ] : $default;
     }
 
     /**
@@ -183,80 +183,83 @@ class App extends Core
      */
     public function init()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__);
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if (!self::$controller->exists) {
-            $this->exception([
+        if ( !self::$controller->exists )
+        {
+            $this->exception( [
                 'error' => 'Controller not found.',
                 'message' => "Controller ID: " . self::$controller->target
-            ], 404);
+            ], 404 );
         }
 
-        if (!self::$controller->action->exists) {
-            $this->exception([
+        if ( !self::$controller->action->exists )
+        {
+            $this->exception( [
                 'error' => 'Action not found.',
                 'message' => "Action ID: " . self::$controller->action->target
-            ], 404);
+            ], 404 );
         }
 
         $classController = CONTROLLER_NAMESPACE . self::$controller->target;
 
         /** @var BaseController $controller */
-        $controller = new $classController(self::$params);
+        $controller = new $classController( self::$params );
         self::$app = $controller;
 
         $action = self::$controller->action->target;
 
-        try {
-            if (count($rules = $controller->rules())) {
+        try
+        {
+            if ( count( $rules = $controller->rules() ) )
+            {
                 self::$controller->rules = $rules;
 
-                if (($error = self::$controller->accessRules()) !== true) {
-                    $this->exception($error, 403);
+                if ( ( $error = self::$controller->accessRules() ) !== true )
+                {
+                    $this->exception( $error, 403 );
                 }
             }
 
             $controller->beforeAction();
 
-            if (self::$request->hasArguments()) {
+            if ( self::$request->hasArguments() )
+            {
                 $arguments = self::$request->getArguments();
 
-                $resp = $controller->{$action}($arguments);
+                $resp = $controller->{$action}( $arguments );
 
             } else {
 
                 $resp = $controller->{$action}();
             }
 
-            if ($this->isResponseWrap()) {
+            if ( $this->isResponseWrap() )
+            {
                 $pathTemplateLayout = self::$view->layoutDir . self::$view->layout;
 
-                $resp = self::$view->render($pathTemplateLayout, [
+                $resp = self::$view->render( $pathTemplateLayout, [
                     'content' => $resp
-                ]);
+                ] );
             }
 
-            self::$response->setContent($resp);
+            self::$response->setContent( $resp );
 
             $controller->afterAction();
 
-        } catch (\Exception $e) {
+        } catch ( \Exception $e ){
 
             //TODO: обработчик ошибок https://habr.com/ru/post/440744/
-            $controller = new BaseController([]);
-            $resp = $controller->actionError([
+            $controller = new BaseController( [] );
+            $resp = $controller->actionError( [
                 'error' => $e->getCode(),
                 'message' => $e->getMessage(),
-            ]);
+            ] );
 
-            self::$response->setContent($resp);
+            self::$response->setContent( $resp );
         }
 
         $this->debug();
-
-        self::$response->sendHeaders();
-
-        self::$response->createCache( $resp );
     }
 
     /**
@@ -274,9 +277,9 @@ class App extends Core
      */
     public static function display()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( Runtime::$status ) Runtime::push();
+        Runtime::push();
 
         $resp = self::$response->getContent();
 
@@ -285,10 +288,14 @@ class App extends Core
             self::$response->redirect( $resp, 301 );
         }
 
-        if ( self::$response->format == Response::FORMAT_JSON || is_array($resp) )
+        if ( self::$response->format == Response::FORMAT_JSON || is_array( $resp ) )
         {
             $resp = json_encode( $resp );
         }
+
+        self::$response->sendHeaders();
+
+        self::$response->createCache( $resp );
 
         echo $resp;
 
@@ -303,9 +310,9 @@ class App extends Core
      */
     public static function params( $name = '' )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $paramsList = ( !empty($name) ) ? [$name] : array_keys(get_class_vars( App::class ));
+        $paramsList = ( !empty( $name ) ) ? [$name] : array_keys( get_class_vars( App::class ) );
 
         $resp = [];
 
@@ -322,13 +329,13 @@ class App extends Core
      */
     private function debug()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $key = 'debug';
 
-        if ( self::$request->get->_isset($key ) )
+        if ( self::$request->get->_isset( $key ) )
         {
-            $filter = self::$request->get->get($key, false );
+            $filter = self::$request->get->get( $key, false );
 
             if ( $filter )
             {
@@ -339,7 +346,7 @@ class App extends Core
                 $data = self::params();
             }
 
-            var_dump($data);
+            var_dump( $data );
 
             self::display();
         }

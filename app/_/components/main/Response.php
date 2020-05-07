@@ -1,10 +1,10 @@
 <?php
 
-namespace app\_\components\main;
+namespace _\components\main;
 
-use app\_\App;
-use app\_\base\Core;
-use app\_\components\Runtime;
+use _\App;
+use _\base\Core;
+use _\components\Runtime;
 
 /**
  * Class Response
@@ -53,7 +53,9 @@ class Response extends Core
      */
     public function sendHeaders()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
+        http_response_code( $this->code );
 
         foreach ( $this->headers as $header )
         {
@@ -85,6 +87,8 @@ class Response extends Core
      */
     public function cache()
     {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
         if ( !$this->cache ) return;
 
         $cacheFile = $this->cacheFilePath();
@@ -102,9 +106,11 @@ class Response extends Core
      */
     public function cacheFilePath()
     {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
         $cacheKey = $this->generateHash( App::$request->uri );
 
-        return App::getAlias('@runtime/cache/' . $cacheKey . PHP  );
+        return $this->pathCache( $cacheKey . PHP  );
     }
 
     /**
@@ -112,17 +118,50 @@ class Response extends Core
      */
     public function createCache( $resp )
     {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
         if ( $this->cache )
         {
             if ( ! file_exists( $cacheFilePath = $this->cacheFilePath() ) )
             {
-                $cacheFile = fopen( $cacheFilePath, "w");
+                $cacheFile = fopen( $cacheFilePath, "w" );
 
-                fputs($cacheFile,  $resp );
+                fputs( $cacheFile,  $resp );
 
-                fclose($cacheFile);
+                fclose( $cacheFile );
             }
         }
+    }
+
+    /**
+     *      Очиста дирректории с кешем
+     */
+    public function clearCache()
+    {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
+        $pathCache = $this->pathCache();
+
+        if ( is_dir( $pathCache ) )
+        {
+            foreach ( glob( "{$pathCache}*" ) as $file )
+            {
+                unlink( $file );
+            }
+        }
+    }
+
+    /**
+     *      Возвращает путь к дирректории содержащей кеш
+     *          если аргумент имя файла передан - вернёт путь к файлу
+     *
+     * @return string
+     */
+    public function pathCache( $file = '' )
+    {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
+        return App::getAlias( "@runtime/cache/{$file}" );
     }
 
 
@@ -133,7 +172,7 @@ class Response extends Core
      */
     public function setCharset( $charset )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->charset = $charset;
     }
@@ -149,7 +188,7 @@ class Response extends Core
      */
     public function addHeader( $header, $replace = true, $code = null  )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->headers[] = [ $header, $replace, $code ];
     }
@@ -159,9 +198,9 @@ class Response extends Core
      */
     public function noCache()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $this->addHeader("Pragma: no-cache");
+        $this->addHeader( "Pragma: no-cache" );
     }
 
     /**
@@ -172,9 +211,9 @@ class Response extends Core
      */
     public function redirect( $uri = '/', $code = 301 )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $this->header("Location: {$uri}",TRUE, $code );
+        $this->header( "Location: {$uri}",TRUE, $code );
     }
 
     /**
@@ -200,7 +239,7 @@ class Response extends Core
      */
     public function setContent( $content, $append = false )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->content = ( $append )
             ? $this->content . $content
@@ -216,7 +255,7 @@ class Response extends Core
      */
     public function getContent()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         return $this->content;
     }

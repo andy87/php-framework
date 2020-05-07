@@ -1,8 +1,8 @@
 <?php
 
-namespace app\_\helpers;
+namespace _\helpers;
 
-use app\_\components\Library;
+use _\components\Library;
 
 /**
  * Class Cookie

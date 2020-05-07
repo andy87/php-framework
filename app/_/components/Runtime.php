@@ -1,9 +1,9 @@
 <?php
 
-namespace app\_\components;
+namespace _\components;
 
-use app\_\App;
-use app\_\base\Core;
+use _\App;
+use _\base\Core;
 
 /**
  * Class Runtime
@@ -32,10 +32,10 @@ class Runtime extends Core
     {
         if ( !self::$status ) return;
 
-        $method = array_pop( explode('::', $method ) );
-        $class  = array_pop( explode('\\', $class ) );
+        $method = array_pop( explode( '::', $method ) );
+        $class  = array_pop( explode( '\\', $class ) );
 
-        self::$log[] = implode('; ', [ self::time(), $line, "$class::$method()" ]) . RN;
+        self::$log[] = implode( '; ', [ self::time(), $line, "$class::$method()" ] ) . RN;
     }
 
     /**
@@ -43,6 +43,8 @@ class Runtime extends Core
      */
     public static function  push()
     {
+        if ( !self::$status ) return;
+
         if ( !self::$fileExists )
         {
             self::$path = $_SERVER['DOCUMENT_ROOT'] . self::$path;
@@ -62,7 +64,7 @@ class Runtime extends Core
 
                 foreach ( self::$log as $log ) fwrite( $fileLog, $log );
 
-                fclose($fileLog);
+                fclose( $fileLog );
             }
         }
     }
@@ -72,7 +74,7 @@ class Runtime extends Core
      */
     private static function getFileHandler()
     {
-        return fopen( self::$path, "a+");
+        return fopen( self::$path, "a+" );
     }
 
     /**

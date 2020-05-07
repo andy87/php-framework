@@ -1,10 +1,10 @@
 <?php
 
-namespace app\_\components\main;
+namespace _\components\main;
 
-use app\_\App;
-use app\_\base\Core;
-use app\_\components\Runtime;
+use _\App;
+use _\base\Core;
+use _\components\Runtime;
 
 /**
  * Class Route
@@ -37,7 +37,7 @@ class Route extends Core
      */
     function __construct( $params )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         parent::__construct( $params );
 
@@ -53,9 +53,9 @@ class Route extends Core
      */
     public function setRules( $rules )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( count($rules) )
+        if ( count( $rules ) )
         {
             $this->rules = $rules;
         }
@@ -66,7 +66,7 @@ class Route extends Core
      */
     private function setRequest()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->request = ( App::$request->uri !== SLASH )
             ? substr( App::$request->uri, 1 )
@@ -78,7 +78,7 @@ class Route extends Core
      */
     private function checkRules()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         foreach ( $this->rules as $uri => $params )
         {
@@ -92,7 +92,7 @@ class Route extends Core
             }
         }
 
-        if ( empty($this->rout) )
+        if ( empty( $this->rout ) )
         {
             $this->rout = [
                 'key'       => null,
@@ -100,7 +100,7 @@ class Route extends Core
             ];
         }
 
-        $params = explode(SLASH, $this->rout['data'] );
+        $params = explode( SLASH, $this->rout['data'] );
 
         $this->controller   = $params[0];
         $this->action       = $params[1];
@@ -113,7 +113,7 @@ class Route extends Core
      */
     private function checkMatch( $request, $rule )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         return ( $request === $rule );
     }

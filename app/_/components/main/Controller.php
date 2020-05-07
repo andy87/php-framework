@@ -1,10 +1,10 @@
 <?php
 
-namespace app\_\components\main;
+namespace _\components\main;
 
-use app\_\App;
-use app\_\components\Web;
-use app\_\components\Runtime;
+use _\App;
+use _\components\Web;
+use _\components\Runtime;
 
 /**
  * Class Controller
@@ -24,7 +24,7 @@ class Controller extends Web
      */
     public function setup()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->setTarget();
 
@@ -39,7 +39,7 @@ class Controller extends Web
      */
     private function setTarget()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->target = $this->id . CONTROLLER_SUFFIX;
     }
@@ -53,9 +53,9 @@ class Controller extends Web
      */
     public function getClass( $name = '', $full = true )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $className  = ( empty($name) ) ? $this->id : $name;
+        $className  = ( empty( $name ) ) ? $this->id : $name;
 
         if ( $full ) $className = CONTROLLER_NAMESPACE . $className;
 
@@ -71,11 +71,11 @@ class Controller extends Web
      */
     private function isExist()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $classFilePath = App::$alias['@root'] . SLASH . $this->getClass() . PHP;
+        $classFilePath = App::$alias['@app'] . SLASH . $this->getClass() . PHP;
 
-        $classFilePath = self::slashReplace($classFilePath);
+        $classFilePath = self::slashReplace( $classFilePath );
 
         return file_exists( $classFilePath );
     }
@@ -87,7 +87,7 @@ class Controller extends Web
      */
     public function accessRules()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $result = true;
 
@@ -95,13 +95,13 @@ class Controller extends Web
 
         foreach ( $this->rules as $action => $rules )
         {
-            if ( is_string($rules) ) $rules = [$rules];
+            if ( is_string( $rules ) ) $rules = [$rules];
 
             if ( $this->action->getName() == $action AND ! in_array( $method, $rules ) )
             {
                 $result = [
                     'message'   => 'Access denied',
-                    'error'     => 'Success access methods :' . implode(' ', $rules ),
+                    'error'     => 'Success access methods :' . implode( ' ', $rules ),
                 ];
             }
         }

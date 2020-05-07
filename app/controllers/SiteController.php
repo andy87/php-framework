@@ -1,8 +1,8 @@
 <?php
 
-namespace app\controllers;
+namespace controllers;
 
-use app\_\base\BaseController;
+use _\base\BaseController;
 use app\models\User;
 
 /**

@@ -3,9 +3,9 @@
 /** @var $message string */
 /** @var $debug integer */
 
-use app\_\App;
+use _\App;
 
-$title  = ( isset($title) ) ? $title : 'Error';
+$title  = ( isset( $title ) ) ? $title : 'Error';
 $params = App::params();
 
 ?>
@@ -41,17 +41,17 @@ $params = App::params();
 
     <h1><?= $title ?></h1>
 
-    <? if ( isset($error) ) : ?>
+    <? if ( isset( $error ) ) : ?>
         <hr>
 
         <p><?= $error ?></p>
     <? endif; ?>
 
-    <? if ( isset($message) ) : ?>
+    <? if ( isset( $message ) ) : ?>
         <hr>
 
         <p>
-            <? print_r(trim($message)); ?>
+            <? print_r( trim( $message ) ); ?>
         </p>
     <? endif; ?>
 
@@ -74,7 +74,7 @@ $params = App::params();
         <? if ( $debug > 2 ) : ?>
             <hr>
             <pre>
-                <? print_r( debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) ); ?>
+                <? print_r( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ) ); ?>
             </pre>
         <? endif; ?>
 

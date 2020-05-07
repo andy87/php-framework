@@ -1,9 +1,9 @@
 <?php
 
-namespace app\_\base\prototype;
+namespace _\base\prototype;
 
-use app\_\App;
-use app\_\components\Runtime;
+use _\App;
+use _\components\Runtime;
 
 /**
  * Trait Func
@@ -17,12 +17,12 @@ trait Func
      */
     public static function printPre( $obj, $exit = true )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( is_string($obj) ) $obj = [$obj];
+        if ( is_string( $obj ) ) $obj = [$obj];
 
         echo '<pre>';
-        print_r($obj);
+        print_r( $obj );
         echo '</pre>';
 
         if ( $exit ) exit();
@@ -34,9 +34,9 @@ trait Func
      */
     public static function slashReplace( $str )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return str_replace(SLASHER, SLASH, $str );
+        return str_replace( SLASHER, SLASH, $str );
     }
 
     /**
@@ -45,9 +45,9 @@ trait Func
      */
     public static function normalizeName( $str )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( strpos($str, '-') !== false )
+        if ( strpos( $str, '-' ) !== false )
         {
            $str = explode( '-', $str );
 
@@ -56,7 +56,7 @@ trait Func
                $str[ $index ] = self::ucFirst( $item );
            }
 
-           $resp = implode('', $str );
+           $resp = implode( '', $str );
 
         } else {
 
@@ -72,7 +72,7 @@ trait Func
      */
     public static function  ucFirst( $str )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         return ucfirst( strtolower( $str ) );
     }
@@ -86,7 +86,7 @@ trait Func
      */
     public function generateHash( $key )
     {
-        return md5( CACHE_SALT . $key . App::$request->method );
+        return md5( CACHE_SALT . $key . App::$request->method . md5( $_REQUEST ) );
     }
 
     /**
@@ -94,10 +94,10 @@ trait Func
      */
     public function test( $str )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( is_bool($str) ) $str = ( $str ) ? 'Y' : 'N';
-        if ( is_string($str) AND empty($str) ) $str = 'string(empty)';
+        if ( is_bool( $str ) ) $str = ( $str ) ? 'Y' : 'N';
+        if ( is_string( $str ) AND empty( $str ) ) $str = 'string( empty )';
 
         exit( $str );
     }
@@ -113,7 +113,7 @@ trait Func
 
         try {
 
-            extract($params);
+            extract( $params );
 
             ob_start();
 
@@ -123,7 +123,7 @@ trait Func
 
             ob_end_clean();
 
-        } catch ( \Exception $e ) {
+        } catch ( \Exception $e ){
 
             $this->exceptionCatch( $e );
         }
@@ -139,6 +139,6 @@ trait Func
         $this->exception( [
             'error'         => $e->getCode(),
             'message'       => $e->getMessage(),
-        ]);
+        ] );
     }
 }

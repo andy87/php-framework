@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules;
+namespace modules;
 
-use app\_\components\Core;
+use _\components\Core;
 
 class Curl extends Core
 {

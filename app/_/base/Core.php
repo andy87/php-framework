@@ -1,10 +1,10 @@
 <?php
 
-namespace app\_\base;
+namespace _\base;
 
-use app\_\App;
-use app\_\base\prototype\Func;
-use app\_\components\Runtime;
+use _\App;
+use _\base\prototype\Func;
+use _\components\Runtime;
 
 /**
  * Class BaseComponent
@@ -21,13 +21,13 @@ class Core
     function __construct( $params = [] )
     {
 
-        $className = $this->getClassName(true);
+        $className = $this->getClassName( true );
 
-        if ( !empty( $params[ $className ]) AND is_array( $params[ $className ] ) )
+        if ( !empty( $params[ $className ] ) AND is_array( $params[ $className ] ) )
         {
             foreach ( $params[ $className ] as $key => $value )
             {
-                if ( isset($this->{$key}) )
+                if ( isset( $this->{$key} ) )
                 {
                     $this->{$key} = $value;
                 }
@@ -35,9 +35,9 @@ class Core
         }
     }
 
-    function __call($name, $arguments)
+    function __call( $name, $arguments )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $error = [
             'message'   => 'Function not found',
@@ -52,7 +52,7 @@ class Core
      */
     public function init()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         // ...
     }
@@ -63,11 +63,11 @@ class Core
      */
     public function getClassName( $strToLower = false )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $className = array_pop(explode('\\', static::class) );
+        $className = array_pop( explode( '\\', static::class ) );
 
-        if ( $strToLower ) $className = strtolower($className);
+        if ( $strToLower ) $className = strtolower( $className );
 
         return $className;
     }
@@ -78,18 +78,18 @@ class Core
      */
     public static function exception( $error = 'Error', $code = 418 )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         App::$view->layout = false;
-        App::setCharset( DEFAULT_CHARSET);
+        App::setCharset( DEFAULT_CHARSET );
 
         if ( App::$response->code != 418 )
         {
             App::$response->code = $code;
 
-            $params = ( is_array($error) ) ? $error : [ 'error' => $error ];
+            $params = ( is_array( $error ) ) ? $error : [ 'error' => $error ];
 
-            $params['debug'] = App::getParams('debug');
+            $params['debug'] = App::getParams( 'debug' );
 
             $resp = App::$view->render( TEMPLATE_ERROR, $params );
 

@@ -2,7 +2,7 @@
 
 namespace app\models\source;
 
-use app\_\base\BaseModel;
+use _\base\BaseModel;
 
 /**
  * Class User

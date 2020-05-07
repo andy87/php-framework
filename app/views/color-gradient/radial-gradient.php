@@ -6,7 +6,7 @@
 
 use \app\_\components\View;
 
-$this->registerCssFile('/css/linear-gradiend.css');
+$this->registerCssFile( '/css/linear-gradiend.css' );
 
 
 ?>

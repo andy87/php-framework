@@ -1,7 +1,7 @@
 <?php
 
 $routes = [
-    // URI(url)             Controller/action
+    // URI( url )             Controller/action
     'sign-up'           => 'site/sign-up',
     'login'             => 'site/login',
     'contact'           => 'site/contact',

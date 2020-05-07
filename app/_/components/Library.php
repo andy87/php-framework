@@ -1,8 +1,8 @@
 <?php
 
-namespace app\_\components;
+namespace _\components;
 
-use app\_\base\Core;
+use _\base\Core;
 
 /**
  * Class Library
@@ -19,9 +19,9 @@ class Library extends Core
      */
     function __construct( $library )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        parent::__construct([]);
+        parent::__construct( [] );
 
         $this->library = $library;
     }
@@ -32,7 +32,7 @@ class Library extends Core
      */
     public function set( $key, $value )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->library[ $key ] = $value;
     }
@@ -44,7 +44,7 @@ class Library extends Core
      */
     public function get( $key, $default = null )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         return ( $this->_isset( $key ) ) ? $this->library[ $key ] : $default;
     }
@@ -55,7 +55,7 @@ class Library extends Core
      */
     public function _isset( $key )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         return isset( $this->library[ $key ] );
     }

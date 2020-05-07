@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace models;
 
 /**
  * Class User
@@ -16,7 +16,7 @@ class User extends \app\models\source\User {
         $model = new self();
 
         /**$model->find()
-            ->where(['id' => App::session('id')])
+            ->where( ['id' => App::session( 'id' )] )
             ->one();*/
 
         return $model;

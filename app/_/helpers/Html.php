@@ -1,8 +1,8 @@
 <?php
 
-namespace app\_\helpers;
+namespace _\helpers;
 
-use app\_\components\Component;
+use _\components\Component;
 
 class Html extends Component
 {
@@ -19,13 +19,13 @@ class Html extends Component
      */
     public static function tag( $name = '', $content = '', $attributes = [] )
     {
-        if ( is_array($name) ) extract( $name );
+        if ( is_array( $name ) ) extract( $name );
 
-        $name = strtolower($name);
+        $name = strtolower( $name );
 
         $html = "<$name";
 
-        if ( !empty($attributes) )
+        if ( !empty( $attributes ) )
         {
             foreach ( $attributes as $key => $value )
             {
@@ -43,11 +43,11 @@ class Html extends Component
 
         if ( $content )
         {
-            if ( is_string($content) ) $html .= $content;
+            if ( is_string( $content ) ) $html .= $content;
 
-            if ( is_array($content) )
+            if ( is_array( $content ) )
             {
-                $content = array_merge([
+                $content = array_merge( [
                     'name'          => 'div',
                     'content'       => $content,
                     'attributes'    => []
@@ -57,7 +57,7 @@ class Html extends Component
             }
         }
 
-        if ( ! in_array( $name, self::$singleTags) )
+        if ( ! in_array( $name, self::$singleTags ) )
         {
             $html .= "</{$name}>";
         }
@@ -77,9 +77,9 @@ class Html extends Component
 
     public static function img( $src, $class = '', $alt = '', $title = '' )
     {
-        if ( empty($alt) ) $alt = 'картинка';
-        if ( empty($title) ) $title = $alt;
-        if ( !empty($class) ) $class = " class='{$class}'";
+        if ( empty( $alt ) ) $alt = 'картинка';
+        if ( empty( $title ) ) $title = $alt;
+        if ( !empty( $class ) ) $class = " class='{$class}'";
 
         return "<img{$class} src='{$src}' alt='{$alt}' title='{$title}'>";
     }
@@ -90,8 +90,8 @@ class Html extends Component
      */
     public static function meta( $data )
     {
-        return( is_array($data) )
-            ? self::tag('meta', '', $data )
+        return( is_array( $data ) )
+            ? self::tag( 'meta', '', $data )
             : "<meta {$data}>";
     }
 }

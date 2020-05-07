@@ -1,8 +1,8 @@
 <?php
 
-namespace app\_\components;
+namespace _\components;
 
-use app\_\base\Core;
+use _\base\Core;
 
 /**
  * Class Query

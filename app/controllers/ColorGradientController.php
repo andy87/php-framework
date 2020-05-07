@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace controllers;
 
-use app\_\App;
-use app\_\base\BaseController;
-use app\_\components\main\Response;
+use _\App;
+use _\base\BaseController;
+use _\components\main\Response;
 
 class ColorGradientController extends BaseController
 {
@@ -35,12 +35,12 @@ class ColorGradientController extends BaseController
             'from'          => "#fff",
             'to'            => "#000",
             'controller_id' => $this->id,
-            'block'         => $this->render('block', [
+            'block'         => $this->render( 'block', [
                 'text' => "test"
-            ])
+            ] )
         ];
 
-        return $this->render('linear-gradient', $data );
+        return $this->render( 'linear-gradient', $data );
     }
 
     /**
@@ -54,12 +54,12 @@ class ColorGradientController extends BaseController
             'from'          => "#fff",
             'to'            => "#000",
             'controller_id' => $this->id,
-            'block'         => $this->render('block', [
+            'block'         => $this->render( 'block', [
                 'text' => "test"
-            ])
+            ] )
         ];
 
-        return $this->render('radial-gradient', $data );
+        return $this->render( 'radial-gradient', $data );
     }
 
     /**
@@ -87,21 +87,21 @@ class ColorGradientController extends BaseController
             'class' => __CLASS__
         ];
 
-        return $this->renderJson($data);
+        return $this->renderJson( $data );
     }
 
     public function addMetas( $content )
     {
-        App::$view->registerMeta(['name' => 'action', 'content'=> $content]);
+        App::$view->registerMeta( ['name' => 'action', 'content'=> $content] );
     }
 
 
     // TODO: взаимодействие с БД
-    // DB::table('users')->sql( $sql )->exec();
+    // DB::table( 'users' )->sql( $sql )->exec();
     // $user = User::getAll();
-    // $user = User::find()->where(['id' => 1])->all();
-    // $user = User::find()->select('*')->where(['id' => 1])->all();
-    // $user = User::find()->select('name, id')->where(['name', 'LIKE', 'and_y87'])->one();
+    // $user = User::find()->where( ['id' => 1] )->all();
+    // $user = User::find()->select( '*' )->where( ['id' => 1] )->all();
+    // $user = User::find()->select( 'name, id' )->where( ['name', 'LIKE', 'and_y87'] )->one();
     // $user_id = $user->id;
 
 }

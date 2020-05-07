@@ -1,9 +1,9 @@
 <?php
 
-namespace app\_\components;
+namespace _\components;
 
-use app\_\App;
-use app\_\base\Core;
+use _\App;
+use _\base\Core;
 
 /**
  * Class Web
@@ -31,7 +31,7 @@ class Web extends Core
     {
         parent::__construct( $params );
 
-        $this->setId( $this->getClassName(true) );
+        $this->setId( $this->getClassName( true ) );
 
         $this->init();
     }
@@ -51,7 +51,7 @@ class Web extends Core
     {
         $this->id = $this->default;
 
-        if ( !empty(App::$route->{$type}) )
+        if ( !empty( App::$route->{$type} ) )
         {
             $this->id = $this->normalizeName( App::$route->{$type} );
         }

@@ -1,10 +1,10 @@
 <?php
 
-namespace app\_\base;
+namespace _\base;
 
-use app\_\App;
-use app\_\components\main\Response;
-use app\_\components\Web;
+use _\App;
+use _\components\main\Response;
+use _\components\Web;
 
 /**
  * Class BaseController
@@ -78,7 +78,7 @@ class BaseController extends Web
     {
         $resp = null;
 
-        if ( strpos( $path, DOG) === false )
+        if ( strpos( $path, DOG ) === false )
         {
             $path = '@views' . SLASH . App::$route->controller . SLASH. $path;
         }
@@ -100,7 +100,7 @@ class BaseController extends Web
                 'message'   => "Bad format for rendering",
                 'error'     => "Format :  " . App::$response->format ,
             ];
-            $this->exception($error);
+            $this->exception( $error );
         }
 
         return $resp;
@@ -125,7 +125,7 @@ class BaseController extends Web
      */
     public function actionError( $params )
     {
-        App::$view->registerCssFile('/css/error.css');
+        App::$view->registerCssFile( '/css/error.css' );
 
         $template = '@root/' . TEMPLATE_ERROR;
 
@@ -145,7 +145,7 @@ class BaseController extends Web
      */
     private function getControllerName()
     {
-        $controllerClassName    = array_pop(explode('/', __CLASS__) );
+        $controllerClassName    = array_pop( explode( '/', __CLASS__ ) );
 
         return str_replace( CONTROLLER_SUFFIX, '', $controllerClassName );
     }

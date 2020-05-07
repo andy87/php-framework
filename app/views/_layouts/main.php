@@ -2,18 +2,22 @@
 /** @var $this View */
 /** @var $content string */
 
-use app\_\components\main\View;
-use \app\_\App;
+use _\App;
+use _\components\main\View;
 
 ?>
 <!DOCTYPE html>
 <html lang="<?= $this->lang ?>">
+
     <head>
         <meta charset="<?= $this->charset ?>">
-        <meta name="template" content="<?= __FILE__ ?>">
+
         <title> <?= App::$view->title ?> </title>
+
         <? $this->head(); ?>
+
     </head>
+
     <body>
         <? $this->body(); ?>
 
@@ -21,4 +25,5 @@ use \app\_\App;
 
         <? $this->footer(); ?>
     </body>
+
 </html>

@@ -1,14 +1,14 @@
 <?php
 
-namespace app\_\components\main;
+namespace _\components\main;
 
 
-use app\_\base\Core;
-use app\_\components\Library;
-use app\_\components\Runtime;
-use app\_\helpers\Cookie;
-use app\_\helpers\Server;
-use app\_\helpers\Session;
+use _\base\Core;
+use _\components\Library;
+use _\components\Runtime;
+use _\helpers\Cookie;
+use _\helpers\Server;
+use _\helpers\Session;
 
 /**
  * Class Request
@@ -30,7 +30,7 @@ class Request extends Core
     const METHOD_PATCH      = 'PATCH';
 
 
-    /** @var string фактический адрес запроса (URL/URI) */
+    /** @var string фактический адрес запроса ( URL/URI ) */
     public $uri     = '';
 
     /** @var string фактический метод запроса */
@@ -109,11 +109,11 @@ class Request extends Core
      */
     function __construct( $params )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         parent::__construct( $params );
 
-        $requestParams          = $params[ $this->getClassName(true) ];
+        $requestParams          = $params[ $this->getClassName( true ) ];
 
         $this->useMethodList    = $requestParams['methods'];
 
@@ -151,13 +151,13 @@ class Request extends Core
      */
     private function getUri()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $resp = $this->server->get('REQUEST_URI', SLASH );
+        $resp = $this->server->get( 'REQUEST_URI', SLASH );
 
         if ( $resp )
         {
-            $resp = array_shift( explode('?', $resp) );
+            $resp = array_shift( explode( '?', $resp ) );
         }
 
         return $resp;
@@ -170,9 +170,9 @@ class Request extends Core
      */
     private function getMethod()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return $this->server->get('REQUEST_METHOD', null);
+        return $this->server->get( 'REQUEST_METHOD', null );
     }
 
     /**
@@ -180,7 +180,7 @@ class Request extends Core
      */
     private function setupMethodStatus()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $method = 'is' . ucfirst( strtolower( $this->method ) );
 
@@ -194,9 +194,9 @@ class Request extends Core
      */
     private function isAjax()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return ( strtolower( $this->server->get('HTTP_X_REQUESTED_WITH') ) == strtolower( AJAX ) );
+        return ( strtolower( $this->server->get( 'HTTP_X_REQUESTED_WITH' ) ) == strtolower( AJAX ) );
     }
 
 
@@ -208,9 +208,9 @@ class Request extends Core
      */
     public function isMethod( $method = null )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return ( $method AND strtolower( $this->getMethod() ) === strtolower($method) );
+        return ( $method AND strtolower( $this->getMethod() ) === strtolower( $method ) );
     }
 
     /**
@@ -220,7 +220,7 @@ class Request extends Core
      */
     public function hasArguments()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         return isset( $this->arguments );
     }
@@ -232,7 +232,7 @@ class Request extends Core
      */
     public function getArguments()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         return $this->arguments;
     }

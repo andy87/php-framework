@@ -1,8 +1,8 @@
 <?php
 
-namespace app\_\base;
+namespace _\base;
 
-use app\_\components\Query;
+use _\components\Query;
 
 /**
  * Class BaseModel

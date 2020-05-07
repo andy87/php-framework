@@ -2,5 +2,5 @@
 
 !function init()
 {
-    console.log('Loaded Main.js');
+    console.log( 'Loaded Main.js' );
 }();

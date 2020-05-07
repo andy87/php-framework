@@ -1,11 +1,11 @@
 <?php
 
-namespace app\_\components\main;
+namespace _\components\main;
 
-use app\_\App;
-use app\_\base\Core;
-use app\_\components\Runtime;
-use app\_\helpers\Html;
+use _\App;
+use _\base\Core;
+use _\components\Runtime;
+use _\helpers\Html;
 
 /**
  * Class View
@@ -60,9 +60,9 @@ class View extends Core
      */
     public function registerJsFile( $path, $option = [], $id = '' )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( is_string($option) )
+        if ( is_string( $option ) )
         {
             $id = $option;
             $option = [];
@@ -70,9 +70,9 @@ class View extends Core
 
         $option = array_merge( $this->defaultJsOptions, $option );
 
-        if( empty($id) )
+        if( empty( $id ) )
         {
-            $fileName   = pathinfo($path);
+            $fileName   = pathinfo( $path );
             $id         = $fileName['basename'];
         };
 
@@ -86,7 +86,7 @@ class View extends Core
      */
     public function registerCssFile( $path )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->css[] = $path;
     }
@@ -98,7 +98,7 @@ class View extends Core
      */
     public function registerMeta( $meta )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->meta[] = $meta;
     }
@@ -112,14 +112,14 @@ class View extends Core
      */
     public function render( $pathTemplate = '', $params = [] )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( strpos( $pathTemplate, DOG) !== false )
+        if ( strpos( $pathTemplate, DOG ) !== false )
         {
             $pathTemplate = App::getAlias( $pathTemplate );
         }
 
-        if ( strpos($pathTemplate, TEMPLATE_FORMAT) === false )
+        if ( strpos( $pathTemplate, TEMPLATE_FORMAT ) === false )
         {
             $pathTemplate .= TEMPLATE_FORMAT;
         }
@@ -141,7 +141,7 @@ class View extends Core
      */
     public function head()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         echo $this->renderMeta();
         echo $this->renderCss();
@@ -155,7 +155,7 @@ class View extends Core
      */
     public function body()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         echo $this->renderJs( View::POS_BODY );
         echo App::$app->body();
@@ -166,7 +166,7 @@ class View extends Core
      */
     public function footer()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         echo $this->renderJs( View::POS_FOOTER );
 
@@ -179,7 +179,7 @@ class View extends Core
      */
     private function renderMeta()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         foreach ( $this->meta as $attributes )
         {
@@ -192,7 +192,7 @@ class View extends Core
      */
     private function renderCss()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         foreach ( $this->css as $fileCss )
         {
@@ -207,14 +207,14 @@ class View extends Core
      */
     private function renderJs( $position = 0 )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         foreach ( $this->js['asset'] as $id => $dataJS )
         {
             $pos        = $dataJS[1]['position'];
             $fileJS     = $dataJS[0]; // path
 
-            if ( $position !== $pos || in_array($fileJS, $this->js['include']) ) continue;
+            if ( $position !== $pos || in_array( $fileJS, $this->js['include'] ) ) continue;
 
             $depends    = $dataJS[1]['depends'];
 
@@ -232,11 +232,11 @@ class View extends Core
      */
     private function appendJS( $id = '', $path = '', $position = 0, $depends = '' )
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( !empty($depends) )
+        if ( !empty( $depends ) )
         {
-            if ( !in_array( $depends, $this->js['include']) )
+            if ( !in_array( $depends, $this->js['include'] ) )
             {
                 $data       = $this->js['asset'][ $depends ];
                 $pos        = $position;
@@ -256,7 +256,7 @@ class View extends Core
      */
     public function jQueryInit()
     {
-        Runtime::log(static::class, __METHOD__, __LINE__ );
+        Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $this->registerJsFile( SRC_JQUERY_MIN, 'jQuery' );
     }

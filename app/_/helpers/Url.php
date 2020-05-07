@@ -1,9 +1,9 @@
 <?php
 
-namespace app\_\helpers;
+namespace _\helpers;
 
-use app\_\App;
-use app\_\components\Component;
+use _\App;
+use _\components\Component;
 
 /**
  *      Проверяет существование файла
@@ -25,9 +25,9 @@ class Url extends Component
      */
     public static function css( $uri )
     {
-        $path = App::getAlias("@css/{$uri}" );
+        $path = App::getAlias( "@css/{$uri}" );
 
-        if ( !file_exists( $path ) ) self::exceptionError($uri);
+        if ( !file_exists( $path ) ) self::exceptionError( $uri );
 
         return $uri;
     }
@@ -38,9 +38,9 @@ class Url extends Component
      */
     public static function docs( $uri )
     {
-        $path = App::getAlias("@docs/{$uri}" );
+        $path = App::getAlias( "@docs/{$uri}" );
 
-        if ( !file_exists( $path ) ) self::exceptionError($uri);
+        if ( !file_exists( $path ) ) self::exceptionError( $uri );
 
         return $uri;
     }
@@ -51,9 +51,9 @@ class Url extends Component
      */
     public static function fonts( $uri )
     {
-        $path = App::getAlias("@fonts/{$uri}" );
+        $path = App::getAlias( "@fonts/{$uri}" );
 
-        if ( !file_exists( $path ) ) self::exceptionError($uri);
+        if ( !file_exists( $path ) ) self::exceptionError( $uri );
 
         return $uri;
     }
@@ -64,9 +64,9 @@ class Url extends Component
      */
     public static function img( $uri )
     {
-        $path = App::getAlias("@img/{$uri}" );
+        $path = App::getAlias( "@img/{$uri}" );
 
-        if ( !file_exists( $path ) ) self::exceptionError($uri);
+        if ( !file_exists( $path ) ) self::exceptionError( $uri );
 
         return $uri;
     }
@@ -77,9 +77,9 @@ class Url extends Component
      */
     public static function js( $uri )
     {
-        $path = App::getAlias("@js/{$uri}" );
+        $path = App::getAlias( "@js/{$uri}" );
 
-        if ( !file_exists( $path ) ) self::exceptionError($uri);
+        if ( !file_exists( $path ) ) self::exceptionError( $uri );
 
         return $uri;
     }
@@ -90,7 +90,7 @@ class Url extends Component
      */
     public static function exceptionError( $uri )
     {
-        self::$error['message'] = str_replace('`path`', "`{$uri}`", self::$error['message']);
-        self::exception(self::$error);
+        self::$error['message'] = str_replace( '`path`', "`{$uri}`", self::$error['message'] );
+        self::exception( self::$error );
     }
 }
