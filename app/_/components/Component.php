@@ -2,7 +2,6 @@
 
 namespace _\components;
 
-
 use _\base\Core;
 
 /**

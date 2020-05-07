@@ -41,6 +41,8 @@ trait Func
     }
 
     /**
+     *      Форматирование строки в snake Case
+     *
      * @param $str
      * @return string
      */
@@ -68,6 +70,25 @@ trait Func
     }
 
     /**
+     *      Форматирование строки в kebab Case
+     *
+     * @param $str
+     * @return string
+     */
+    public static function kebabCase( $str )
+    {
+        if ( ctype_lower( $str ) ) return $str;
+
+        $replacement    = ucwords( str_replace( '_','-', $str ) );
+
+        $str            = preg_replace('/[\s]+/u', '', $replacement );
+
+        return  mb_strtolower( preg_replace('/(.)(?=[A-Z])/u', '$1-', $str ), 'UTF-8');
+    }
+
+    /**
+     *      Форматирование строки в текст с заглавной буквой
+     *
      * @param $str
      * @return string
      */

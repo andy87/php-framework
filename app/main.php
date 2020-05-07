@@ -2,11 +2,10 @@
 
 use _\App;
 
-define('ERROR_LEVEL' , E_ALL & ~E_NOTICE );
-error_reporting( ERROR_LEVEL );
-
 require "_/setups/init.php";
 require "config/params.php";
+
+error_reporting( ERROR_LEVEL );
 
 if ( params('request.session') ) session_start();
 

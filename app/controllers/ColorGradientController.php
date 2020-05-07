@@ -5,6 +5,7 @@ namespace controllers;
 use _\App;
 use _\base\BaseController;
 use _\components\main\Response;
+use models\User;
 
 class ColorGradientController extends BaseController
 {
@@ -56,7 +57,7 @@ class ColorGradientController extends BaseController
             'controller_id' => $this->id,
             'block'         => $this->render( 'block', [
                 'text' => "test"
-            ] )
+            ])
         ];
 
         return $this->render( 'radial-gradient', $data );
@@ -93,6 +94,14 @@ class ColorGradientController extends BaseController
     public function addMetas( $content )
     {
         App::$view->registerMeta( ['name' => 'action', 'content'=> $content] );
+    }
+
+    public function badExaple()
+    {
+
+        $model = User::getData();
+
+
     }
 }
 

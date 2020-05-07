@@ -1,5 +1,5 @@
 # PHP Framework
-A simple framework based on the *concept* [yii2](https://github.com/yiisoft/yii2-app-advanced).  
+A simple framework based on the *concept* [yii2](https://github.com/yiisoft/yii2-app-advanced). 
 Written from scratch, without peeping *( I set myself a task: write a framework on my own)* 
   
 **dubious advantages of the project :)**

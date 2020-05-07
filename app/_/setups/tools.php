@@ -1,7 +1,7 @@
 <?php
 
 /**
- *      Ввтозагрузка классов
+ *      Автозагрузка классов
  */
 spl_autoload_register( function( $class )
 {
@@ -13,7 +13,7 @@ spl_autoload_register( function( $class )
 
     } else {
 
-        Exit("Страшный эррор! File not found: {$classPath}");
+        Exit("Scarry error! File not found: {$classPath}");
     }
 });
 
@@ -22,7 +22,7 @@ spl_autoload_register( function( $class )
  */
 function setups()
 {
-    require_once PATH_SETUPS . HOST . PHP;
+    require_once DIR_SETUPS . HOST . PHP;
 }
 
 /**

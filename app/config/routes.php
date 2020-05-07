@@ -1,6 +1,7 @@
 <?php
 
 $routes = [
+
     // URI( url )             Controller/action
     'sign-up'                       => 'site/sign-up',
     'index'                         => 'site/index',
@@ -21,4 +22,5 @@ $routes = [
     '<controller>/<action>'         => '<controller>/<action>',
 
     '/'                             => 'site/index',
+
 ];

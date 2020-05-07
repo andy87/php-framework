@@ -1,6 +1,8 @@
 <?php
 /** @var string $class */
 /** @var string $method */
+
+
 ?>
 
 <ul>

@@ -70,7 +70,7 @@ class Response extends Core
             case Response::FORMAT_JSON:
             case Response::FORMAT_RAW:
                 $this->isDocument = true;
-                $contentType   .= "; charset={$this->charset}";
+                $contentType . = "; charset={$this->charset}";
                 break;
 
             default:

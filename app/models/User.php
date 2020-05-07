@@ -2,12 +2,14 @@
 
 namespace models;
 
+use \models\source\User as Source;
+
 /**
  * Class User
  * @package app\models
  */
-class User extends \models\source\User {
-
+class User extends Source
+{
     /**
      * @return self
      */

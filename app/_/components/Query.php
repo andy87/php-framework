@@ -20,11 +20,18 @@ class Query extends Core
     private $resp       = '';
 
 
+    /**
+     * @return $this
+     */
     public function find()
     {
         return $this;
     }
 
+    /**
+     * @param $condition
+     * @return $this
+     */
     public function where( $condition )
     {
         $this->where = $condition;
@@ -32,6 +39,10 @@ class Query extends Core
         return $this;
     }
 
+    /**
+     * @param $orderBy
+     * @return $this
+     */
     public function orderBy($orderBy)
     {
         $this->order = $orderBy;
@@ -39,6 +50,9 @@ class Query extends Core
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function one()
     {
         $this->select();
@@ -48,6 +62,9 @@ class Query extends Core
         return $this->resp;
     }
 
+    /**
+     * @return string
+     */
     public function all()
     {
         $this->limit = 0;
@@ -59,6 +76,9 @@ class Query extends Core
         return $this->resp;
     }
 
+    /**
+     *
+     */
     public function select()
     {
         $WHERE = '';
