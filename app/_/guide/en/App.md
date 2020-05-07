@@ -18,13 +18,13 @@
 | **$response**   | *object* | Объект содержащий данные ответа на запрос
 
 ###### Methods
-* *App::setCharset( **string** )*  
+* *App::setCharset( **string**)*  
 Setup charset for all applications 
 ***Example***:  
-App::setAlias( **'utf-8'** )
+App::setAlias( **'utf-8'**)
 
-* *App::getAlias( **string** )*  
+* *App::getAlias( **string**)*  
 path to resource
 ***Example***:  
-App::getAlias( **'@views'** ) => `DOCUMETN_ROOT`/app/views  
-App::getAlias( **'@models/Good' . PHP** ) => `DOCUMETN_ROOT`/app/models/Good.php 
+App::getAlias( **'@views'**) => `DOCUMETN_ROOT`/app/views  
+App::getAlias( **'@models/Good' . PHP**) => `DOCUMETN_ROOT`/app/models/Good.php 
