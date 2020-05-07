@@ -176,31 +176,34 @@ server {
 
 #### Логика приложения
 
-- Запрос попадает в точку входа `index.php`  
-- Создаёть экземпляр класса [App()](/app/_/guide/ru/App.md)  
-- Устанавливаются все свойства [App()](/app/_/guide/ru/App.md)  
-- В экземпляре класса [Route()](/app/_/guide/ru/Route.md)   
- -- Ищется подходящее правило в [Route](/app/_/guide/ru/Route.md)::[$rules](/app/_/guide/ru/Route.md#param__rules)  
- -- Из подхзодящего правила Задаются ID для:    
- -- [Route](/app/_/guide/ru/Route.md)::[$controller](/app/_/guide/ru/Route.md#param__controller)  
- -- [Route](/app/_/guide/ru/Route.md)::[$action](/app/_/guide/ru/Route.md#param__action)  
+Запрос попадает в точку входа `index.php`  
+Создаёть экземпляр класса [App()](/app/_/guide/ru/App.md)  
+Устанавливаются все свойства [App()](/app/_/guide/ru/App.md)  
+В экземпляре класса [Route()](/app/_/guide/ru/Route.md)   
+- Ищется подходящее правило в [Route](/app/_/guide/ru/Route.md)::[$rules](/app/_/guide/ru/Route.md#param__rules)  
+- Из подхзодящего правила Задаются ID для:    
+- [Route](/app/_/guide/ru/Route.md)::[$controller](/app/_/guide/ru/Route.md#param__controller)  
+- [Route](/app/_/guide/ru/Route.md)::[$action](/app/_/guide/ru/Route.md#param__action)  
+
 Создаёт экземпляр класса [Controller()](/app/_/guide/ru/Controller.md)  
--- устанавливается свойство [$id](/app/_/guide/ru/Controller.md#params_id)  
--- устанавливается свойство [$target](/app/_/guide/ru/Controller.md#params_target)  
--- создаёт экземпляр класса [Action()](/app/_/guide/ru/Action.md)  
--- устанавливается свойство [$id](/app/_/guide/ru/Action.md#params_id)  
--- устанавливается свойство [$target](/app/_/guide/ru/Action.md#params_target)  
+- устанавливается свойство [$id](/app/_/guide/ru/Controller.md#params_id)  
+- устанавливается свойство [$target](/app/_/guide/ru/Controller.md#params_target)  
+- создаёт экземпляр класса [Action()](/app/_/guide/ru/Action.md)  
+- устанавливается свойство [$id](/app/_/guide/ru/Action.md#params_id)  
+- устанавливается свойство [$target](/app/_/guide/ru/Action.md#params_target)  
+
 Создаётся экземпляр пользовательского контроллера по имени [Controller](/app/_/guide/ru/Controller.md)::[$target](/app/_/guide/ru/Controller.md#params_target).   
 далее у пользовательского контроллера последовательно вызывается методы:  
 у контроллера [Controller](/app/_/guide/ru/Controller.md)::[$target](/app/_/guide/ru/Controller.md#params_target) последовательно вызывается методы:  
--- [init()](/app/_/guide/ru/Controller.md#method_init)   
--- [rules()](/app/_/guide/ru/Controller.md#method_rules)   
--- [beforeAction()](/app/_/guide/ru/Controller.md#method_beforeAction)  
--- `$controller->{Action()->target}()`  
--- [afterAction()](/app/_/guide/ru/Controller.md#method_beforeAction)  
--- [App](/app/_/guide/ru/App.md)::[display()](/app/_/guide/ru/App.md#method_display)   - отдаёт ответ ( text/json/link)
+- [init()](/app/_/guide/ru/Controller.md#method_init)   
+- [rules()](/app/_/guide/ru/Controller.md#method_rules)   
+- [beforeAction()](/app/_/guide/ru/Controller.md#method_beforeAction)  
+- `$controller->{Action()->target}()`  
+- [afterAction()](/app/_/guide/ru/Controller.md#method_beforeAction)  
+- [App](/app/_/guide/ru/App.md)::[display()](/app/_/guide/ru/App.md#method_display)   - отдаёт ответ ( text/json/link)
  исходя из формата ответа ( 
 [App](/app/_/guide/ru/App.md)::[$response](/app/_/guide/ru/Response.md)->[format](/app/_/guide/ru/Response.md#params_format))  
+ 
  Совершает действие:
  * в браузер отдаётся текст
  * совершает редирект
