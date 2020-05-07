@@ -10,6 +10,7 @@ use _\components\main\Response;
 use _\components\main\View;
 use _\components\main\Controller;
 use _\base\BaseController;
+use Exception;
 
 /**
  * Class App
@@ -247,7 +248,7 @@ class App extends Core
 
             $controller->afterAction();
 
-        } catch ( \Exception $e ){
+        } catch ( Exception $e ){
 
             //TODO: обработчик ошибок https://habr.com/ru/post/440744/
             $controller = new BaseController( [] );

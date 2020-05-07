@@ -4,6 +4,7 @@ namespace _\base\prototype;
 
 use _\App;
 use _\components\Runtime;
+use Exception;
 
 /**
  * Trait Func
@@ -123,7 +124,7 @@ trait Func
 
             ob_end_clean();
 
-        } catch ( \Exception $e ){
+        } catch ( Exception $e ){
 
             $this->exceptionCatch( $e );
         }
@@ -132,7 +133,7 @@ trait Func
     }
 
     /**
-     * @param $e \Exception
+     * @param $e Exception
      */
     public function exceptionCatch( $e )
     {

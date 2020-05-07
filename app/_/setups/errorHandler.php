@@ -2,7 +2,43 @@
 
 use \_\components\main\View;
 
-// наш обработчик ошибок
+/**
+ * @return string
+ */
+function pathTemplateError()
+{
+    return __DIR__ . '/../templates/error' . TEMPLATE_FORMAT;
+}
+
+/**
+ * @param string $title
+ * @param string $error
+ * @param string|bool $message
+ * @param string|bool $context
+ */
+function errorResponse( $title, $error, $message = false, $context = false )
+{
+    $view = new View([]);
+
+    echo $view->renderFile( pathTemplateError(), [
+        'title'     => $title,
+        'error'     => $error,
+        'message'   => $message,
+        'context'   => $context
+    ] );
+
+    exit();
+}
+
+/**
+ *      Обработчик варнингов
+ *
+ * @param string $level
+ * @param string $message
+ * @param string $file
+ * @param string $line
+ * @param string $context
+ */
 function errorsHandler( $level, $message, $file, $line, $context )
 {
     $errorLevels = [
@@ -13,19 +49,36 @@ function errorsHandler( $level, $message, $file, $line, $context )
     ];
     $level = ( isset($errorLevels[ $level ]) ) ?  $errorLevels[ $level ] : $level;
 
-    $view = new View([]);
+    errorResponse($level, $message, "{$file}:{$line}", $context );
+}
 
-    $data = [
-        'title'     => $level,
-        'error'     => $message,
-        'message'   => "{$file}:{$line}",
-        'context'   => $context
-    ];
+/**
+ *  Обработчик Fatal + Parse Error
+ * @param string $buffer
+ */
+function fatalErrorsHandler( $buffer )
+{
+    $error  = null;
 
-    $template = __DIR__ . '/../templates/error' . TEMPLATE_FORMAT;
+    if ( $buffer )
+    {
+        $errorList = [ 'Fatal error', 'Parse error' ];
 
-    echo $view->renderFile( $template , $data );
-    exit();
+        foreach ( $errorList as $item )
+        {
+            $mark = "<b>{$item}</b>";
+
+            if ( strpos($buffer, $mark) )
+            {
+                $error = [
+                    'level'     => $item,
+                    'message'   => str_replace( $mark, '', $buffer )
+                ];
+            }
+        }
+
+        if ( $error ) errorResponse($error['level'], $error['message'] );
+    }
 }
 
 set_error_handler('errorsHandler', ERROR_LEVEL );
