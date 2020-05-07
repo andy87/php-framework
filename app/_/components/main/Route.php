@@ -41,25 +41,11 @@ class Route extends Core
 
         parent::__construct( $params );
 
-        $this->setRules( $params[ 'routes' ] );
-
         $this->setRequest();
 
         $this->checkRules();
     }
 
-    /**
-     * @param $rules
-     */
-    public function setRules( $rules )
-    {
-        Runtime::log( static::class, __METHOD__, __LINE__ );
-
-        if ( count( $rules ) )
-        {
-            $this->rules = $rules;
-        }
-    }
 
     /**
      *
@@ -80,13 +66,13 @@ class Route extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        foreach ( $this->rules as $uri => $params )
+        foreach ( $this->rules as $uri => $rout )
         {
             if ( $this->checkMatch( $this->request, $uri ) )
             {
                 $this->rout = [
                     'key'       => $uri,
-                    'data'      => $this->slashReplace( $params )
+                    'data'      => $this->slashReplace( $rout )
                 ];
                 break;
             }

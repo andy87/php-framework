@@ -1,13 +1,16 @@
 <?php
 
+echo file_get_contents("php://input");
+
 use _\App;
 
-// Устанавливаем уровень обработки ошибок
 define('ERROR_LEVEL' , E_ALL & ~E_NOTICE );
 error_reporting( ERROR_LEVEL );
 
 require "_/setups/init.php";
 require "config/params.php";
+
+if ( params('request.session') ) session_start();
 
 ( $app = new App( $params ) )->init();
 

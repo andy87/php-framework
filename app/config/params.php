@@ -1,6 +1,7 @@
 <?php
 
-require "setups" . SLASH . $_SERVER['HTTP_HOST'] . PHP;
+setups();
+
 require "routes.php";
 
 $params = [
@@ -12,7 +13,7 @@ $params = [
     'debug'         => 3, // 0/1/2/3
 
     'alias'         => [
-        '@root'          => $_SERVER['DOCUMENT_ROOT']
+        '@root'             => DOCUMENT_ROOT
     ],
 
     'request'       => [
@@ -39,11 +40,15 @@ $params = [
         'error'             => ACTION_ERROR,
     ],
 
+    'route'         => [
+        'rules'             => $routes
+    ],
+
     'view'          => [
-        'css'               => [ '/css/style.css' ]
+        'css'               => [
+            '/css/style.css'
+        ]
     ],
 
     'setups'        => $setup,
-
-    'routes'        => $routes,
 ];

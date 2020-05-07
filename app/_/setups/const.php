@@ -1,10 +1,14 @@
 <?php
 
 define( 'DOG', '@' );
+define( 'DOT', '.' );
 define( 'PHP', ".php" );
 define( 'SLASH', '/' );
 define( 'SLASHER', '\\' );
 define( 'RN',  "\r\n" );
+
+define('HOST', $_SERVER['HTTP_HOST']);
+define('DOCUMENT_ROOT', $_SERVER['DOCUMENT_ROOT']);
 
 define( 'SRC_JQUERY', "//code.jquery.com/jquery-3.5.0.js" );
 define( 'SRC_JQUERY_MIN', "//code.jquery.com/jquery-3.5.0.min.js" );
@@ -15,6 +19,8 @@ define( 'DEFAULT_RESPONSE', "text/html" );
 define( 'DEFAULT_CHARSET', "utf-8" );
 define( 'DEFAULT_LANG', "ru" );
 define( 'DEFAULT_CODE', 200 );
+
+define( 'PATH_SETUPS', DOCUMENT_ROOT . "/app/config/setups/");
 
 
 define( 'CONTROLLER_SUFFIX', "Controller" );

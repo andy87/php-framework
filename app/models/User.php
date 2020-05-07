@@ -6,7 +6,7 @@ namespace models;
  * Class User
  * @package app\models
  */
-class User extends \app\models\source\User {
+class User extends \models\source\User {
 
     /**
      * @return self

@@ -3,7 +3,7 @@
 namespace controllers;
 
 use _\base\BaseController;
-use app\models\User;
+use models\User;
 
 /**
  * Class SiteController
@@ -18,6 +18,20 @@ class SiteController extends BaseController
      * @return string
      */
     public function actionIndex()
+    {
+
+        $data = [
+            'user'      => "user",
+            'username'  => "username",
+        ];
+
+        return $this->render( 'index', $data );
+    }
+
+    /**
+     * @return string
+     */
+    public function actionTest()
     {
         $user       = User::getData();
         $username   = $user->getUserName();

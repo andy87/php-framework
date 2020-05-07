@@ -1,9 +1,7 @@
 <?php
 
-session_start();
-
 require "const.php";
 
-require "autoload.php";
+require "tools.php";
 
 require "errorHandler.php";
