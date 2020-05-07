@@ -333,9 +333,9 @@ class App extends Core
 
         $key = 'debug';
 
-        if ( self::$request->get->_isset( $key ) )
+        if ( isset($_GET[ $key ]) )
         {
-            $filter = self::$request->get->get( $key, false );
+            $filter = ( !empty($_GET[ $key ]) ) ? $_GET[ $key ] : false;
 
             if ( $filter )
             {

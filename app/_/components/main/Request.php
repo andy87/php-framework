@@ -2,7 +2,6 @@
 
 namespace _\components\main;
 
-
 use _\base\Core;
 use _\components\Library;
 use _\components\Runtime;
@@ -75,33 +74,33 @@ class Request extends Core
 
 
     // свойства для работы с объектами
-    /** @var Server данные SERVER*/
-    public $server;
+    /** @var bool|Server данные SERVER*/
+    public $server      = true;
 
-    /** @var Library _GET данные */
-    public $get;
+    /** @var bool|Library _GET данные */
+    public $get         = true;
 
-    /** @var Library _POST данные  */
-    public $post;
+    /** @var bool|Library _POST данные  */
+    public $post        = true;
 
-    /** @var Library данные _FILES */
-    public $files;
+    /** @var bool|Library данные _FILES */
+    public $files       = false;
 
-    /** @var Cookie данные COOKIE */
-    public $cookie;
+    /** @var bool|Cookie данные COOKIE */
+    public $cookie      = false;
 
-    /** @var Session данные SESSION */
-    public $session;
+    /** @var bool|Session данные SESSION */
+    public $session     = false;
 
 
     /** @var array аргументы запроса для передачи в Controller->action() */
-    private $arguments = null;
+    private $arguments      = null;
 
     /** @var array список используемых метобов */
-    private $useMethodList = [];
+    private $useMethodList  = [];
 
     /** @var bool Признак использования Runtime Logs */
-    public $runtime = false;
+    public $runtime         = false;
 
     /**
      * Request constructor.
@@ -118,30 +117,107 @@ class Request extends Core
         $this->useMethodList    = $requestParams['methods'];
 
         /** @var Server server */
-        $this->server   = new Server( $_SERVER );
+        $this->server       = new Server( $_SERVER );
 
-        $this->uri      = $this->getUri();
+        $this->uri          = $this->getUri();
 
-        $this->method   = $this->getMethod();
+        $this->method       = $this->getMethod();
 
         $this->setupMethodStatus();
 
         $this->arguments    = $_REQUEST;
 
-        /** @var Library get */
-        $this->get = new Library( $_GET );
 
-        /** @var Library post */
-        $this->post = new Library( $_POST );
+        // Назначение свойств get, post, files, cookie, session
+        $requestObjects     = ['get','post','files','server','cookie','session'];
 
-        /** @var Library files */
-        $this->files = new Library( $_FILES );
+        foreach ( $requestObjects as $key )
+        {
+            if ( !$this->$key ) continue;
 
-        /** @var Cookie cookie */
-        $this->cookie = new Cookie( $_COOKIE );
+            $func = 'obj' . ucfirst( $key );
 
-        /** @var Session session */
-        $this->session = new Session( $_SESSION );
+            $item = $this->$func();
+
+            if ( $item->data ) $this->{$item->key}  = new $item->class( $item->data );
+        }
+    }
+
+    /**
+     *      Получение объекта $_GET (для перебора)
+     *
+     * @return object
+     */
+    private function objGet()
+    {
+        return $this->objRequestData( $_GET, 'get', "_\\components\\Library");
+    }
+
+    /**
+     *      Получение объекта $_POST (для перебора)
+     *
+     * @return object
+     */
+    private function objPost()
+    {
+        return $this->objRequestData( $_POST, 'post', "_\\components\\Library");
+    }
+
+    /**
+     *      Получение объекта $_FILES (для перебора)
+     *
+     * @return object
+     */
+    private function objFiles()
+    {
+        return $this->objRequestData( $_FILES, 'files', "_\\components\\Library");
+    }
+
+    /**
+     *      Получение объекта Server (для перебора)
+     *
+     * @return object
+     */
+    private function objServer()
+    {
+        return $this->objRequestData( Server::getData(), 'server', "_\\helpers\\Server");
+    }
+
+    /**
+     *      Получение объекта Cookie (для перебора)
+     *
+     * @return object
+     */
+    private function objCookie()
+    {
+        return  $this->objRequestData( Cookie::getData(), 'cookie', "_\\helpers\\Cookie");
+    }
+
+    /**
+     *      Получение объекта Session (для перебора)
+     *
+     * @return object
+     */
+    private function objSession()
+    {
+        return  $this->objRequestData( Session::getData(), 'session', "_\\helpers\\Session");
+    }
+
+    /**
+     *      конструктор объекта для перебора элементов self::$request
+     *
+     * @param $data
+     * @param $ket
+     * @param $class
+     * @return object
+     */
+    private function objRequestData( $data, $ket, $class )
+    {
+        return (object) [
+            'key'       => $ket,
+            'class'     => $class,
+            'data'      => $data,
+        ];
     }
 
     /**
@@ -157,7 +233,8 @@ class Request extends Core
 
         if ( $resp )
         {
-            $resp = array_shift( explode( '?', $resp ) );
+            $arr    = explode( '?', $resp );
+            $resp   = array_shift( $arr );
         }
 
         return $resp;
@@ -190,6 +267,8 @@ class Request extends Core
     }
 
     /**
+     *      Проверка запроса на соответствие типа AJAX
+     *
      * @return bool
      */
     private function isAjax()
@@ -201,7 +280,7 @@ class Request extends Core
 
 
     /**
-     *      Вернёт true если $method == фактический метод запроса
+     *      Сравнение метода запроса
      *
      * @param $method string|null
      * @return bool

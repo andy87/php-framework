@@ -2,7 +2,8 @@
 
 use _\App;
 
-//error_reporting( E_ALL );
+session_start();
+error_reporting( E_ALL );
 
 $root = str_replace( '\app', '', __DIR__ );
 

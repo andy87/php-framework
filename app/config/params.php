@@ -17,7 +17,10 @@ $params = [
 
     'request'       => [
         'methods'           => METHOD_LIST,
-        'runtime'           => false
+        'runtime'           => false,
+        'files'             => true,
+        'cookie'            => true,
+        'session'           => true,
     ],
 
     'response'      => [

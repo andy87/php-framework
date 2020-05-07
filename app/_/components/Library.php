@@ -2,6 +2,7 @@
 
 namespace _\components;
 
+use _\App;
 use _\base\Core;
 
 /**
@@ -21,9 +22,19 @@ class Library extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        parent::__construct( [] );
+        parent::__construct( App::$params );
 
-        $this->library = $library;
+        $this->setLibrary( $library );
+    }
+
+    /**
+     *      Задаём библиотеку
+     *
+     * @param $data
+     */
+    public function setLibrary( $data )
+    {
+        $this->library = $data;
     }
 
     /**

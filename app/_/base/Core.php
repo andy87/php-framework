@@ -20,7 +20,6 @@ class Core
      */
     function __construct( $params = [] )
     {
-
         $className = $this->getClassName( true );
 
         if ( !empty( $params[ $className ] ) AND is_array( $params[ $className ] ) )
@@ -65,7 +64,9 @@ class Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $className = array_pop( explode( '\\', static::class ) );
+        $path       = static::class;
+        $arr        = explode( '\\', $path );
+        $className  = array_pop( $arr );
 
         if ( $strToLower ) $className = strtolower( $className );
 
@@ -73,7 +74,7 @@ class Core
     }
 
     /**
-     * @param string|array $error //TODO: привести $error к единому формату
+     * @param string|array $error
      * @param int $code
      */
     public static function exception( $error = 'Error', $code = 418 )
