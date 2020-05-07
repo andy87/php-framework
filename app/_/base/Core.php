@@ -57,6 +57,8 @@ class Core
     }
 
     /**
+     *      Получение имени скласса
+     *
      * @param bool $strToLower
      * @return string
      */
@@ -65,7 +67,7 @@ class Core
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
         $path       = static::class;
-        $arr        = explode( '\\', $path );
+        $arr        = explode( SLASHER, $path );
         $className  = array_pop( $arr );
 
         if ( $strToLower ) $className = strtolower( $className );
@@ -74,6 +76,8 @@ class Core
     }
 
     /**
+     *      Обработка исключений
+     *
      * @param string|array $error
      * @param int $code
      */

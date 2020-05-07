@@ -1,6 +1,6 @@
 <?php
 
-require "setup.php";
+require "setups" . SLASH . $_SERVER['HTTP_HOST'] . PHP;
 require "routes.php";
 
 $params = [

@@ -33,7 +33,7 @@ class Runtime extends Core
         if ( !self::$status ) return;
 
         $method = array_pop( explode( '::', $method ) );
-        $class  = array_pop( explode( '\\', $class ) );
+        $class  = array_pop( explode( SLASHER, $class ) );
 
         self::$log[] = implode( '; ', [ self::time(), $line, "$class::$method()" ] ) . RN;
     }

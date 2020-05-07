@@ -45,6 +45,8 @@ class App extends Core
     /** @var BaseController пользовательский контроллер */
     public static $app;
 
+
+
     /**
      *      constructor.
      *
@@ -79,8 +81,6 @@ class App extends Core
 
         self::$response->cache();
     }
-
-
 
     /**
      *      Технический метод.
@@ -250,8 +250,8 @@ class App extends Core
 
         } catch ( Exception $e ){
 
-            //TODO: обработчик ошибок https://habr.com/ru/post/440744/
             $controller = new BaseController( [] );
+
             $resp = $controller->actionError( [
                 'error' => $e->getCode(),
                 'message' => $e->getMessage(),
