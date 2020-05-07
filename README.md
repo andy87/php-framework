@@ -192,7 +192,7 @@ server {
 `_ create/module Test`  
 Будет сгенерирован файл: */app/modules/Test.php* ([шаблон](/app/_/templates/generator/module.tpl))  
 
-- **Генерация модуля**  
+- **Генерация миграций**  
 `_ create/migrate Skill`  
 можно добавить дполнительные параматры `Имя таблицы`, `Комментарий к таблице`  
 **Пример:** `_ create/migrate Skill table_name "Комментарий к таблице"`  
