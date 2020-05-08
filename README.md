@@ -1,5 +1,3 @@
-![php-framework](https://repository-images.githubusercontent.com/260773735/58be9c80-90c7-11ea-8196-19047379b78a)
-
 # PHP Framework
 
 Простой фреймворк - буквально самый простой в мире фреймворк.  
@@ -239,3 +237,5 @@ server {
 - MySQL 5.5 *или выше*
 
 *framework в процессе разработки...*
+
+![php-framework](https://repository-images.githubusercontent.com/260773735/58be9c80-90c7-11ea-8196-19047379b78a)
