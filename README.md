@@ -236,6 +236,11 @@ server {
 - php5.2 *или выше*
 - MySQL 5.5 *или выше*
 
-*framework в процессе разработки...*
 
-![php-framework](https://repository-images.githubusercontent.com/260773735/58be9c80-90c7-11ea-8196-19047379b78a)
+# Фреймворк в разработке
+![php-framework](https://repository-images.githubusercontent.com/260773735/6b62c100-911b-11ea-88f3-90e4777322e0)
+Возможно обнаружение:
+- нерабочего/отсутствующего функционала
+- баги/ошибки
+
+*framework в процессе разработки...*
