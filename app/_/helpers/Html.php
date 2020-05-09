@@ -29,14 +29,7 @@ class Html extends Component
         {
             foreach ( $attributes as $key => $value )
             {
-                if ( $value === null )
-                {
-                    $html .= " {$key}";
-
-                } else {
-
-                    $html .= " {$key}='{$value}'";
-                }
+                $html .= ( ( $value === null ) ? " {$key}" : " {$key}='{$value}'" );
             }
         }
         $html .= '>';
@@ -47,7 +40,7 @@ class Html extends Component
 
             if ( is_array( $content ) )
             {
-                $content = array_merge( [
+                $content = array_merge([
                     'name'          => 'div',
                     'content'       => $content,
                     'attributes'    => []
@@ -65,16 +58,34 @@ class Html extends Component
         return $html;
     }
 
+    /**
+     * @param string $href
+     * @param string $type
+     * @param string $rel
+     * @return string
+     */
     public static function link( $href = '', $type = 'text/css', $rel = 'stylesheet' )
     {
         return "<link type='{$type}' rel='{$rel}' href='{$href}'>";
     }
 
+    /**
+     * @param $src
+     * @param string $type
+     * @return string
+     */
     public static function script( $src, $type = 'text/JavaScript' )
     {
         return "<script type='text/javascript' src='{$src}'></script>";
     }
 
+    /**
+     * @param $src
+     * @param string $class
+     * @param string $alt
+     * @param string $title
+     * @return string
+     */
     public static function img( $src, $class = '', $alt = '', $title = '' )
     {
         if ( empty( $alt ) ) $alt = 'картинка';

@@ -22,7 +22,7 @@ spl_autoload_register( function( $class )
  */
 function setups()
 {
-    require_once DIR_SETUPS . HOST . PHP;
+    return require DIR_SETUPS . SETUPS . PHP;
 }
 
 /**

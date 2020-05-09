@@ -53,7 +53,7 @@ class Web extends Core
 
         if ( !empty( App::$route->{$type} ) )
         {
-            $this->id = $this->normalizeName( App::$route->{$type} );
+            $this->id = $this->setupSnakeCase( App::$route->{$type} );
         }
     }
 }

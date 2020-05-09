@@ -10,6 +10,6 @@ set _PATH=%~dp0
 
 if "%PHP_COMMAND%" == "" set PHP_COMMAND=php.exe
 
-"%PHP_COMMAND%" "%_PATH%_\Console.php" %*
+"%PHP_COMMAND%" "%_PATH%_\cmd.php" %*
 
 @endlocal

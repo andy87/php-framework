@@ -12,24 +12,10 @@ use Exception;
  */
 trait Func
 {
-    /**
-     * @param $obj
-     * @param bool $exit
-     */
-    public static function printPre( $obj, $exit = true )
-    {
-        Runtime::log( static::class, __METHOD__, __LINE__ );
-
-        if ( is_string( $obj ) ) $obj = [$obj];
-
-        echo '<pre>';
-        print_r( $obj );
-        echo '</pre>';
-
-        if ( $exit ) exit();
-    }
 
     /**
+     *      Обработка путей (замена слешей)
+     *
      * @param $str
      * @return string|string[]
      */
@@ -42,42 +28,74 @@ trait Func
         return str_replace( $form, SLASH, $str );
     }
 
+
     /**
-     *      Форматирование строки в snake Case
+     *      Форматирование строки в CamelCase
      *
-     * @param $str
+     * @param string $str
      * @return string
      */
-    public static function normalizeName( $str )
+    public static function setupCamelCase( $str )
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        if ( strpos( $str, '-' ) !== false )
+        $str    = str_replace(['-','_'],['_', SLASH], $str );
+
+        $data   = explode( SLASH, $str );
+
+        $data = array_map(function ( $str )
         {
-           $str = explode( '-', $str );
+            return ucfirst( strtolower($str) );
 
-           foreach ( $str as $index => $item )
-           {
-               $str[ $index ] = self::ucFirst( $item );
-           }
+        }, $data );
 
-           $resp = implode( '', $str );
+        $str = implode('', $data );
 
-        } else {
-
-            $resp = self::ucFirst( $str );
-        }
-
-        return $resp;
+        return $str;
     }
 
     /**
-     *      Форматирование строки в kebab Case
+     *      Форматирование строки в snake_case
      *
-     * @param $str
+     * @param string $str
      * @return string
      */
-    public static function kebabCase( $str )
+    public static function setupSnakeCase( $str )
+    {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
+        $str = self::setupCase( $str, '$1_' );
+
+        $str = str_replace(['-','--','__'],'_', $str );
+
+        return  $str;
+    }
+
+    /**
+     *      Форматирование строки в kebab-kase
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function setupKebabCase( $str )
+    {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
+        $str = self::setupCase( $str, '$1-' );
+
+        $str = str_replace(['_','__','--'],'-', $str );
+
+        return  $str;
+    }
+
+    /**
+     *      Общий метод для snake & cebab
+     *
+     * @param $str
+     * @param $to
+     * @return string
+     */
+    public static function setupCase( $str, $to )
     {
         if ( ctype_lower( $str ) ) return $str;
 
@@ -85,7 +103,8 @@ trait Func
 
         $str            = preg_replace('/[\s]+/u', '', $replacement );
 
-        return  mb_strtolower( preg_replace('/(.)(?=[A-Z])/u', '$1-', $str ), 'UTF-8');
+        return  mb_strtolower( preg_replace('/(.)(?=[A-Z])/u', $to, $str ), 'UTF-8');
+
     }
 
     /**
@@ -114,19 +133,8 @@ trait Func
     }
 
     /**
-     * @param $str string
-     */
-    public function test( $str )
-    {
-        Runtime::log( static::class, __METHOD__, __LINE__ );
-
-        if ( is_bool( $str ) ) $str = ( $str ) ? 'Y' : 'N';
-        if ( is_string( $str ) AND empty( $str ) ) $str = 'string( empty )';
-
-        exit( $str );
-    }
-
-    /**
+     *      Ядро рендера
+     *
      * @param $path string
      * @param $params array
      * @return string
@@ -156,13 +164,49 @@ trait Func
     }
 
     /**
+     *      Вызов исключения Catch
+     *
      * @param $e Exception
      */
     public function exceptionCatch( $e )
     {
-        $this->exception( [
+        $this->exception([
             'error'         => $e->getCode(),
             'message'       => $e->getMessage(),
-        ] );
+        ]);
     }
+
+    /**
+     *      Выводд строки с завершением работы скриптов
+     *
+     * @param $str string
+     */
+    public function test( $str )
+    {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
+        if ( is_bool( $str ) ) $str = ( $str ) ? 'Y' : 'N';
+        if ( is_string( $str ) AND empty( $str ) ) $str = 'string( empty )';
+
+        exit( $str );
+    }
+    /**
+     *      Выводд массива с завершением работы скриптов
+     *
+     * @param $obj
+     * @param bool $exit
+     */
+    public static function printPre( $obj, $exit = true )
+    {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
+        if ( is_string( $obj ) ) $obj = [$obj];
+
+        echo '<pre>';
+        print_r( $obj );
+        echo '</pre>';
+
+        if ( $exit ) exit();
+    }
+
 }

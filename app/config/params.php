@@ -1,9 +1,5 @@
 <?php
 
-setups();
-
-require "routes.php";
-
 $params = [
 
     'title'         => 'My Applications',
@@ -50,5 +46,5 @@ $params = [
         ]
     ],
 
-    'setups'        => $setup,
+    'setups'        => setups(),
 ];

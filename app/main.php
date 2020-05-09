@@ -3,6 +3,7 @@
 use _\App;
 
 require "_/setups/init.php";
+require "config/routes.php";
 require "config/params.php";
 
 error_reporting( ERROR_LEVEL );

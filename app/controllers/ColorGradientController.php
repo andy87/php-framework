@@ -41,7 +41,28 @@ class ColorGradientController extends BaseController
             ])
         ];
 
-        return $this->render( 'linear-gradient', $data );
+        $resp = $this->render( 'linear-gradient', $data );
+
+        exit($resp);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionLinearGradient2()
+    {
+        $this->addMetas( __METHOD__ );
+
+        $data = [
+            'from'          => "#fff",
+            'to'            => "#000",
+            'controller_id' => $this->id,
+            'block'         => $this->render( 'block', [
+                'text'          => "test"
+            ])
+        ];
+
+        return $this->render( 'linear-gradient2', $data );
     }
 
     /**

@@ -62,6 +62,8 @@ class BaseController extends Web
     }
 
     /**
+     *      Описание правил доступа к экшонам в зависимости от метода запроса
+     *
      * @return array
      */
     public function rules()
@@ -70,6 +72,8 @@ class BaseController extends Web
     }
 
     /**
+     *      Рендер контроллера
+     *
      * @param $path string
      * @param $params array
      * @return string
@@ -120,6 +124,8 @@ class BaseController extends Web
     }
 
     /**
+     *      Стандартный рендер ошибки
+     *
      * @param array $params
      * @return string
      */
@@ -133,6 +139,8 @@ class BaseController extends Web
     }
 
     /**
+     *      Редирект
+     *
      * @param $uri
      */
     public function redirect( $uri )
@@ -141,11 +149,14 @@ class BaseController extends Web
     }
 
     /**
+     *      Получение мени контроллера без суфикса
+     *
+     * @param string $className
      * @return string|string[]
      */
-    private function getControllerName()
+    private function getControllerName( $className = __CLASS__ )
     {
-        $controllerClassName    = array_pop( explode( '/', __CLASS__ ) );
+        $controllerClassName    = array_pop( explode( '/', $className ) );
 
         return str_replace( CONTROLLER_SUFFIX, '', $controllerClassName );
     }

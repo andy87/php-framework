@@ -3,6 +3,7 @@
 namespace _;
 
 use _\base\Core;
+use _\components\DB;
 use _\components\Runtime;
 use _\components\main\Request;
 use _\components\main\Route;
@@ -45,6 +46,9 @@ class App extends Core
     /** @var BaseController пользовательский контроллер */
     public static $app;
 
+    /** @var DB Контроллер соединения с БД */
+    public static $db;
+
 
 
     /**
@@ -76,6 +80,9 @@ class App extends Core
 
         /** @var View controller */
         self::$view         = new View( $params );
+
+        /** @var DB controller */
+        self::$db           = new DB( $params );
 
         self::setCharset( self::getParams( 'charset', DEFAULT_CHARSET ) );
 

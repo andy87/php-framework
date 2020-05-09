@@ -2,14 +2,14 @@
 
 namespace migrations;
 
-use _\components\Migration;
+use _\components\Manager;
 
 /**
  *      Model: {{$migrationName}}
  *
  * @package models
  */
-class {{$migrationClass}} extends Migration
+class {{$migrationClass}} extends Manager
 {
     public $tableName       = '{{$tableName}}';
     public $tableComment    = '{{$tableComment}}';

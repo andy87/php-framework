@@ -11,7 +11,7 @@ use _\components\Query;
  */
 class {{$modelName}} extends Query
 {
-    public $tableName = '{{$modelTableName}}';
+    private $tableName = '{{$modelTableName}}';
 
     public function validation()
     {

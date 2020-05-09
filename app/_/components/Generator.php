@@ -11,6 +11,12 @@ use _\helpers\File;
  */
 class Generator extends Core
 {
+    const ID_CONTROLLER     = 'controller';
+    const ID_MODEL          = 'model';
+    const ID_MODULE         = 'module';
+    const ID_MIGRATION      = 'migration';
+    const ID_VIEW           = 'view';
+
     const TPL_CONTROLLER    = DIR_TEMPLATES . 'generator/controller.tpl';
     const TPL_MODEL         = DIR_TEMPLATES . 'generator/model.tpl';
     const TPL_MODEL_SOURCE  = DIR_TEMPLATES . 'generator/model-source.tpl';
@@ -35,7 +41,10 @@ class Generator extends Core
      */
     public function generateController( $controllerName )
     {
-        $path       = self::DIR_CONTROLLER . self::normalizeName($controllerName) . CONTROLLER_SUFFIX . PHP;
+        $controllerName = self::setupCamelCase($controllerName);
+
+        $path       = self::DIR_CONTROLLER . $controllerName . CONTROLLER_SUFFIX . PHP;
+        $path       = self::slashReplace($path);
 
         $params     = [
             'controllerName' => $controllerName
@@ -57,10 +66,11 @@ class Generator extends Core
      */
     public function generateView( $controller, $view )
     {
-        $controller = self::kebabCase( $controller );
-        $view       = self::kebabCase( $view );
+        $controller = self::setupKebabCase( $controller );
+        $view       = self::setupKebabCase( $view );
 
         $path       = self::DIR_VIEW . $controller . SLASH . $view . PHP;
+        $path       = self::slashReplace($path);
 
         $content    = File::generateContent( self::TPL_VIEW, [] );
 
@@ -81,7 +91,9 @@ class Generator extends Core
      */
     public function generateModule( $moduleName )
     {
-        $path       = self::DIR_MODULE . self::normalizeName($moduleName) . PHP;
+        $moduleName = self::setupCamelCase($moduleName);
+        $path       = self::DIR_MODULE . $moduleName . PHP;
+        $path       = self::slashReplace($path);
 
         $params     = [
             'moduleName' => $moduleName
@@ -102,8 +114,8 @@ class Generator extends Core
      */
     public function generateModel( $modelName, $tableName )
     {
-        $modelName      = self::normalizeName($modelName);
-
+        $modelName      = self::setupCamelCase( $modelName );
+        $tableName      = self::setupSnakeCase( $tableName );
 
         $modelTableName = $tableName;
 
@@ -120,10 +132,13 @@ class Generator extends Core
         // Генерация исходного model\source файла
         $content    = File::generateContent( self::TPL_MODEL_SOURCE, $params );
         $path       = self::DIR_MODEL_SOURCE . $modelName . PHP;
+        $path       = self::slashReplace($path);
+
         File::generateFile( $path, $content );
 
         // Генерация model
         $path       = self::DIR_MODEL . $modelName . PHP;
+        $path       = self::slashReplace($path);
         $content    = File::generateContent( self::TPL_MODEL, $params );
         return ( File::generateFile( $path, $content ) ) ? $path : null;
     }
@@ -141,7 +156,8 @@ class Generator extends Core
      */
     public function generateMigration( $migrationName, $tableName = '', $tableComment = '' )
     {
-        $migrationName = self::normalizeName($migrationName);
+        $migrationName  = self::setupSnakeCase($migrationName);
+        $tableName      = self::setupSnakeCase($tableName);
 
         $params     = [
             'migrationName'     => $migrationName,
@@ -151,8 +167,10 @@ class Generator extends Core
         ];
 
         $path       = self::slashReplace( self::DIR_MIGRATION . $params['migrationClass'] . PHP );
+        $path       = self::slashReplace($path);
 
         $content    = File::generateContent( self::TPL_MIGRATION, $params );
+
 
         return ( File::generateFile( $path, $content ) ) ? $path : null;
     }

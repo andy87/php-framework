@@ -26,6 +26,7 @@ define( 'DEFAULT_CODE', 200 );
 define( 'DIR_APP', DOCUMENT_ROOT . CORE );
 define( 'DIR_SETUPS', DIR_APP . "/config/setups/");
 define( 'DIR_TEMPLATES', DIR_APP . "/_/templates/");
+define( 'DIR_MIGRATIONS', DIR_APP . "/migrations/");
 
 define( 'CONTROLLER_SUFFIX', "Controller" );
 define( 'CONTROLLER_NAMESPACE', "controllers\\" );
