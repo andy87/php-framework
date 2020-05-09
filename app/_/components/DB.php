@@ -123,11 +123,12 @@ class DB extends Core
      */
     public static function getTables()
     {
-        $sql = "SELECT * FROM `migrations`";
+
+        $sql = "SHOW TABLES";
 
         $tables = static::query( $sql );
 
-        self::printPre($tables);
+        //TODO: не работает
 
         return $tables;
     }
