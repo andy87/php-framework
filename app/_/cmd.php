@@ -4,6 +4,7 @@ use _\components\Console;
 use _\components\Generator;
 use _\models\Migration;
 
+// Тут я хочу оправдаться тем что не подразумевал данный функционал поэтому вышла такая петушня
 $_SERVER['DOCUMENT_ROOT'] = str_replace('app\_', '', __DIR__);
 $routes = [];
 
@@ -15,6 +16,7 @@ require_once $paramsPath;
 $params['console'] = true;
 
 $console = new Console($_SERVER['argv']);
+// =======================
 
 switch ( $console->action )
 {
