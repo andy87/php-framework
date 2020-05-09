@@ -9,7 +9,7 @@ use _\components\Manager;
  *
  * @package models
  */
-class m_000000_000000_Init extends Manager
+class m000000_000000_Init extends Manager
 {
     public $tableName       = 'migrations';
     public $tableComment    = 'таблица миграций';

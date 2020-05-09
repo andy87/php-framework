@@ -161,7 +161,7 @@ class Generator extends Core
 
         $params     = [
             'migrationName'     => $migrationName,
-            'migrationClass'    => 'm_' . date("ymd_His") . '_' . $migrationName,
+            'migrationClass'    => 'm' . date("ymd_His") . '_' . $migrationName,
             'tableName'         => $tableName,
             'tableComment'      => $tableComment,
         ];
