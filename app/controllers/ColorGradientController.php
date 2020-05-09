@@ -117,7 +117,7 @@ class ColorGradientController extends BaseController
         App::$view->registerMeta( ['name' => 'action', 'content'=> $content] );
     }
 
-    public function badExaple()
+    public function badExample()
     {
 
         $model = User::getData();
@@ -125,17 +125,3 @@ class ColorGradientController extends BaseController
 
     }
 }
-
-// TODO: взаимодействие с БД
-// DB::table( 'users' )->sql( $sql )->exec();
-// $user = User::getAll();
-// $user = User::find()->where( ['id' => 1] )->all();
-// $user->delete();
-// $user->update([ 'key' => $value ]);
-// $user->save();
-// $user->validation();
-// $user = User::find()->select( '*' )->where( ['id' => 1] )->all();
-// $user = User::find()->select( 'name, id' )->where( ['name', 'LIKE', 'and_y87'] )->one();
-// $user = User::update( ['name', 'LIKE', 'and_y87'] )->where( ['name', 'LIKE', 'and_y87'] )->exec();
-// $user = User::delete()->where( ['name', 'LIKE', 'and_y87'] )->exec();
-// $user_id = $user->id;

@@ -6,7 +6,7 @@ $params = [
 
     'charset'       => DEFAULT_CHARSET,
 
-    'debug'         => 3, // 0/1/2/3
+    'debug'         => 1, // 0/1/2/3
 
     'alias'         => [
         '@root'             => DOCUMENT_ROOT

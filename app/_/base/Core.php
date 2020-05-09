@@ -96,7 +96,7 @@ class Core
 
             $params['debug'] = App::getParams( 'debug' );
 
-            $resp = App::$view->render( TEMPLATE_ERROR, $params );
+            $resp = App::$view->renderFile( TEMPLATE_ERROR, $params );
 
             App::$response->setContent( $resp );
 

@@ -2,9 +2,10 @@
 
 namespace _\components;
 
-use _\App;
 use PDO;
+use _\App;
 use _\base\Core;
+use PDOException;
 use PDOStatement;
 
 
@@ -25,14 +26,9 @@ class DB extends Core
     /**
      *      Рекизиты доступа к БД
      *
-     * @var array
+     * @var array|null
      */
-    private $setups     = [
-        'dsn'           => null,
-        'username'      => null,
-        'password'      => null,
-        'charset'       => null,
-    ];
+    private $setups     = null;
 
     /**
      * DB constructor.
@@ -42,43 +38,97 @@ class DB extends Core
     {
         parent::__construct( $params );
 
-        if ( isset($GLOBALS['params']['setups']['db']) )
+        $this->setups = params('setups.db', $params);
+    }
+
+    /**
+     *      становка соединения с БД
+     */
+    public function connection()
+    {
+        if ( $this->setups )
         {
-            $this->setups = params('setups.db');
-
-            $this->connection();
-
-            unset($GLOBALS['params']['setups']['db']);
+            $this->connection = self::getConnect();
         }
     }
 
     /**
-     * @return PDO
+     *      Поулчить настройки подключения к БД
+     *
+     * @return array
      */
-    public function connection()
+    public function getSetups()
     {
-        if ( ! $this->connection )
+        return $this->setups;
+    }
+
+    /**
+     * @return PDO|null
+     */
+    public static function getConnect()
+    {
+        $resp = null;
+
+        if ( App::$db->connection ) $resp = App::$db->connection;
+
+        $setups = App::$db->getSetups();
+
+        if ( ! $resp )
         {
-            if ( !App::$db->connection )
+            if ( $setups )
             {
-                $this->connection = new PDO( $this->setups['dsn'], $this->setups['username'], $this->setups['password'] );
+                try
+                {
+                    $resp = new PDO( $setups['dsn'], $setups['username'], $setups['password'] );
+
+                } catch ( PDOException $e ) {
+
+                    self::exception( 'PDO Exception: ' . $e->getMessage() );
+                }
+
+            } else {
+
+                self::exception( 'DB Setups `empty`' );
             }
         }
 
-        return $this->connection;
+        return $resp;
+    }
+
+    /**
+     *      ППроверка наличия соединения с БД
+     */
+    public function checkConnect()
+    {
+        if ( ! $this->connection )
+        {
+            $this->connection = App::$db::getConnect();
+        }
     }
 
     /**
      * @param string $sql
      * @return false|PDOStatement
      */
-    public function query( $sql )
+    public static function query( $sql )
     {
-        if ( ! $this->connection )
-        {
-            $this->connection();
-        }
+        $result = self::getConnect()->query( $sql );
 
-        return $this->connection->query( $sql );
+        return $result;
+    }
+
+    /**
+     * @return false|PDOStatement
+     * P.S. GameDevTime_ VIP до 09.07
+     */
+    public static function getTables()
+    {
+        $sql = "SELECT * FROM `migrations`";
+
+        $tables = static::query( $sql );
+
+        self::printPre($tables);
+
+        return $tables;
     }
 }

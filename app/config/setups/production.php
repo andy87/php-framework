@@ -4,10 +4,10 @@ return [
 
     // Реквизиты доступа к Базе Данных
     'db'        => [
-        'dsn'           => "mysql:host=____;dbname=____;",
-        'username'      => "____",
-        'password'      => "____",
-        'charset'       => "____",
+        'dsn'           => "mysql:host=localhost;dbname=test;",
+        'username'      => "root",
+        'password'      => "",
+        'charset'       => "utf-8",
     ],
 
     // Реквизиты для отправки почты

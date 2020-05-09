@@ -82,7 +82,8 @@ class App extends Core
         self::$view         = new View( $params );
 
         /** @var DB controller */
-        self::$db           = new DB( $params );
+        ( self::$db         = new DB( $params ) )->connection();
+
 
         self::setCharset( self::getParams( 'charset', DEFAULT_CHARSET ) );
 

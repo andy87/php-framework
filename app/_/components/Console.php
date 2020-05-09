@@ -194,8 +194,6 @@ class Console extends Core
     {
         $migration = Migration::getPendingList();
 
-        self::printPre($migration);
-
         $this->response = "Migration pending list:\r\n"
             . ( ( ! count( $migration ) )
                 ? "empty"

@@ -13,6 +13,7 @@ class Record extends Query
 {
     private $tableName   = '';
 
+
     /**
      * @return $this
      */

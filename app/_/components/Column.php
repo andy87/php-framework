@@ -4,7 +4,6 @@ namespace _\components;
 
 use _\base\Core;
 
-//TODO: нечем было заняться? Вот тебе!
 /**
  *      Клас для генерации описания колонок к БД
  *
@@ -22,7 +21,7 @@ class Column extends Core
         1 => 'VARCHAR',
         2 => 'INTEGER',
         3 => 'DATETIME',
-        4 => 'TIMESTAMP',
+        4 => 'INTEGER',
         5 => 'TEXT',
     ];
 
@@ -72,7 +71,8 @@ class Column extends Core
      */
     public function timestamp()
     {
-        $this->type = self::TYPE_TIMESTAMP;
+        $this->type     = self::TYPE_TIMESTAMP;
+        $this->length   = 14;
 
         return $this;
     }

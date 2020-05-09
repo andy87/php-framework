@@ -20,8 +20,9 @@ class m000000_000000_Init extends Manager
     public function up()
     {
         $tableMap = [
-            'name'          => $this->string( 128 ),
-            'timestamp'     => $this->integer( 11 ),
+            'id'            => $this->pk(),
+            'name'          => $this->string( 128 )->notNull(),
+            'timestamp'     => $this->timestamp()->notNull(),
         ];
 
         $this->tableCreate($tableMap);

@@ -13,20 +13,21 @@ use PDOStatement;
  */
 class Query extends DB
 {
-    private $tableName  = '';
+    public $tableName  = '';
 
-    private $select     = [];
+    private $select     = '*';
     private $where      = [];
     private $andWhere   = [];
     private $leftJoin   = [];
     private $order      = [];
-    private $limit      = 1;
+    private $limit      = 0;
 
-    private $isArray    = false;
+    private $isArray        = false;
+
+    /** @var bool метка возвращать только значения */
+    private $arrayValues    = false;
 
     private $rawSql     = '';
-
-    private $result     = '';
 
     /**
      *      Поулчение экранированного имени таблицы
@@ -36,6 +37,15 @@ class Query extends DB
     public function getTableName()
     {
         return "`{$this->tableName}`";
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getProps( $key )
+    {
+        return $this->{$key};
     }
 
     /**
@@ -57,6 +67,29 @@ class Query extends DB
         {
             $this->select = $select;
         }
+
+        return $this;
+    }
+
+    /**
+     *      Вернуть объекты как массив
+     */
+    public function asArray()
+    {
+        $this->isArray = true;
+
+        return $this;
+    }
+
+    /**
+     *      Вернуть значения полей
+     *
+     * @return $this
+     */
+    public function asArrayValues()
+    {
+        $this->isArray      = false;
+        $this->arrayValues  = true;
 
         return $this;
     }
@@ -98,46 +131,15 @@ class Query extends DB
     }
 
     /**
-     *      получение одной записи
      *
-     * @return string
      */
-    public function one()
+    public function selectHasNotID()
     {
-        $result = $this->request();
+        $resp = ( is_string( $this->select ) && strpos( $this->select, '*' ) === false );
 
-        $resp = $result->fetch(PDO::FETCH_ASSOC );
+        if ( !$resp ) $resp = ( is_array( $this->select ) && in_array( 'id', $this->select ) === false  );
 
-        if ( ! $this->isArray )
-        {
-            $resp = (object) $resp;
-        }
-
-        return  $resp;
-    }
-
-    /**
-     *      получение мнодества записей
-     *
-     * @return array
-     */
-    public function all()
-    {
-        $result = $this->request();
-
-        $resp = $result->fetchAll(PDO::FETCH_CLASS );
-
-        if ( $this->isArray )
-        {
-            $func = function ( $obj )
-            {
-                return (array) $obj;
-            };
-
-            $resp = array_map( $func, $resp );
-        }
-
-        return  $resp;
+        return $resp;
     }
 
     /**
@@ -147,11 +149,11 @@ class Query extends DB
      */
     public function request()
     {
-        $this->rawSql = $this->getSql();
+        $this->getSql();
 
-        $this->result = $this->query( $this->rawSql );
+        $result = $this->query( $this->rawSql );
 
-        return $this->result;
+        return $result;
     }
 
     /**
@@ -170,7 +172,7 @@ class Query extends DB
             $this->sqlPartOrder()
         ]);
 
-        return trim( $sql );
+        $this->rawSql = trim( $sql );
     }
 
     /**
@@ -178,7 +180,16 @@ class Query extends DB
      */
     private function getSelect()
     {
-        return implode(',', $this->select );
+        $select = $this->select;
+
+        if ( is_array($select) )
+        {
+            if ( ! in_array('id', $select) ) $select[] = 'id';
+
+            $select = implode(',', $select );
+        }
+
+        return $select;
     }
 
     /**
@@ -192,10 +203,7 @@ class Query extends DB
         {
             $where = ' WHERE';
 
-            foreach ( $this->where as $params )
-            {
-                $where .= $this->whereConstruct( $params );
-            }
+            $where .= $this->whereConstruct( $this->where );
 
             if ( count( $this->andWhere ) )
             {
@@ -221,18 +229,20 @@ class Query extends DB
     {
         $resp = ' ';
 
+
         switch ( count($params) )
         {
+            // если 2 знаения в where([$column, $value])
             case 2:
                 list( $column, $value ) = $params;
-
-                $resp   .= "`{$column}` ";
+                $resp      .= "`{$column}` ";
+                $conditions = '=';
                 break;
 
+            // если 3 знаения в where([$column, $conditions, $value])
             case 3:
                 list( $column, $conditions, $value ) = $params;
-
-                $resp   .= "`{$column}` {$conditions}";
+                $resp   .= "`{$column}`";
                 break;
 
             default:
@@ -245,11 +255,11 @@ class Query extends DB
 
         } elseif ( is_string($value) ) {
 
-            $resp   .=" = '{$value}' ";
+            $resp   .=" {$conditions} '{$value}' ";
 
         } elseif ( is_integer($value) ) {
 
-            $resp   .=" = {$value} ";
+            $resp   .=" {$conditions} {$value} ";
         }
 
         return $resp;
@@ -262,10 +272,10 @@ class Query extends DB
      */
     private function sqlPartLeftJoin()
     {
-        $resp = [];
-
         if ( count( $this->leftJoin ) )
         {
+            $resp = [];
+
             foreach ( $this->leftJoin as $joinLeft )
             {
                 $tableName  = $joinLeft[0];
@@ -273,10 +283,10 @@ class Query extends DB
                 $resp[] = "LEFT JOIN `{$tableName}` {$sql}";
             }
 
-            $resp = implode( ', ', $resp );
+            return implode( ', ', $resp );
         }
 
-        return $resp;
+        return '';
     }
 
     /**
@@ -292,7 +302,6 @@ class Query extends DB
      */
     private function sqlPartOrder()
     {
-
         return  ( $this->order ) ? "ORDER BY {$this->order}" : '';
     }
 

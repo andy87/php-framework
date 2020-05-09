@@ -24,9 +24,11 @@ $params = App::params();
         padding: 15px 25px;
         font-family: courier;
         font-size: 12px;
-        color: green;
+        color: #ffba00;
         background-color: black;
         box-sizing: border-box;
+        border-top: solid 3px #ffba00;
+        border-bottom: solid 10px #ffba00;
     }
 
     p {
@@ -68,10 +70,11 @@ $params = App::params();
 
         <? if ( $debug > 0 ) : ?>
             <hr>
-            <h5>included_files</h5>
+            <h5>debug_backtrace</h5>
             <pre>
-                <? print_r( get_included_files() ); ?>
+                <? print_r( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ) ); ?>
             </pre>
+
         <? endif; ?>
 
         <? if ( $debug > 1 ) : ?>
@@ -84,9 +87,9 @@ $params = App::params();
 
         <? if ( $debug > 2 ) : ?>
             <hr>
-            <h5>debug_backtrace</h5>
+            <h5>included_files</h5>
             <pre>
-                <? print_r( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ) ); ?>
+                <? print_r( get_included_files() ); ?>
             </pre>
         <? endif; ?>
 

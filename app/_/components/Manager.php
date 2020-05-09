@@ -2,7 +2,6 @@
 
 namespace _\components;
 
-//TODO: нечем было заняться? Вот тебе миграции делай!
 /**
  *      Родительский клас для миграций
  *
@@ -33,6 +32,13 @@ class Manager extends DB
     public $tableComment    = '';
 
     /**
+     *      SQL код таблицы
+     *
+     * @var string
+     */
+    public  $rawSql         = '';
+
+    /**
      *      Генерация колонок
      *          Используется для вызовов методов: string, integer, datetime, timestamp, text
      *
@@ -53,11 +59,33 @@ class Manager extends DB
     }
 
     /**
-     *      Создатель SQL создания таблицы
+     *      Создание таблицы
      *
      * @param array $tableMap
      */
     public function tableCreate( $tableMap = self::TABLE_TEMPLATE )
+    {
+        $this->generateSql( $tableMap );
+
+        try
+        {
+            $this->query( $this->rawSql );
+
+            echo " Manager: table `{$this->tableName}` created";
+
+        } catch ( \Exception $e ) {
+
+            echo " Manager: table `{$this->tableName}` error \r\n\t" . $e->getMessage();
+        }
+    }
+
+    /**
+     *      Генерация SQL кода таблицы
+     *
+     * @param array $tableMap
+     * @return string
+     */
+    private function generateSql( $tableMap )
     {
         $columns            = '';
         $autoincrement      = null;
@@ -80,19 +108,9 @@ class Manager extends DB
 
         if ( $autoincrement ) $columns .= $autoincrement;
 
+        $columns = trim($columns, ',');
 
-        $SQL = "CREATE TABLE {$this->tableName}\r\n({$columns}\r\n);";
-
-        try
-        {
-            $this->query($SQL)->execute();
-
-            echo " Manager: table `{$this->tableName}` created";
-
-        } catch ( \Exception $e ) {
-
-            echo " Manager: table `{$this->tableName}` error \r\n\t" . $e->getMessage();
-        }
+        return $this->rawSql = "CREATE TABLE {$this->tableName}\r\n({$columns}\r\n);";
     }
 
     /**
@@ -134,7 +152,7 @@ class Manager extends DB
     /**
      * @return Column
      */
-    public function id()
+    public function pk()
     {
         return $this->integer(7)->notNull()->autoincrement( "{$this->tableName}_pk" );
     }

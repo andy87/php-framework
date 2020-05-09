@@ -133,7 +133,7 @@ class BaseController extends Web
     {
         App::$view->registerCssFile( '/css/error.css' );
 
-        $template = '@root/' . TEMPLATE_ERROR;
+        $template = TEMPLATE_ERROR;
 
         return $this->render( $template, $params );
     }

@@ -2,8 +2,14 @@
 
 namespace controllers;
 
+use _\App;
 use _\base\BaseController;
+use _\components\DB;
+use _\models\Migration;
+use migrations\m000000_000000_Init;
 use models\User;
+use PDO;
+use PDOException;
 
 /**
  * Class SiteController
@@ -44,8 +50,8 @@ class SiteController extends BaseController
     public function actionContact()
     {
         $data = [
-            'class'      => __CLASS__,
-            'method'  => __METHOD__,
+            'class'     => __CLASS__,
+            'method'    => __METHOD__,
         ];
 
         return $this->render( 'contact', $data );
@@ -55,14 +61,14 @@ class SiteController extends BaseController
      */
     public function actionTest()
     {
-        $user       = User::getData();
-        $username   = $user->getUserName();
+        $tables = DB::getTables();
 
-        $data = [
-            'user'      => $user,
-            'username'  => $username,
-        ];
+        /** @var Migration $migrationItem */
+        $migrationItem = Migration::get()->select('name,timestamp')->where(['id','<', 30 ])->all();
 
-        return $this->render( 'index', $data );
+
+        self::printPre( [$tables] );
+
+        exit('Плохой, плохой exit() !');
     }
 }

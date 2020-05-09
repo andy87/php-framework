@@ -4,7 +4,7 @@ return [
 
     // Реквизиты доступа к Базе Данных
     'db'        => [
-        'dsn'           => "mysql:host=127.0.0.1;port:3306;dbname=test;",
+        'dsn'           => "mysql:host=localhost;dbname=test;",
         'username'      => "root",
         'password'      => "",
         'charset'       => "utf-8",

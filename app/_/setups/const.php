@@ -34,7 +34,7 @@ define( 'CONTROLLER_NAMESPACE', "controllers\\" );
 define( 'ACTION_PREFIX', "action" );
 define( 'ACTION_ERROR', "error" );
 
-define( 'TEMPLATE_ERROR', DIR_TEMPLATES . '/error' . PHP );
+define( 'TEMPLATE_ERROR', DIR_TEMPLATES . 'error' . PHP );
 define( 'TEMPLATE_FORMAT', PHP );
 
 define( 'AJAX', "XMLHttpRequest" );

@@ -8,11 +8,15 @@ use _\components\Manager;
 /**
  * Class Migration
  * @package _\models
+ *
+ * @property integer $id
+ * @property string $name
+ * @property integer $timestamp
  */
 class Migration extends BaseModel
 {
     /** @var string Имя таблицы */
-    private $tableName = 'migrations';
+    public $tableName = 'migrations';
 
     /**
      *      Получить список незарегистрированых миграций
@@ -98,11 +102,9 @@ class Migration extends BaseModel
      */
     public static function getExistsList()
     {
-        //TODO: тестовые данные
-        return [
-            'm_000000_000000_Init',
-            'm_200508_163634_User',
-        ];
+        $result = self::get()->select('name')->asArrayValues()->all();
+
+        return  $result;
     }
 
     /**
