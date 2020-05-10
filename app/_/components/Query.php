@@ -2,8 +2,6 @@
 
 namespace _\components;
 
-use _\base\Core;
-use PDO;
 use PDOStatement;
 
 /**
