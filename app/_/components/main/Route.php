@@ -27,11 +27,14 @@ class Route extends Core
         'data'      => '',
     ];
 
+    /** @var array Аргументы из строки запроса */
+    public $arguments = [];
+
     /** @var string контроллер полученый из route  */
-    public $controller  = '';
+    public $controller  = DEFAULT_CONTROLLER;
 
     /** @var string экшон полученый из route */
-    public $action      = '';
+    public $action      = DEFAULT_ACTION;
 
 
     /**
@@ -69,47 +72,135 @@ class Route extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
+        self::printPre( $this );
+
         foreach ( $this->rules as $uri => $rout )
         {
             if ( $this->checkMatch( $this->request, $uri ) )
             {
-                $this->match = $uri;
-
-                $this->rout = [
-                    'key'       => $uri,
-                    'data'      => $this->slashReplace( $rout )
-                ];
-
+                $this->match    = $uri;
                 break;
             }
         }
 
         if ( empty( $this->match ) )
         {
-
             $this->rout = [
-                'key'       => null,
-                'data'      => DEFAULT_CONTROLLER . SLASH . ACTION_ERROR_404
+                'rule'      => null,
+                'route'     => DEFAULT_CONTROLLER . SLASH . ACTION_ERROR_404
             ];
         }
 
-        $params = explode( SLASH, $this->rout['data']);
+        $params = explode( SLASH, $this->rout['route']);
 
         $this->controller   = $params[0];
         $this->action       = $params[1];
 
+        if ( !count($this->arguments) ) $this->arguments = $_GET;
+
+        //TODO: printPre
+        //self::printPre($this);
     }
 
     /**
-     * @param string $request
-     * @param string $rule
+     *      Проверка на соответствие правилу мэппинга страниц
+     *
+     * @param string $request   //  URL
+     * @param string $rule      // RULE
      * @return bool
      */
     private function checkMatch( $request, $rule )
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return ( $request === $rule );
+        $result = false;
+        $rule   = $this->slashReplace( $rule );
+
+        if ( strpos( $rule, '<' ) === false )
+        {
+            if ( $result = ( $request === $rule ) )
+            {
+                $route      = $this->rules[ $rule ];
+            }
+
+        } else {
+
+            $ruleData       = explode(SLASH, $rule );
+            $routeData      = explode(SLASH, $this->rules[ $rule ] );
+
+            if ( count( $ruleData ) == count( App::$request->path ) )
+            {
+                $data       = [];
+
+                foreach ( $ruleData as $index => $item )
+                {
+                    if ( strpos( $item, '<' ) !== false )
+                    {
+                        if ( strpos( $item, ':' ) !== false )
+                        {
+                            $regExpData = explode(':', substr( $item, 0, -1 ) );
+
+                            $this->arguments[$index] = substr( array_shift( $regExpData ), 1);
+
+                            $item   = $regExpData[0];
+
+                        } else {
+
+                            $item   = '[\w\d\-\.]';
+                        }
+                    }
+
+                    $data[ $index ] = $item;
+                }
+
+                $pattern    = implode( '+\/+', $data );
+                $pattern    = '/^' . $pattern .  '+$/';
+
+                preg_match( $pattern, $request, $match );
+
+                if ( count( $match ) )
+                {
+                    if ( $this->arguments )
+                    {
+                        $arguments = [];
+
+                        foreach ( $this->arguments as $index => $name )
+                        {
+                            $arguments[ $name ] = App::$request->path[ $index ];
+                        }
+
+                        $this->arguments    = $arguments;
+
+                    } else {
+
+                        // $requestData
+                        //      'gradient-color/<action>' => 'color-gradient/<action>',
+                        //      '<action>'                => 'site/<action>',
+                        //      '<action>/<controller>'   => '<controller>/<action>',
+                        // $ruleData
+                        //      gradient-color/test
+                        //      qwerty/main
+                        //      qwerty/main
+                        
+                        //$route  = $controller . SLASH . $action;
+
+                        $this->arguments = [];
+                    }
+
+                    $result = true;
+                }
+            }
+        }
+
+        if ( $result )
+        {
+            $this->rout     = [
+                'rule'          => $rule,
+                'route'         => $route
+            ];
+        }
+
+        return $result;
     }
 
 }

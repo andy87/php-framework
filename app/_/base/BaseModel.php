@@ -85,6 +85,8 @@ class BaseModel extends Query
      */
     public function one()
     {
+        //TODO: вынести в Query
+
         $result = $this->request();
 
         $resp = $result->fetch(PDO::FETCH_ASSOC );
@@ -125,6 +127,8 @@ class BaseModel extends Query
      */
     public function all()
     {
+        //TODO: вынести в Query
+
         $result = $this->request();
 
         $resp = $result->fetchAll(PDO::FETCH_CLASS );
@@ -239,6 +243,8 @@ class BaseModel extends Query
      */
     public function save()
     {
+        //TODO: вынести в Query
+
         if ( $this->isNewRecord )
         {
             $cols   = array_keys( $this->_data );

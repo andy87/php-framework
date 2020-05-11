@@ -32,6 +32,9 @@ class Request extends Core
     /** @var string фактический адрес запроса ( URL/URI ) */
     public $uri     = '';
 
+    /** @var array Разбитый по слэшу ( URL/URI ) */
+    public $path    = [];
+
     /** @var string фактический метод запроса */
     public $method  = 'GET';
 
@@ -120,7 +123,7 @@ class Request extends Core
         $this->server       = new Server( $_SERVER );
 
         $this->uri          = $this->getUri();
-
+        $this->path         = explode(SLASH, $this->uri);
         $this->method       = $this->getMethod();
 
         $this->setupMethodStatus();

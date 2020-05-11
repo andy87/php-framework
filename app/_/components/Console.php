@@ -38,6 +38,7 @@ class Console extends Core
 
     /**
      * Console constructor.
+     *
      * @param array $params
      */
     function __construct($params = [])
