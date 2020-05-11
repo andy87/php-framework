@@ -5,14 +5,14 @@ namespace migrations;
 use _\components\Manager;
 
 /**
- *      Model: skill
+ *      Model: user
  *
  * @package models
  */
-class m200509_203019_skill extends Manager
+class m200511_110454_user extends Manager
 {
-    public $tableName       = 'table_skill';
-    public $tableComment    = '';
+    public $tableName       = 'user';
+    public $tableComment    = 'Пользователи';
 
     /**
     *   Comment Up
@@ -21,8 +21,10 @@ class m200509_203019_skill extends Manager
     {
         $this->tableCreate([
             'id'            => $this->pk(),
-            'status'        => $this->integer(2),
-            'skill_name'    => $this->string(64),
+            'status'        => $this->integer(2)->notNull(),
+            'username'      => $this->string(64)->notNull(),
+            'email'         => $this->string(64)->notNull(),
+            'passHash'      => $this->string(32)->notNull(),
             'created_at'    => $this->integer(2),
             'updated_at'    => $this->integer(2),
         ]);
