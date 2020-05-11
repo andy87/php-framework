@@ -7,6 +7,11 @@ use _\base\BaseController;
 use _\components\main\Response;
 use models\User;
 
+/**
+ * Class ColorGradientController
+ *
+ * @package controllers
+ */
 class ColorGradientController extends BaseController
 {
     /**
@@ -61,6 +66,9 @@ class ColorGradientController extends BaseController
                 'text'          => "test"
             ])
         ];
+
+        Reuqest::$uri;
+
 
         return $this->render( 'linear-gradient2', $data );
     }

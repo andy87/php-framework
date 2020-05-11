@@ -197,7 +197,7 @@ class Console extends Core
         $this->response = "Migration pending list:\r\n"
             . ( ( ! count( $migration ) )
                 ? "empty"
-                : implode("\r\n", $migration )
+                : ' - ' . implode("\r\n - ", $migration )
             );
     }
 

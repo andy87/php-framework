@@ -25,16 +25,13 @@ class Migration extends BaseModel
      */
     public static function getPendingList()
     {
-        $migrationList = self::getFileList();
-
-        $func = function ( $path )
+        $migrationList = array_map(function ( $path )
         {
             $data   = pathinfo( $path );
 
             return  $data['filename'];
-        };
 
-        $migrationList      = array_map( $func, $migrationList );
+        }, self::getFileList() );
 
         $migrationComplete  = self::getExistsList();
 

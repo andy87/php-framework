@@ -101,6 +101,8 @@ class BaseModel extends Query
 
         } else {
 
+            if ( $this->selectHasNotID() ) unset($resp['id']);
+
             if ( $arrayValues )
             {
                 $resp = (array) $resp;
@@ -127,8 +129,19 @@ class BaseModel extends Query
 
         $resp = $result->fetchAll(PDO::FETCH_CLASS );
 
-        $isArray        = $this->getProps('arrayValues');
-        $arrayValues    = $this->getProps('isArray');
+        $isArray        = $this->getProps('isArray');
+        $arrayValues    = $this->getProps('arrayValues');
+
+        if ( $this->selectHasNotID() )
+        {
+            $resp = array_map(function ( $obj )
+            {
+                unset($obj->id);
+
+                return $obj;
+
+            }, $resp );
+        }
 
         if ( ! $arrayValues AND ! $isArray )
         {
@@ -136,8 +149,6 @@ class BaseModel extends Query
             {
                 $model = new static( (array) $obj );
                 $model->isNewRecord = false;
-
-                if ( $this->selectHasNotID() ) unset($model->_data['id']);
 
                 return $model;
 
@@ -149,9 +160,10 @@ class BaseModel extends Query
             {
                 $resp = array_map(function ($obj)
                 {
-                    $obj    = array_values( (array) $obj );
+                    $obj    = (array) $obj;
+                    $obj    = array_values( $obj );
 
-                    return ( count($obj) === 1 ) ? $obj[0] : $obj;
+                    return ( count($obj) == 1 ) ? array_shift($obj ) : $obj;
 
                 }, $resp );
             }

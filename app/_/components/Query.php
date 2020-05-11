@@ -25,7 +25,7 @@ class Query extends DB
     /** @var bool метка возвращать только значения */
     private $arrayValues    = false;
 
-    private $rawSql     = '';
+    private $rawSql         = '';
 
     /**
      *      Поулчение экранированного имени таблицы

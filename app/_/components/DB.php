@@ -57,9 +57,9 @@ class DB extends Core
      *
      * @return array
      */
-    public function getSetups()
+    public static function getSetups()
     {
-        return $this->setups;
+        return params('setups.db', $GLOBALS['params']);
     }
 
     /**
@@ -69,13 +69,11 @@ class DB extends Core
     {
         $resp = null;
 
-        if ( App::$db->connection ) $resp = App::$db->connection;
-
-        $setups = App::$db->getSetups();
+        if ( is_object( App::$db ) ) $resp = App::$db->connection;
 
         if ( ! $resp )
         {
-            if ( $setups )
+            if ( $setups = self::getSetups() )
             {
                 try
                 {
