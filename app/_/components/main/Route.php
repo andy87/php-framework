@@ -72,7 +72,7 @@ class Route extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        self::printPre( $this );
+        //self::printPre( $this );
 
         foreach ( $this->rules as $uri => $rout )
         {
