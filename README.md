@@ -189,7 +189,26 @@ server {
 **Пример:** `_ create/migrate Skill table_name "Комментарий к таблице"`  
 Будет сгенерирован файл: */app/migrations/m000000_000000_Skill.php* ([шаблон](/app/_/templates/generator/migration.tpl))  
 
+### Миграции
 
+- **Просмотр списка не зарегистрированных миграцый**  
+`_ migrate/list`  
+**Пример:**  
+```
+Migration pending list:
+ - m200509_203019_skill
+ - m200509_203029_soft
+```
+
+- **Выполнить все не зарегистрированные миграции**  
+`_ migrate`  
+**Пример:**  
+```
+Migrations:
+ - table table_1 exists!
+ - table `table_2` created
+ - table `table_3` SQL error
+```
 
 ### Логика приложения
 
@@ -234,7 +253,7 @@ server {
 ## Требования
 
 - php7.0 *или выше*
-- MySQL 5.5 *или выше*
+- MySQL5.5 *или выше*
 
 
 # Фреймворк в разработке
