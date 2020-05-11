@@ -52,7 +52,7 @@ switch ( $console->action )
 
     /** @noinspection PhpMissingBreakStatementInspection */
     case Console::ACTION_MIGRATE:
-        if ( $console->method == 'pending' )
+        if ( $console->method == 'list' )
         {
             $console->migratePending();
             break;

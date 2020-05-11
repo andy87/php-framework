@@ -3,6 +3,7 @@
 namespace _\models;
 
 use _\base\BaseModel;
+use _\components\DB;
 use _\components\Manager;
 
 /**
@@ -45,30 +46,38 @@ class Migration extends BaseModel
      */
     public static function upgrade()
     {
+        echo  "Migrations:";
+
+        $tables = DB::getTables();
+
         foreach ( self::getPendingList() as $migrationName )
         {
             $migrationClass = 'migrations\\' . $migrationName;
 
             /** @var Manager $migration */
-            $migration = new $migrationClass();
+            $migration      = new $migrationClass();
 
             try
             {
-                // создаём таблицу
-                $migration->up();
-
-                // заполняем таблицу тестовыми данными
-                if ( count( $demo = $migration->demo() ) )
+                if ( !in_array( $migration->tableName, $tables ) )
                 {
-                    $migration->fill( $demo );
-                }
+                    // создаём таблицу
+                    $migration->up();
 
-                self::add( $migrationName );
+                    // заполняем таблицу тестовыми данными
+                    if ( count( $demo = $migration->demo() ) )
+                    {
+                        $migration->fill( $demo );
+                    }
+
+                } else {
+
+                    echo "\r\n - table `{$migration->tableName}` exist!";
+                }
 
             } catch (\Exception $e ) {
 
-                echo "Migrate upgrade error : " . $e->getMessage();
-
+                echo "\r\nMigrate upgrade error : " . $e->getMessage();
             }
         }
     }
@@ -110,11 +119,11 @@ class Migration extends BaseModel
      */
     public static function add( $migrationName )
     {
-        $model = new self();
+        $model = new static();
 
         $model->insert([
             'name'      => $migrationName,
-            'time'      => time()
+            'timestamp' => time()
         ]);
 
         return ( $model ) ? $model : null;

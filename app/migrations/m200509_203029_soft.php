@@ -22,7 +22,7 @@ class m200509_203029_soft extends Manager
         $this->tableCreate([
             'id'            => $this->pk(),
             'status'        => $this->integer(2),
-            'soft_name'     => $this->string(64),
+            'soft_name'     => $this->string(255),
             'created_at'    => $this->integer(2),
             'updated_at'    => $this->integer(2),
         ]);

@@ -2,6 +2,8 @@
 
 namespace _\components;
 
+use _\models\Migration;
+
 /**
  *      Родительский клас для миграций
  *
@@ -62,21 +64,24 @@ class Manager extends DB
      *      Создание таблицы
      *
      * @param array $tableMap
+     * @return false|\PDOStatement
      */
     public function tableCreate( $tableMap = self::TABLE_TEMPLATE )
     {
         $this->generateSql( $tableMap );
 
-        try
+        if ( $result = $this->query( $this->rawSql ) )
         {
-            $this->query( $this->rawSql );
+            echo "\r\n - table `{$this->tableName}` created";
 
-            echo " Manager: table `{$this->tableName}` created";
+            Migration::add( $this->getClassName() );
 
-        } catch ( \Exception $e ) {
+        } else {
 
-            echo " Manager: table `{$this->tableName}` error \r\n\t" . $e->getMessage();
+            echo "\r\n - table `{$this->tableName}` SQL error\r\n\t";
         }
+
+        return $result;
     }
 
     /**

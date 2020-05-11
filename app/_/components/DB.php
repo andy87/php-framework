@@ -116,18 +116,11 @@ class DB extends Core
     }
 
     /**
-     * @return false|PDOStatement
+     * @return array|false|PDOStatement
      * P.S. GameDevTime_ VIP до 09.07
      */
     public static function getTables()
     {
-
-        $sql = "SHOW TABLES";
-
-        $tables = static::query( $sql );
-
-        //TODO: не работает
-
-        return $tables;
+        return static::query( "SHOW TABLES" )->fetchAll(PDO::FETCH_COLUMN );
     }
 }

@@ -239,7 +239,6 @@ class BaseModel extends Query
      */
     public function save()
     {
-
         if ( $this->isNewRecord )
         {
             $cols   = array_keys( $this->_data );
