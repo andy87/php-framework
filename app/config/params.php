@@ -6,7 +6,7 @@ $params = [
 
     'charset'       => DEFAULT_CHARSET,
 
-    'debug'         => 1, // 0/1/2/3
+    'debug'         => 2, // 0/1/2/3
 
     'alias'         => [
         '@root'             => DOCUMENT_ROOT
@@ -22,6 +22,7 @@ $params = [
 
     'response'      => [
         'format'            => DEFAULT_RESPONSE,
+        'runtime'           => true,
         'cache'             => false,
     ],
 

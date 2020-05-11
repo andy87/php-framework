@@ -26,12 +26,14 @@ class Controller extends Web
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
+
         $this->setTarget();
 
         $this->exists = $this->isExist();
 
         /** @var Action action */
         $this->action = new Action( App::$params );
+
     }
 
     /**

@@ -33,8 +33,10 @@ define( 'CONTROLLER_NAMESPACE', "controllers\\" );
 
 define( 'ACTION_PREFIX', "action" );
 define( 'ACTION_ERROR', "error" );
+define( 'ACTION_ERROR_404', "error404" );
 
 define( 'TEMPLATE_ERROR', DIR_TEMPLATES . 'error' . PHP );
+define( 'TEMPLATE_ERROR_404', DIR_TEMPLATES . 'errors/404' . PHP );
 define( 'TEMPLATE_FORMAT', PHP );
 
 define( 'AJAX', "XMLHttpRequest" );

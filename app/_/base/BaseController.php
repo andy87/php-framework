@@ -139,6 +139,21 @@ class BaseController extends Web
     }
 
     /**
+     *      Рендер ошибки 404
+     *
+     * @param array $params
+     * @return string
+     */
+    public function actionError404( $params )
+    {
+        App::$view->registerCssFile( '/css/error.css' );
+
+        $template ='@app/_/templates/errors/404.php';
+
+        return $this->render( $template, $params );
+    }
+
+    /**
      *      Редирект
      *
      * @param $uri

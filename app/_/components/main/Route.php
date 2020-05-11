@@ -18,6 +18,9 @@ class Route extends Core
     /** @var array пути сзявывания контроллеров с URI */
     public $rules = [];
 
+    /** @var string совпадение в roles */
+    public $match = '';
+
     /** @var array данные подходящего route */
     public $rout = [
         'key'       => '',
@@ -44,7 +47,6 @@ class Route extends Core
         $this->setRequest();
 
         $this->checkRules();
-
     }
 
 
@@ -71,19 +73,23 @@ class Route extends Core
         {
             if ( $this->checkMatch( $this->request, $uri ) )
             {
+                $this->match = $uri;
+
                 $this->rout = [
                     'key'       => $uri,
                     'data'      => $this->slashReplace( $rout )
                 ];
+
                 break;
             }
         }
 
-        if ( empty( $this->rout ) )
+        if ( empty( $this->match ) )
         {
+
             $this->rout = [
                 'key'       => null,
-                'data'      => DEFAULT_CONTROLLER . SLASH . ACTION_ERROR
+                'data'      => DEFAULT_CONTROLLER . SLASH . ACTION_ERROR_404
             ];
         }
 
@@ -91,6 +97,7 @@ class Route extends Core
 
         $this->controller   = $params[0];
         $this->action       = $params[1];
+
     }
 
     /**
@@ -104,4 +111,5 @@ class Route extends Core
 
         return ( $request === $rule );
     }
+
 }

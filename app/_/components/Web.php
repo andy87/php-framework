@@ -49,6 +49,8 @@ class Web extends Core
      */
     public function  setId( $type )
     {
+        Runtime::log( static::class, __METHOD__, __LINE__ );
+
         $this->id = $this->default;
 
         if ( !empty( App::$route->{$type} ) )

@@ -84,7 +84,6 @@ class App extends Core
         /** @var DB controller */
         ( self::$db         = new DB( $params ) )->connection();
 
-
         self::setCharset( self::getParams( 'charset', DEFAULT_CHARSET ) );
 
         self::$response->cache();

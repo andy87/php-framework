@@ -20,7 +20,6 @@ class Action extends Web
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
         parent::__construct( $params );
-
         $this->setTarget();
 
         $this->exists = $this->isExist();
@@ -48,7 +47,7 @@ class Action extends Web
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $this->target = ACTION_PREFIX . $this->id;
+        $this->target = $this->getName();
     }
 
     /**

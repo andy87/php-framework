@@ -1,3 +1,7 @@
+<?php
+/** @var int $number */
+/** @var string $description */
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -227,10 +227,6 @@ class BaseModel extends Query
      */
     public function save()
     {
-        self::printPre([
-            '_oldData'  => $this->_oldData,
-            '_data'     => $this->_data
-        ]);
 
         if ( $this->isNewRecord )
         {
@@ -266,11 +262,6 @@ class BaseModel extends Query
 
             $SQL .= " `id` = " . $this->_oldData['id'];
         }
-
-        self::printPre([
-            '_oldData'  => $this->_oldData,
-            '_data'     => $this->_data
-        ]);
 
         if ( DB::query( $SQL ) )
         {
