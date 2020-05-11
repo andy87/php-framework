@@ -14,7 +14,7 @@ class Server extends Library
      * Server constructor.
      * @param array $data
      */
-    function __construct( $data = [] )
+    function __construct( $data = [])
     {
         parent::__construct( $data );
 

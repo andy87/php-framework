@@ -18,7 +18,7 @@ class User extends Source
         $model = new self();
 
         /**$model->find()
-            ->where( ['id' => App::session( 'id' )] )
+            ->where(['id' => App::session( 'id' )])
             ->one();*/
 
         return $model;

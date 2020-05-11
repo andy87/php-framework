@@ -93,7 +93,7 @@ class Route extends Core
             ];
         }
 
-        $params = explode( SLASH, $this->rout['data'] );
+        $params = explode( SLASH, $this->rout['data']);
 
         $this->controller   = $params[0];
         $this->action       = $params[1];

@@ -3,6 +3,7 @@
 $routes = [
 
     // URI( url )             Controller/action
+    '/'                             => 'site/index',
     'sign-up'                       => 'site/sign-up',
     'index'                         => 'site/index',
     'login'                         => 'site/login',
@@ -13,15 +14,12 @@ $routes = [
     'gradient-color/json2'          => 'color-gradient/return-json2',
     'gradient-color/2'              => 'color-gradient/radial-gradient',
 
-    //TODO: сделать возможность аргументов в URI
+    //TODO: сделать возможность аргументов в URI !!!!!!!!!!!!!!!!!!!!!!!!
+    'profile/username/<userName:[\w\d]>'  => 'profile/by-user-name',  // actionByUserName( $userName )
+    'profile/id/<id:\d>'                  => 'profile/by-id',         // actionById( $id )
+
     'gradient-color/<action>'       => 'color-gradient/<action>',
 
-    'gradient-color/<from:[\w\d]>/<to:[\w\d]>' => 'color-gradient/linear-gradient',
-
     '<action>'                      => 'site/<action>',
-
     '<controller>/<action>'         => '<controller>/<action>',
-
-    '/'                             => 'site/index',
-
 ];

@@ -32,7 +32,7 @@ function setups()
  * @param array $arr
  * @return array
  */
-function params( $key, $arr = [] )
+function params( $key, $arr = [])
 {
     $resp  = ( $arr ) ? $arr : $GLOBALS['params'];
 
@@ -42,7 +42,7 @@ function params( $key, $arr = [] )
 
     foreach ( $path as $value )
     {
-        $resp = ( $resp AND isset( $resp[ $value ] ) )
+        $resp = ( $resp AND isset( $resp[ $value ]) )
             ? $resp[ $value ]
             : null;
     }

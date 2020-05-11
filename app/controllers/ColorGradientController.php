@@ -54,7 +54,7 @@ class ColorGradientController extends BaseController
     /**
      * @return string
      */
-    public function actionLinearGradient2()
+    public function actionLinearGradient2($id)
     {
         $this->addMetas( __METHOD__ );
 
@@ -67,16 +67,13 @@ class ColorGradientController extends BaseController
             ])
         ];
 
-        Reuqest::$uri;
-
-
         return $this->render( 'linear-gradient2', $data );
     }
 
     /**
      * @return string
      */
-    public function actionRadialGradient()
+    public function actionRadialGradient( $userName )
     {
         $this->addMetas( __METHOD__ );
 
@@ -122,7 +119,7 @@ class ColorGradientController extends BaseController
 
     public function addMetas( $content )
     {
-        App::$view->registerMeta( ['name' => 'action', 'content'=> $content] );
+        App::$view->registerMeta(['name' => 'action', 'content'=> $content]);
     }
 
     public function badExample()

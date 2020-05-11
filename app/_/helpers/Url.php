@@ -90,7 +90,7 @@ class Url extends Component
      */
     public static function exceptionError( $uri )
     {
-        self::$error['message'] = str_replace( '`path`', "`{$uri}`", self::$error['message'] );
+        self::$error['message'] = str_replace( '`path`', "`{$uri}`", self::$error['message']);
         self::exception( self::$error );
     }
 }

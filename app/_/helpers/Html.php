@@ -17,7 +17,7 @@ class Html extends Component
      * @param array $attributes
      * @return string
      */
-    public static function tag( $name = '', $content = '', $attributes = [] )
+    public static function tag( $name = '', $content = '', $attributes = [])
     {
         if ( is_array( $name ) ) extract( $name );
 

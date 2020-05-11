@@ -50,7 +50,7 @@ class Console extends Core
 
         if ( strpos($params[1], SLASH) !== false )
         {
-            $actionData     = explode( SLASH, $params[1] );
+            $actionData     = explode( SLASH, $params[1]);
 
             $this->action   = $actionData[0];
             $this->method   = $actionData[1];

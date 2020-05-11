@@ -43,7 +43,7 @@ define( 'AJAX', "XMLHttpRequest" );
 
 define( 'CACHE_SALT', "qwerty" );
 
-define( 'METHOD_LIST', ['POST','GET','PUT','UPDATE','DELETE','HEAD','CONNECT','OPTIONS','TRACE','PATCH' ] );
+define( 'METHOD_LIST', ['POST','GET','PUT','UPDATE','DELETE','HEAD','CONNECT','OPTIONS','TRACE','PATCH' ]);
 
-define( 'DIRECTORY_APP', ['config','controllers','models','static','views'] );
-define( 'DIRECTORY_STATIC', ['css','js', 'img', 'docs', 'fonts'] );
+define( 'DIRECTORY_APP', ['config','controllers','models','static','views']);
+define( 'DIRECTORY_STATIC', ['css','js', 'img', 'docs', 'fonts']);

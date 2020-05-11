@@ -97,11 +97,11 @@ class App extends Core
      */
     private function initParams( $params )
     {
-        Runtime::$status = ( isset( self::$params['request']['runtime'] ) AND self::$params['request']['runtime'] == true );
+        Runtime::$status = ( isset( self::$params['request']['runtime']) AND self::$params['request']['runtime'] == true );
 
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        $this->setAlias( $params['alias'] );
+        $this->setAlias( $params['alias']);
     }
 
     /**
@@ -183,7 +183,7 @@ class App extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return ( isset( self::$params[ $key ] ) ) ? self::$params[ $key ] : $default;
+        return ( isset( self::$params[ $key ]) ) ? self::$params[ $key ] : $default;
     }
 
     /**
@@ -195,31 +195,29 @@ class App extends Core
 
         if ( !self::$controller->exists )
         {
-            $this->exception( [
-                'error' => 'Controller not found.',
-                'message' => "Controller ID: " . self::$controller->target
+            $this->exception([
+                'error'     => 'Controller not found.',
+                'message'   => "Controller ID: " . self::$controller->target
             ], 404 );
         }
 
         if ( !self::$controller->action->exists )
         {
-            $this->exception( [
-                'error' => 'Action not found.',
-                'message' => "Action ID: " . self::$controller->action->target
+            $this->exception([
+                'error'     => 'Action not found.',
+                'message'   => "Action ID: " . self::$controller->action->target
             ], 404 );
         }
 
-        $classController = CONTROLLER_NAMESPACE . self::$controller->target;
+        $classController    = CONTROLLER_NAMESPACE . self::$controller->target;
 
-        /** @var BaseController $controller */
-        $controller = new $classController( self::$params );
-        self::$app = $controller;
+        self::$app          = new $classController( self::$params );
 
-        $action = self::$controller->action->target;
+        $action             = self::$controller->action->target;
 
         try
         {
-            if ( count( $rules = $controller->rules() ) )
+            if ( count( $rules = self::$app->rules() ) )
             {
                 self::$controller->rules = $rules;
 
@@ -229,17 +227,17 @@ class App extends Core
                 }
             }
 
-            $controller->beforeAction();
+            self::$app->beforeAction();
 
             if ( self::$request->hasArguments() )
             {
-                $arguments = self::$request->getArguments();
+                $arguments  = self::$request->getArguments();
 
-                $resp = $controller->{$action}( $arguments );
+                $resp       = self::$app->{$action}( $arguments );
 
             } else {
 
-                $resp = $controller->{$action}();
+                $resp       = self::$app->{$action}();
             }
 
             if ( $this->isResponseWrap() )
@@ -248,21 +246,21 @@ class App extends Core
 
                 $resp = self::$view->render( $pathTemplateLayout, [
                     'content' => $resp
-                ] );
+                ]);
             }
 
             self::$response->setContent( $resp );
 
-            $controller->afterAction();
+            self::$app->afterAction();
 
         } catch ( Exception $e ){
 
-            $controller = new BaseController( [] );
+            $controller = new BaseController([]);
 
-            $resp = $controller->actionError( [
-                'error' => $e->getCode(),
-                'message' => $e->getMessage(),
-            ] );
+            $resp = $controller->actionError([
+                'error'     => $e->getCode(),
+                'message'   => $e->getMessage(),
+            ]);
 
             self::$response->setContent( $resp );
         }

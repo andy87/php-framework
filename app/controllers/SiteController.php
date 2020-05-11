@@ -67,7 +67,7 @@ class SiteController extends BaseController
         $migrationItem = Migration::get()->select('name,timestamp')->where(['id','<', 30 ])->all();
 
 
-        self::printPre( [$tables] );
+        self::printPre([$tables]);
 
         exit('Плохой, плохой exit() !');
     }

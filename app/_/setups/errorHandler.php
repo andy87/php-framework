@@ -25,7 +25,7 @@ function errorResponse( $title, $error, $message = false, $context = false )
         'error'     => $error,
         'message'   => $message,
         'context'   => $context
-    ] );
+    ]);
 
     exit();
 }
@@ -77,7 +77,7 @@ function fatalErrorsHandler( $buffer )
             }
         }
 
-        if ( $error ) errorResponse($error['level'], $error['message'] );
+        if ( $error ) errorResponse($error['level'], $error['message']);
     }
 }
 

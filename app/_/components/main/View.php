@@ -110,7 +110,7 @@ class View extends Core
      * @param array $params
      * @return string
      */
-    public function render( $pathTemplate = '', $params = [] )
+    public function render( $pathTemplate = '', $params = [])
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
@@ -218,7 +218,7 @@ class View extends Core
             $pos        = $dataJS[1]['position'];
             $fileJS     = $dataJS[0]; // path
 
-            if ( $position !== $pos || in_array( $fileJS, $this->js['include'] ) ) continue;
+            if ( $position !== $pos || in_array( $fileJS, $this->js['include']) ) continue;
 
             $depends    = $dataJS[1]['depends'];
 
@@ -240,7 +240,7 @@ class View extends Core
 
         if ( !empty( $depends ) )
         {
-            if ( !in_array( $depends, $this->js['include'] ) )
+            if ( !in_array( $depends, $this->js['include']) )
             {
                 $data       = $this->js['asset'][ $depends ];
                 $pos        = $position;

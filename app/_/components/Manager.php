@@ -141,7 +141,7 @@ class Manager extends DB
      *
      * @param array $params
      */
-    public function fill( $params = [] )
+    public function fill( $params = [])
     {
         // ...
     }

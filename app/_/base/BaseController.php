@@ -116,7 +116,7 @@ class BaseController extends Web
      * @param array $data
      * @return array
      */
-    public function renderJson( $data = [] )
+    public function renderJson( $data = [])
     {
         App::$response->format = Response::FORMAT_JSON;
 

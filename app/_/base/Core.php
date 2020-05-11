@@ -18,11 +18,11 @@ class Core
      *  constructor.
      * @param array $params
      */
-    function __construct( $params = [] )
+    function __construct( $params = [])
     {
         $className = $this->getClassName( true );
 
-        if ( !empty( $params[ $className ] ) AND is_array( $params[ $className ] ) )
+        if ( !empty( $params[ $className ]) AND is_array( $params[ $className ]) )
         {
             foreach ( $params[ $className ] as $key => $value )
             {

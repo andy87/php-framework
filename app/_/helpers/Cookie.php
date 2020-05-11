@@ -14,7 +14,7 @@ class Cookie extends Library
      * Cookie constructor.
      * @param array $data
      */
-    function __construct( $data = [] )
+    function __construct( $data = [])
     {
         parent::__construct( $data );
 

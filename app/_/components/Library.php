@@ -68,6 +68,6 @@ class Library extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return isset( $this->library[ $key ] );
+        return isset( $this->library[ $key ]);
     }
 }

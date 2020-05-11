@@ -72,7 +72,7 @@ class Generator extends Core
         $path       = self::DIR_VIEW . $controller . SLASH . $view . PHP;
         $path       = self::slashReplace($path);
 
-        $content    = File::generateContent( self::TPL_VIEW, [] );
+        $content    = File::generateContent( self::TPL_VIEW, []);
 
         $dirController = self::DIR_VIEW . $controller;
 
@@ -121,12 +121,14 @@ class Generator extends Core
 
         $validation     = '[]'; //TODO: доделать
         $rules          = '[]'; //TODO: доделать
+        $labels         = '[]'; //TODO: доделать
 
         $params         = [
             'modelName'         => $modelName,
             'modelTableName'    => $modelTableName,
             'validation'        => $validation,
             'rules'             => $rules,
+            'labels'            => $labels,
         ];
 
         // Генерация исходного model\source файла

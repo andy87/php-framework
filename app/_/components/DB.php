@@ -34,7 +34,7 @@ class DB extends Core
      * DB constructor.
      * @param array $params
      */
-    function __construct( $params = [] )
+    function __construct( $params = [])
     {
         parent::__construct( $params );
 
@@ -77,7 +77,7 @@ class DB extends Core
             {
                 try
                 {
-                    $resp = new PDO( $setups['dsn'], $setups['username'], $setups['password'] );
+                    $resp = new PDO( $setups['dsn'], $setups['username'], $setups['password']);
 
                 } catch ( PDOException $e ) {
 

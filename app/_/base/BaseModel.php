@@ -65,7 +65,7 @@ class BaseModel extends Query
      *
      * @param array|object $params
      */
-    function __construct( $params = [] )
+    function __construct( $params = [])
     {
         parent::__construct([]);
 
@@ -203,7 +203,7 @@ class BaseModel extends Query
      * @param array $where
      * @return static[]
      */
-    public static function getAll( $where = [] )
+    public static function getAll( $where = [])
     {
         $model  = static::createModel();
 
@@ -216,7 +216,7 @@ class BaseModel extends Query
      * @param array $data
      * @return self
      */
-    public function insert( $data = [] )
+    public function insert( $data = [])
     {
         foreach ( $data as $key => $value )
         {
@@ -229,7 +229,7 @@ class BaseModel extends Query
     /**
      * @param array $data
      */
-    public function update( $data = [] )
+    public function update( $data = [])
     {
         $this->_data = array_merge( $this->_data, $data );
     }
@@ -264,7 +264,7 @@ class BaseModel extends Query
 
             foreach ( $this->_data as $column => $value )
             {
-                if ( $this->_data[ $column ] == $this->_oldData[ $column ] ) continue;
+                if ( $this->_data[ $column ] == $this->_oldData[ $column ]) continue;
 
                 $SQL    .= "`{$column}` = " . (( is_integer($value) ) ? $value : "'$value', ");
             }
