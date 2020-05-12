@@ -229,15 +229,21 @@ class App extends Core
 
             self::$app->beforeAction();
 
+            self::printPre(App::$route);
+
             if ( self::$request->hasArguments() )
             {
-                $arguments  = self::$request->getArguments();
+                //$arguments  = self::$request->getArguments();
 
-                $resp       = self::$app->{$action}( $arguments );
+                $arguments  = [
+                    'id'        => 777
+                ];
+
+                $resp   = call_user_func_array( [ self::$app, $action ], $arguments);
 
             } else {
 
-                $resp       = self::$app->{$action}();
+                $resp   = self::$app->{$action}();
             }
 
             if ( $this->isResponseWrap() )
@@ -253,7 +259,7 @@ class App extends Core
 
             self::$app->afterAction();
 
-        } catch ( Exception $e ){
+        } catch ( Exception $e ) {
 
             $controller = new BaseController([]);
 

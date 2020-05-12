@@ -27,8 +27,8 @@ class Route extends Core
         'data'      => '',
     ];
 
-    /** @var array Аргументы из строки запроса */
-    public $arguments = [];
+    /** @var array аргументы запроса для передачи в Controller->action() */
+    public $arguments   = [];
 
     /** @var string контроллер полученый из route  */
     public $controller  = DEFAULT_CONTROLLER;
@@ -72,8 +72,6 @@ class Route extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        //self::printPre( $this );
-
         foreach ( $this->rules as $uri => $rout )
         {
             if ( $this->checkMatch( $this->request, $uri ) )
@@ -95,8 +93,6 @@ class Route extends Core
 
         $this->controller   = $params[0];
         $this->action       = $params[1];
-
-        if ( !count($this->arguments) ) $this->arguments = $_GET;
 
         //TODO: printPre
         //self::printPre($this);
@@ -138,11 +134,13 @@ class Route extends Core
                     {
                         if ( strpos( $item, ':' ) !== false )
                         {
+                            //TODO: Разобраться что тут к чему...
+
                             $regExpData = explode(':', substr( $item, 0, -1 ) );
 
-                            $this->arguments[$index] = substr( array_shift( $regExpData ), 1);
+                            $this->arguments[ $index ] = substr( array_shift( $regExpData ), 1);
 
-                            $item   = $regExpData[0];
+                            $item   = array_shift( $regExpData );
 
                         } else {
 

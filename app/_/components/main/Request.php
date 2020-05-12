@@ -2,6 +2,7 @@
 
 namespace _\components\main;
 
+use _\App;
 use _\base\Core;
 use _\components\Library;
 use _\components\Runtime;
@@ -42,37 +43,37 @@ class Request extends Core
 
     // Определение метода
     /** @var bool статус запроса методом GET */
-    public $isGet   = false;
+    public $isGet       = false;
 
     /** @var bool статус запроса методом POST */
-    public $isPost  = false;
+    public $isPost      = false;
 
     /** @var bool статус запроса методом AJAX */
-    public $isAjax  = false;
+    public $isAjax      = false;
 
     /** @var bool статус запроса методом PUT */
-    public $isPut  = false;
+    public $isPut       = false;
 
     /** @var bool статус запроса методом UPDATE */
-    public $isUpdate  = false;
+    public $isUpdate    = false;
 
     /** @var bool статус запроса методом DELETE */
-    public $isDelete  = false;
+    public $isDelete    = false;
 
     /** @var bool статус запроса методом HEAD */
-    public $isHead  = false;
+    public $isHead      = false;
 
     /** @var bool статус запроса методом CONNECT */
-    public $isConnect  = false;
+    public $isConnect   = false;
 
     /** @var bool статус запроса методом OPTIONS */
-    public $isOptions  = false;
+    public $isOptions   = false;
 
     /** @var bool статус запроса методом TRACE */
-    public $isTrace  = false;
+    public $isTrace     = false;
 
     /** @var bool статус запроса методом PATCH */
-    public $isPatch  = false;
+    public $isPatch     = false;
 
 
 
@@ -95,9 +96,6 @@ class Request extends Core
     /** @var bool|Session данные SESSION */
     public $session     = false;
 
-
-    /** @var array аргументы запроса для передачи в Controller->action() */
-    private $arguments      = null;
 
     /** @var array список используемых метобов */
     private $useMethodList  = [];
@@ -129,7 +127,6 @@ class Request extends Core
         $this->setupMethodStatus();
 
         $this->arguments    = $_REQUEST;
-
 
         // Назначение свойств get, post, files, cookie, session
         $requestObjects     = ['get','post','files','server','cookie','session'];
@@ -316,6 +313,6 @@ class Request extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
-        return $this->arguments;
+        return App::$route->arguments;
     }
 }

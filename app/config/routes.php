@@ -18,7 +18,7 @@ $routes = [
     //profile/username/admin                => 'profile/by-user-name',  // actionByUserName( 'admin' )
     'profile/username/<userName:[\w\d]>'    => 'profile/by-user-name',  // actionByUserName( $userName )
     //profile/id/777                        => 'profile/by-id',         // actionById( 777 )
-    'profile/id/<id:[\d]>'                  => 'profile/by-id',         // actionById( $id )
+    'profile/user-id/<id:[\d]>'             => 'profile/by-id',         // actionById( $id )
 
     'profile/action/<userName:[\w\d]>/<id:[\d]>/<action:[\w]>'      => 'profile/by-user-name',  // actionByUserName( $userName )
     'profile/<action>/action/<userName:[\w\d]>/<id:[\d]>'           => 'profile/<action>',  // actionByUserName( $userName )
