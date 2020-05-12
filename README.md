@@ -191,6 +191,9 @@ server {
 
 ### Миграции
 
+прикол в том что я не планировал вводить миграции, а в ходе работы вдруг захотелось. Пришлось их в прямом смысле влова вкорячить. Не хотел я бога ради костыли делать, но 1 всёже пришлось.
+это какраз связано со CLI.
+
 - **Просмотр списка не зарегистрированных миграцый**  
 `_ migrate/list`  
 **Пример:**  
@@ -208,6 +211,78 @@ Migrations:
  - table table_1 exists!
  - table `table_2` created
  - table `table_3` SQL error
+```
+
+### Модели
+
+Реализованы методы **модели**
+- one() - возвращает одну подходящюю под запрос моделб (Объект)
+- all() - возвращает все подходящие под запрос модели (Объект)
+- get() - возвращяет объект Record для дальнейшего вызова методов
+- getAll() - возвращяет все записи из таблицы
+- select() - указатель какие поля надо вернуть
+- where() - усбовия выборки
+- andWhere() - дополнительные условия
+- limit() - установка limit в SQL запросе
+- order() - установка order в SQL запросе
+- asArray() - возвращает ответ в виде массива
+- asArrayValue() - возвращает массив со значениями( без кючей )
+  - (позже будет добавлено) orWhere()  
+  - (позже будет добавлено) leftJoin()
+  
+##### where
+примеры:
+```php
+    Model::get()->where(['id' => 1]); 
+    // WHERE `id` = 1
+
+    Model::get()->where(['name' => 'Admin']); 
+    // WHERE `name` = 'Admin'
+
+    Model::get()->where(['id' => [1,2,3,4,5]]); 
+    // WHERE `id` IN(1,2,3,4,5)
+
+    Model::get()->where(['email', 'is NOT', NULL]); 
+    // WHERE `email` is NOT NULL
+
+    Model::get()->where(['email', '=', '2@mail.ru']); 
+    // WHERE `email` = '2@mail.ru'
+```
+
+Примеры: 
+```php
+    $model = User::get()->where(['id' => 1])->one();
+    // return: Object User
+    //  -> public $username = 'and_y87'
+    //  -> public $email = 'e@mail.ru'
+
+    $model = User::get()->where(['id' => 1])->asArray()->one();
+    // return: Array(
+    //  'username = 'and_y87',
+    //  'email' = 'e@mail.ru' )
+
+    $model = User::get()->where(['id' => 1])->asArrayValue()->one();
+    // return: Array(
+    //  'and_y87',
+    //  'e@mail.ru' )
+
+    $model = User::get()->where(['id','<=', 3])->all();
+    // return: Array(
+    //  Object User $username ='and_y87', $email ='e@mail.ru' ]
+    //  Object User $username ='Admin', $email ='bbb@mail.ru' ]
+    //  Object User $username ='User', $email ='ccc@mail.ru' ] )
+
+    $model = User::get()->where(['id','<=', 3])->asArray()->all();
+    // return: Array(
+    //  [ 'username' => 'and_y87', 'email' => 'e@mail.ru' ]
+    //  [ 'username' => 'Admin', 'email' => 'bbb@mail.ru' ]
+    //  [ 'username' => 'User', 'email' => 'ccc@mail.ru' ] )
+
+    $model = User::get()->where(['id','<=', 3])->asArrayValue()->all();
+    // return: Array(
+    //  [ 'and_y87', 'e@mail.ru' ]
+    //  [ 'Admin', 'bbb@mail.ru' ]
+    //  [ 'User', 'ccc@mail.ru' ] )
 ```
 
 ### Логика приложения
