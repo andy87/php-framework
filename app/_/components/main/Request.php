@@ -313,6 +313,22 @@ class Request extends Core
     {
         Runtime::log( static::class, __METHOD__, __LINE__ );
 
+        switch ( $this->method )
+        {
+            case self::METHOD_GET:
+                if ( empty(App::$route->arguments) && !empty($_GET) )
+                {
+                    App::$route->arguments;
+                }
+                break;
+            case self::METHOD_POST:
+                App::$route->arguments = $_POST;
+                break;
+
+            default:
+                App::$route->arguments = file_get_contents('php:"//' . strtolower($this->method) );
+        }
+
         return App::$route->arguments;
     }
 }
