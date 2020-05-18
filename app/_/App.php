@@ -82,7 +82,7 @@ class App extends Core
         self::$view         = new View( $params );
 
         /** @var DB controller */
-        ( self::$db         = new DB( $params ) )->connection();
+        ( self::$db         = new DB( $params ) );
 
         self::setCharset( self::getParams( 'charset', DEFAULT_CHARSET ) );
 
@@ -228,8 +228,8 @@ class App extends Core
             }
 
             self::$app->beforeAction();
-
-            self::printPre(App::$route);
+            //TODO: printPre
+            //self::printPre(App::$route);
 
             if ( self::$request->hasArguments() )
             {
