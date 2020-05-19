@@ -109,37 +109,7 @@ ErrorDocument 404 /app/_/templates/errors/404.php
 При использовании web-сервера `Nginx`  
 минимальные настройки:
 ```
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    
-    server_name mysite.local; #имя вашего домена
-    root        /app;
-
-    index       index.php;
-    
-    access_log  /app/_/runtime/logs/access.log;
-    error_log   /app/_/runtime/logs/error.log;
-    
-    location / {
-        # Redirect everything that isn't a real file to index.php
-        try_files $uri $uri/ /index.php$is_args$args;
-    }
-    
-    # При желании
-    #error_page 404 /app/_/templates/errors/404.php;
-    # ... 403/500/502/504/508
-    
-    # deny accessing php files for the /assets directory
-    location ~ ^/(static|js|css|img|docs|fonts)/.*\.php$ {
-        deny all;
-    }
-   
-    location ~ \.php$ {
-       include snippets/fastcgi-php.conf;
-       fastcgi_pass unix:/run/php/php7.2-fpm.sock;
-    }
-}   
+  #будет позднее
 ```
 
 
