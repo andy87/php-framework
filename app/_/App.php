@@ -5,11 +5,7 @@ namespace _;
 use _\base\Core;
 use _\components\DB;
 use _\components\Runtime;
-use _\components\main\Request;
-use _\components\main\Route;
-use _\components\main\Response;
-use _\components\main\View;
-use _\components\main\Controller;
+use _\components\main\{Request, Route, Response, View, Controller};
 use _\base\BaseController;
 use Exception;
 
