@@ -13,7 +13,7 @@ spl_autoload_register( function( $class )
 
     } else {
 
-        Exit("Scarry error! File not found: {$classPath}");
+        Exit("Scary error! File not found: {$classPath}");
     }
 });
 
@@ -32,7 +32,7 @@ function setups()
  * @param array $arr
  * @return array
  */
-function params( $key, $arr = [])
+function params($key, array $arr = [])
 {
     $resp  = ( $arr ) ? $arr : $GLOBALS['params'];
 

@@ -229,11 +229,7 @@ class App extends Core
 
             if ( self::$request->hasArguments() )
             {
-                //$arguments  = self::$request->getArguments();
-
-                $arguments  = [
-                    'id'        => 777
-                ];
+                $arguments  = self::$request->getArguments();
 
                 $resp   = call_user_func_array( [ self::$app, $action ], $arguments);
 
